@@ -14,6 +14,27 @@ As of initial release, the cookbook borrows from, but does not use [Packagecloud
 
 - apt
 
+## Resources
+
+### chef_server_ingredient
+
+A "chef server ingredient" is the core package itself, or any add-on component published by CHEF. This resource manages the installation and running the `ctl reconfigure` of individual packages.
+
+#### Actions
+
+* `install`: (default) Configures the packagecloud apt repository and installs the specified package.
+* `uninstall`: Uninstalls the specified package.
+* `remove`: Alias for uninstall
+* `reconfigure`: Performs the `ctl reconfigure` command for the package.
+
+#### Attributes
+
+* `package_name`: (name attribute) The name of the package. Should correspond to the published package names (chef-server-core, opscode-manage, etc).
+* `ctl_command`: The "ctl" command, e.g., `chef-server-ctl`. This should be automatically detected by the library helper method `chef_server_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
+* `options`: Options passed to the `package` resource used for installation.
+* `master_token`: Used for packagecloud private repositories.
+* `repository`: Name of the repository where the packages are located on packagecloud. Default `chef/stable`.
+
 ## License and Author
 
 - Author: Joshua Timberman
