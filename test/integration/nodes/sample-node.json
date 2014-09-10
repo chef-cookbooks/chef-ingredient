@@ -1,0 +1,80 @@
+{
+  "chef_type": "node",
+  "name": "sample-node",
+  "chef_environment": "_default",
+  "recipe": [
+
+  ],
+  "run_list": [
+
+  ],
+  "normal": {
+
+  },
+  "automatic": {
+    "kernel": {
+      "name": "Linux",
+      "machine": "x86_64",
+      "os": "GNU/Linux"
+    },
+    "os": "linux",
+    "os_version": "3.5.0-23-generic",
+    "root_group": "root",
+    "etc": {
+      "passwd": {
+        "root": {
+          "dir": "/root",
+          "gid": 0,
+          "uid": 0,
+          "shell": "/bin/bash",
+          "gecos": "root"
+        }
+      },
+      "group": {
+        "root": {
+          "gid": 0,
+          "members": [
+
+          ]
+        }
+      }
+    },
+    "current_user": "vagrant",
+    "hostname": "sample-server-ubuntu-1204",
+    "fqdn": "sample-server-ubuntu-1204.example.com",
+    "domain": "example.com",
+    "ipaddress": "10.0.2.47",
+    "macaddress": "08:00:27:F9:09:1F",
+    "ip6address": "fe80::a00:27ff:fef9:91f",
+    "virtualization": {
+      "system": "vbox",
+      "role": "guest"
+    },
+    "ohai_time": 1389202858.7629967,
+    "lsb": {
+      "id": "Ubuntu",
+      "release": "12.04",
+      "codename": "precise",
+      "description": "Ubuntu 12.04.2 LTS"
+    },
+    "platform": "ubuntu",
+    "platform_version": "12.04",
+    "platform_family": "debian",
+    "cpu": {
+      "total": 1,
+      "real": 0
+    },
+    "memory": {
+      "total": "244960kB",
+      "free": "16628kB"
+    },
+    "uptime_seconds": 390,
+    "uptime": "6 minutes 30 seconds",
+    "idletime_seconds": 343,
+    "idletime": "5 minutes 43 seconds",
+    "recipes": [
+    ],
+    "roles": [
+    ]
+  }
+}
