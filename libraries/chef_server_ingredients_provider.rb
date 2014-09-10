@@ -60,11 +60,15 @@ class Chef
 
       action :reconfigure do
         execute "#{new_resource.package_name}-reconfigure" do
-          command "#{chef_server_ctl_command(new_resource.package_name)} reconfigure"
+          command "#{ctl_command} reconfigure"
         end
       end
 
       private
+
+      def ctl_command
+        new_resource.ctl_command || chef_server_ctl_command(new_resource.package_name)
+      end
 
       # we build on lucid by default, so if the codename isn't
       # supported, try lucid and hope for the best.
