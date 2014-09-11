@@ -59,8 +59,9 @@ class Chef
       end
 
       action :reconfigure do
+        ctl_cmd = ctl_command
         execute "#{new_resource.package_name}-reconfigure" do
-          command "#{ctl_command} reconfigure"
+          command "#{ctl_cmd} reconfigure"
         end
       end
 
