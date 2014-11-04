@@ -41,7 +41,16 @@ class Chef
       end
 
       action :install do
-        packagecloud_deb_repo
+        case node['platform_family']
+        when 'debian'
+          package_type = 'deb'
+        when 'rhel'
+          package_type = 'rpm'
+        end
+
+        packagecloud_repo 'chef/stable' do
+          type package_type
+        end
 
         package new_resource.package_name do
           options new_resource.options
@@ -84,23 +93,23 @@ class Chef
       # FIXME: (jtimberman) Use the packagecloud_repo resource
       # instead, when it can either set the codename, or we publish
       # packages to "trusty"
-      def packagecloud_deb_repo
-        repo_url = URI.join('https://packagecloud.io/', new_resource.repository + '/', node['platform'])
-        repo_uri = read_token(repo_url).to_s
-        codename =  distro_codename
+      # def packagecloud_deb_repo
+      #   repo_url = URI.join('https://packagecloud.io/', new_resource.repository + '/', node['platform'])
+      #   repo_uri = read_token(repo_url).to_s
+      #   codename =  distro_codename
 
-        # packagecloud uses HTTPS, thus we need the HTTPS transport for apt.
-        package 'apt-transport-https'
+      #   # packagecloud uses HTTPS, thus we need the HTTPS transport for apt.
+      #   package 'apt-transport-https'
 
-        apt_repository filename do
-          uri repo_uri
-          deb_src true
-          distribution codename
-          components ['main']
-          keyserver 'pgp.mit.edu'
-          key 'D59097AB'
-        end
-      end
+      #   apt_repository filename do
+      #     uri repo_uri
+      #     deb_src true
+      #     distribution codename
+      #     components ['main']
+      #     keyserver 'pgp.mit.edu'
+      #     key 'D59097AB'
+      #   end
+      # end
 
       def read_token(repo_url)
         return repo_url unless new_resource.master_token
