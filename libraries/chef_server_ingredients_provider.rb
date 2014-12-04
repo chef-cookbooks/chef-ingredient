@@ -45,6 +45,7 @@ class Chef
 
         package new_resource.package_name do
           options new_resource.options
+          version new_resource.version
         end
       end
 
