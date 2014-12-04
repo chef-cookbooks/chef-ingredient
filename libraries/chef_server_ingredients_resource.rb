@@ -15,6 +15,7 @@ class Chef
       # Attributes for packagecloud/apt repository
       attribute :master_token, :kind_of => String
       attribute :repository, :kind_of => String, :default => 'chef/stable'
+      attribute :version, :kind_of => String, :default => nil
     end
   end
 end

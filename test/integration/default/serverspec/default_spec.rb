@@ -6,7 +6,7 @@ describe 'chef-server-ingredient::default' do
   end
 
   describe command('chef-server-ctl test') do
-    it { should return_exit_status 0 }
+    its(:exit_status) { should eq 0 }
   end
 
   describe package('opscode-manage') do
@@ -14,6 +14,6 @@ describe 'chef-server-ingredient::default' do
   end
 
   describe command('opscode-manage-ctl test') do
-    it { should return_exit_status 0 }
+    its(:exit_status) { should eq 0 }
   end
 end

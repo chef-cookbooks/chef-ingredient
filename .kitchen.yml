@@ -16,3 +16,11 @@ suites:
       - recipe[test]
       - recipe[chef-server-ingredient]
     attributes:
+  - name: override_package_versions
+    run_list:
+      - recipe[test]
+      - recipe[chef-server-ingredient]
+    attributes:
+      test:
+        chef-server-core:
+          version: 12.0.0-rc.5-1
