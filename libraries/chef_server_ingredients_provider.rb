@@ -74,47 +74,6 @@ class Chef
         new_resource.ctl_command || chef_server_ctl_command(new_resource.package_name)
       end
 
-      # we build on lucid by default, so if the codename isn't
-      # supported, try lucid and hope for the best.
-      def distro_codename
-        supported_codenames = ['lucid', 'natty', 'precise']
-        supported_codenames.include?(node['lsb']['codename']) ? node['lsb']['codename'] : 'lucid'
-      end
-
-      def read_token(repo_url)
-        return repo_url unless new_resource.master_token
-
-        uri = URI.join(node['packagecloud']['base_url'], new_resource.repository + '/', 'tokens.text')
-        uri.user     = new_resource.master_token
-        uri.password = ''
-
-        resp = post(uri, install_endpoint_params)
-
-        Chef::Log.debug("#{new_resource.name} TOKEN = #{resp.body.chomp}")
-
-        if platform_family?('rhel') && node['platform_version'].to_i == 5
-          repo_url
-        else
-          repo_url.user     = resp.body.chomp
-          repo_url.password = ''
-          repo_url
-        end
-      end
-
-      def install_endpoint_params
-        dist = value_for_platform_family(
-          'debian' => distro_codename,
-          ['rhel', 'fedora'] => node['platform_version'],
-        )
-
-        {   :os   => node['platform'],
-            :dist => dist,
-            :name => node['fqdn'] }
-      end
-
-      def filename
-        new_resource.repository.gsub(/[^0-9A-z.\-]/, '_')
-      end
     end
   end
 end
