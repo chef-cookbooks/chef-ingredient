@@ -8,3 +8,4 @@ version          '0.0.1'
 # family systems just yet, and packagecloud_repo uses
 # node['lsb']['codename'].
 depends          'apt'
+depends          'packagecloud'
