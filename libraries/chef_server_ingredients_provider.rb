@@ -49,6 +49,13 @@ class Chef
           options new_resource.options
           version new_resource.version
         end
+        
+        if new_resource.reconfigure
+          ctl_cmd = ctl_command
+          execute "#{new_resource.package_name}-reconfigure" do
+            command "#{ctl_cmd} reconfigure"
+          end
+        end
       end
 
       action :uninstall do
@@ -72,6 +79,13 @@ class Chef
 
       def ctl_command
         new_resource.ctl_command || chef_server_ctl_command(new_resource.package_name)
+      end
+
+      def reconfigure
+        ctl_cmd = ctl_command
+        execute "#{new_resource.package_name}-reconfigure" do
+          command "#{ctl_cmd} reconfigure"
+        end
       end
 
     end
