@@ -24,3 +24,5 @@
 # Test Kitchen
 /.kitchen/
 /.kitchen.local.yml
+
+.DS_Store
