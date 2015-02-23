@@ -1,11 +1,7 @@
 name             'chef-server-ingredient'
-maintainer       'Joshua Timberman'
-maintainer_email 'cookbooks@getchef.com'
+maintainer       'Chef Software, Inc.'
+maintainer_email 'cookbooks@chef.io'
 license          'Apache 2.0'
 description      'Manages Chef Server packages/add-ons, aka "ingredients"'
-version          '0.0.2'
-# we'd rather use packagecloud, but we aren't supporting non-debian
-# family systems just yet, and packagecloud_repo uses
-# node['lsb']['codename'].
-depends          'apt'
+version          '0.1.0'
 depends          'packagecloud'

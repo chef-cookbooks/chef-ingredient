@@ -1,3 +1,7 @@
+# v0.1.0
+
+* Release this cookbook to Supermarket
+
 # v0.0.2
 
 * #4: define the installed attribute
