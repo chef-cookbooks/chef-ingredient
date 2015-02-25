@@ -17,6 +17,7 @@ class Chef
       attribute :repository, :kind_of => String, :default => 'chef/stable'
       attribute :version, :kind_of => String, :default => nil
       attribute :installed, :kind_of => [TrueClass, FalseClass, NilClass], :default => false
+      attribute :reconfigure, kind_of => [TrueClass, FalseClass], default: false
     end
   end
 end
