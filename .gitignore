@@ -5,6 +5,10 @@
 \#*#
 .*.sw[a-z]
 *.un~
+*.idea
+
+
+
 
 # Bundler
 /Gemfile.lock
@@ -12,6 +16,9 @@
 /.bundle/
 /bundle/
 /vendor/gems/
+
+
+
 
 # Berkshelf
 /Berksfile.lock
