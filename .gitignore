@@ -6,18 +6,12 @@
 .*.sw[a-z]
 *.un~
 
-
-
-
 # Bundler
 /Gemfile.lock
 /bin/
 /.bundle/
 /bundle/
 /vendor/gems/
-
-
-
 
 # Berkshelf
 /Berksfile.lock

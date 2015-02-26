@@ -1,3 +1,7 @@
+# v0.2.0
+
+* Add reconfigure property to ingredient resource
+
 # v0.1.0
 
 * Release this cookbook to Supermarket
