@@ -1,3 +1,7 @@
+# v0.3.0
+
+* Add ctl command for supermarket
+
 # v0.2.0
 
 * Add reconfigure property to ingredient resource
