@@ -33,7 +33,8 @@ module ChefServerIngredient
         'opscode-push-jobs-server' => 'opscode-push-jobs-server-ctl',
         'opscode-reporting' => 'opscode-reporting-ctl',
         'opscode-analytics' => 'opscode-analytics-ctl',
-        'chef-sync' => 'chef-sync-ctl'
+        'chef-sync' => 'chef-sync-ctl',
+        'supermarket' => 'supermarket-ctl',
       }
       ctl_cmds[pkg]
     end
