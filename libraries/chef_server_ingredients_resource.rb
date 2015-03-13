@@ -8,6 +8,8 @@ class Chef
       state_attrs :installed
 
       attribute :package_name, :kind_of => String, :name_attribute => true
+      # Attributes to install package from local file 
+      attribute :package_path, :kind_of => String, :default => nil
       # Attributes for reconfigure step
       attribute :ctl_command, :kind_of => String
       # Attributes for package

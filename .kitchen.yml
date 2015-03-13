@@ -30,3 +30,8 @@ suites:
       test:
         chef-server-core:
           version: 12.0.4-1
+  - name: local_package_install
+    run_list:
+      - recipe[test::local]
+      - recipe[chef-server-ingredient]
+    attributes:
