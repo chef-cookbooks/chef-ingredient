@@ -35,7 +35,8 @@ A "chef server ingredient" is the core package itself, or any add-on component p
 * `options`: Options passed to the `package` resource used for installation.
 * `master_token`: Used for packagecloud private repositories.
 * `repository`: Name of the repository where the packages are located on packagecloud. Default `chef/stable`.
-* `version`: Package version, e.g., `12.0.0-rc.6-1`. Default `nil`.
+* `version`: Package version, e.g., `12.0.0-rc.6-1`. Do not use if specifying `package_source`. Default `nil`.
+* `package_source`: Full path to a location where the package is located. If present, this file is used for installing the package. Default `nil`.
 
 ## License and Author
 
