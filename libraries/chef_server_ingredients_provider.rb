@@ -41,13 +41,31 @@ class Chef
       end
 
       action :install do
-        packagecloud_repo 'chef/stable' do
-          type value_for_platform_family(:debian => 'deb', :rhel => 'rpm')
-        end
-
-        package new_resource.package_name do
-          options new_resource.options
-          version new_resource.version
+        if new_resource.package_path.nil?
+          packagecloud_repo 'chef/stable' do
+            type value_for_platform_family(:debian => 'deb', :rhel => 'rpm')
+          end
+                  
+          package new_resource.package_name do
+            options new_resource.options
+            version new_resource.version
+          end
+        else
+          case node[:platform_family]
+          when "debian"
+            package new_resource.package_name do
+              source new_resource.package_path
+              provider Chef::Provider::Package::Dpkg
+              only_if "dpkg -l #{new_resource.package_name} 2>&1 | grep -i 'No packages found'"
+            end
+          when "rhel"
+            package new_resource.package_name do
+              source new_resource.package_path
+              provider Chef::Provider::Package::Rpm
+              only_if "rpm -q #{new_resource.package_name} 2>&1 | grep -i 'is not installed'"
+            end
+          end
+          # TODO: Consider other platform families in future?
         end
 
         if new_resource.reconfigure
