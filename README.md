@@ -35,7 +35,7 @@ and running the `ctl reconfigure` of individual packages.
 - `remove` - Alias for uninstall
 - `reconfigure` - Performs the `ctl reconfigure` command for the package.
 
-#### Attributes
+#### Properties
 - `package_name`: (name attribute) The name of the package. Should
   correspond to the published package names (chef-server-core,
   opscode-manage, etc).  
