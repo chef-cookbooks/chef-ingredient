@@ -18,15 +18,18 @@
 # limitations under the License.
 #
 
+require_relative './helpers'
 require 'uri'
 require 'pathname'
 
 class Chef
   class Provider
     class ChefServerIngredient < Chef::Provider::LWRPBase
+      # Methods for use in resources, found in helpers.rb
+      include ChefServerIngredientsCookbook::Helpers
       # FIXME: (jtimberman) remove this include when we switch to packagecloud_repo.
-      require_relative './helpers'
-      include ::PackageCloud::Helper
+      # QUESTION: (someara) is this still needed?
+      include PackageCloud::Helper
 
       use_inline_resources
 
@@ -34,32 +37,24 @@ class Chef
         true
       end
 
-      def load_current_resource
-        self.current_resource = Chef::Resource::ChefServerIngredient.new(new_resource.name)
-        current_resource.package_name(new_resource.package_name)
-        current_resource
-      end
-
       action :install do
+        # FIXME: Create yum-chef and apt-chef cookbooks and set
+        # installation location with node attributes for use behind
+        # firewalls.
+        # See yum-centos, yum-epel, etc for examples.
+
+        # TODO: create manage_package_repo boolean on resource
+        # add another only_if
         packagecloud_repo 'chef/stable' do
           type value_for_platform_family(debian: 'deb', rhel: 'rpm')
-        end if new_resource.package_source.nil?
+          only_if { new_resource.package_source.nil? }
+        end
 
         package new_resource.package_name do
           options new_resource.options
           version new_resource.version
           source new_resource.package_source
-          provider case node['platform_family']
-                   when 'debian' then Chef::Provider::Package::Dpkg
-                   when 'rhel'   then Chef::Provider::Package::Rpm
-                   end if new_resource.package_source
-        end
-
-        if new_resource.reconfigure
-          ctl_cmd = ctl_command
-          execute "#{new_resource.package_name}-reconfigure" do
-            command "#{ctl_cmd} reconfigure"
-          end
+          provider local_provider if new_resource.package_source
         end
       end
 
@@ -70,26 +65,14 @@ class Chef
       end
 
       action :remove do
-        action_uninstall
-      end
-
-      action :reconfigure do
-        ctl_cmd = ctl_command
-        execute "#{new_resource.package_name}-reconfigure" do
-          command "#{ctl_cmd} reconfigure"
+        package new_resource.package_name do
+          action :remove
         end
       end
 
-      private
-
-      def ctl_command
-        new_resource.ctl_command || chef_server_ctl_command(new_resource.package_name)
-      end
-
-      def reconfigure
-        ctl_cmd = ctl_command
+      action :reconfigure do
         execute "#{new_resource.package_name}-reconfigure" do
-          command "#{ctl_cmd} reconfigure"
+          command "#{ctl_command} reconfigure"
         end
       end
     end

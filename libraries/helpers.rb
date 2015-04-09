@@ -21,7 +21,7 @@
 require 'uri'
 require 'pathname'
 
-module ChefServerIngredient
+module ChefServerIngredientsCookbook
   module Helpers
     # FIXME: (jtimberman) make this data we can change / use without
     # having to update the library code (e.g., if we create new
@@ -38,12 +38,29 @@ module ChefServerIngredient
       }
       ctl_cmds[pkg]
     end
+
+    def local_provider
+      return Chef::Provider::Package::Dpkg if node['platform_family'] == 'debian'
+      return Chef::Provider::Package::Rpm if node['platform_family'] == 'rhel'
+    end
+
+    def ctl_command
+      new_resource.ctl_command || chef_server_ctl_command(new_resource.package_name)
+    end
+
+    def reconfigure
+      ctl_cmd = ctl_command
+      execute "#{new_resource.package_name}-reconfigure" do
+        command "#{ctl_cmd} reconfigure"
+      end
+    end
   end
 end
 
-Chef::Recipe.send(:include, ChefServerIngredient::Helpers)
-Chef::Resource.send(:include, ChefServerIngredient::Helpers)
-Chef::Provider.send(:include, ChefServerIngredient::Helpers)
+# FIXME: delete this... these methods should not be included at this level.
+# Chef::Recipe.send(:include, ChefServerIngredient::Helpers)
+# Chef::Resource.send(:include, ChefServerIngredient::Helpers)
+# Chef::Provider.send(:include, ChefServerIngredient::Helpers)
 
 # From https://github.com/computology/packagecloud-cookbook/blob/master/libraries/helper.rb
 # FIXME: (jtimberman) Use the packagecloud_repo resource
