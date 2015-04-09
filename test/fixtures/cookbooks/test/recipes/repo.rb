@@ -12,7 +12,7 @@ end
 
 # Management Console
 chef_server_ingredient 'opscode-manage' do
-  action [:install, :reconfigure]
+  action [:install]
 end
 
 file '/tmp/opscode-manage.firstrun' do
