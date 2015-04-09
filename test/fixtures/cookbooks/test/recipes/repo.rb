@@ -1,7 +1,7 @@
 # Chef Server Core
 chef_server_ingredient 'chef-server-core' do
-  action [:install]
   version node['test']['chef-server-core']['version']
+  action :install
 end
 
 file '/tmp/chef-server-core.firstrun' do
@@ -12,7 +12,7 @@ end
 
 # Management Console
 chef_server_ingredient 'opscode-manage' do
-  action [:install]
+  action :install
 end
 
 file '/tmp/opscode-manage.firstrun' do
