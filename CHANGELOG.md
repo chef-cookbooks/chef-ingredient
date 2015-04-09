@@ -1,20 +1,27 @@
-# v0.3.0
+chef-server-ingredients CHANGELOG
+=================================
 
-* Add ctl command for supermarket
+v0.3.1  (2015-04-09)
+--------------------
+- Various refactoring and cleanup
 
-# v0.2.0
+v0.3.0
+------
+- Add ctl command for supermarket
 
-* Add reconfigure property to ingredient resource
+v0.2.0
+------
+- Add reconfigure property to ingredient resource
 
-# v0.1.0
+v0.1.0
+------
+- Release this cookbook to Supermarket
 
-* Release this cookbook to Supermarket
+v0.0.2
+------
+- #4: define the installed attribute
+- #1, #2, use packagecloud cookbook
 
-# v0.0.2
-
-* #4: define the installed attribute
-* #1, #2, use packagecloud cookbook
-
-# v0.0.1
-
-* Initial release
+v0.0.1
+--------
+- Initial release
