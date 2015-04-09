@@ -57,11 +57,6 @@ module ChefServerIngredientsCookbook
   end
 end
 
-# FIXME: delete this... these methods should not be included at this level.
-# Chef::Recipe.send(:include, ChefServerIngredient::Helpers)
-# Chef::Resource.send(:include, ChefServerIngredient::Helpers)
-# Chef::Provider.send(:include, ChefServerIngredient::Helpers)
-
 # From https://github.com/computology/packagecloud-cookbook/blob/master/libraries/helper.rb
 # FIXME: (jtimberman) Use the packagecloud_repo resource
 # instead, when it can either set the codename, or we publish
