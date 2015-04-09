@@ -34,7 +34,7 @@ module ChefServerIngredient
         'opscode-reporting' => 'opscode-reporting-ctl',
         'opscode-analytics' => 'opscode-analytics-ctl',
         'chef-sync' => 'chef-sync-ctl',
-        'supermarket' => 'supermarket-ctl',
+        'supermarket' => 'supermarket-ctl'
       }
       ctl_cmds[pkg]
     end
@@ -68,7 +68,7 @@ module PackageCloud
       when Net::HTTPSuccess
         resp
       else
-        raise resp.inspect
+        fail resp.inspect
       end
     end
 
@@ -87,7 +87,7 @@ module PackageCloud
       when Net::HTTPSuccess
         resp
       else
-        raise resp.inspect
+        fail resp.inspect
       end
     end
   end

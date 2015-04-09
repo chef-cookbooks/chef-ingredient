@@ -42,7 +42,7 @@ class Chef
 
       action :install do
         packagecloud_repo 'chef/stable' do
-          type value_for_platform_family(:debian => 'deb', :rhel => 'rpm')
+          type value_for_platform_family(debian: 'deb', rhel: 'rpm')
         end if new_resource.package_source.nil?
 
         package new_resource.package_name do
@@ -92,7 +92,6 @@ class Chef
           command "#{ctl_cmd} reconfigure"
         end
       end
-
     end
   end
 end

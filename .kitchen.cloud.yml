@@ -1,0 +1,85 @@
+#<% require 'kitchen-sync' %>
+---
+driver_config:
+  digitalocean_client_id: <%= ENV['DIGITAL_OCEAN_CLIENT_ID'] %>
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: latest
+
+platforms:
+- name: ubuntu-10.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: ubuntu-10-04-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
+- name: ubuntu-12.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: ubuntu-12-04-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
+- name: ubuntu-14.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: ubuntu-14-04-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+  run_list:
+  - recipe[apt]
+
+- name: centos-5.8
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: centos-5-8-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+
+- name: centos-6.5
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 2gb
+    image: centos-6-5-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+
+suites:
+  - name: default
+    run_list:
+      - recipe[test]
+      - recipe[test::repo]
+      - recipe[chef-server-ingredient]
+    attributes:
+
+  - name: override_package_versions
+    run_list:
+      - recipe[test]
+      - recipe[test::repo]
+      - recipe[chef-server-ingredient]
+    attributes:
+      test:
+        chef-server-core:
+          version: 12.0.4-1
+
+  - name: local_package_install
+    run_list:
+      - recipe[test]
+      - recipe[test::local]
+      - recipe[chef-server-ingredient]
+    attributes:

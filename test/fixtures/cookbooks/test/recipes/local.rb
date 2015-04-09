@@ -17,8 +17,8 @@ source_url = case node['platform_family']
 
 package = File.basename(source_url)
 remote_file "#{Chef::Config[:file_cache_path]}/#{package}" do
-  source    "#{source_url}"
-  mode      "0644"
+  source "#{source_url}"
+  mode '0644'
 end
 
 chef_server_ingredient 'chef-server-core' do
