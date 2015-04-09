@@ -53,14 +53,12 @@ suites:
     run_list:
       - recipe[test]
       - recipe[test::repo]
-      - recipe[chef-server-ingredient]
     attributes:
 
   - name: override_package_versions
     run_list:
       - recipe[test]
       - recipe[test::repo]
-      - recipe[chef-server-ingredient]
     attributes:
       test:
         chef-server-core:
@@ -70,5 +68,4 @@ suites:
     run_list:
       - recipe[test]
       - recipe[test::local]
-      - recipe[chef-server-ingredient]
     attributes:
