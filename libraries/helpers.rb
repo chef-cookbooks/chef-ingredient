@@ -57,31 +57,17 @@ module ChefServerIngredientsCookbook
   end
 end
 
-# From https://github.com/computology/packagecloud-cookbook/blob/master/libraries/helper.rb
-# FIXME: (jtimberman) Use the packagecloud_repo resource
-# instead, when it can either set the codename, or we publish
-# packages to "trusty"
+# This is the Proxy Implementation to pull down packages from packagecloud
+# currently there is a PR to the packagecloud community cookbook:
+# FIXME: (afiune) https://github.com/computology/packagecloud-cookbook/pull/14
 module PackageCloud
   module Helper
-    require 'net/https'
 
     def get(uri, params)
-      uri.query     = URI.encode_www_form(params)
-      req           = Net::HTTP::Get.new(uri.request_uri)
+      uri.query = URI.encode_www_form(params)
+      req       = Net::HTTP::Get.new(uri.request_uri)
 
-      req.basic_auth uri.user, uri.password if uri.user
-
-      http = Net::HTTP.new(uri.hostname, uri.port)
-      http.use_ssl = true
-
-      resp = http.start { |h| h.request(req) }
-
-      case resp
-      when Net::HTTPSuccess
-        resp
-      else
-        fail resp.inspect
-      end
+      http_request(uri, req)
     end
 
     def post(uri, params)
@@ -90,17 +76,27 @@ module PackageCloud
 
       req.basic_auth uri.user, uri.password if uri.user
 
-      http = Net::HTTP.new(uri.hostname, uri.port)
-      http.use_ssl = true
-
-      resp = http.start { |h|  h.request(req) }
-
-      case resp
-      when Net::HTTPSuccess
-        resp
-      else
-        fail resp.inspect
-      end
+      http_request(uri, req)
     end
+
+    def http_request(uri, request)
+      if proxy_url = Chef::Config['https_proxy'] || Chef::Config['http_proxy'] || ENV['https_proxy'] || ENV['http_proxy']
+        proxy_uri = URI.parse(proxy_url)
+        proxy     = Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port, proxy_uri.user, proxy_uri.password)
+
+        response = proxy.start(uri.host, :use_ssl => true) do |http|
+          http.request(request)
+        end
+      else
+        http = Net::HTTP.new(uri.hostname, uri.port)
+        http.use_ssl = true
+
+        response = http.start { |h|  h.request(request) }
+      end
+
+      raise response.inspect unless response.is_a? Net::HTTPSuccess
+      response
+    end
+
   end
 end
