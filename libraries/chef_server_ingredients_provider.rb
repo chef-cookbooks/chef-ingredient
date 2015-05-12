@@ -45,7 +45,7 @@ class Chef
 
         # TODO: create manage_package_repo boolean on resource
         # add another only_if
-        packagecloud_repo 'chef/stable' do
+        packagecloud_repo new_resource.repository do
           type value_for_platform_family(debian: 'deb', rhel: 'rpm')
           only_if { new_resource.package_source.nil? }
         end
