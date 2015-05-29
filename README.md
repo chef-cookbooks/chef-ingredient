@@ -42,7 +42,7 @@ and running the `ctl reconfigure` of individual packages.
 - `ctl_command`: The "ctl" command, e.g., `chef-server-ctl`. This
   should be automatically detected by the library helper method
   `chef_server_ctl_command`, but may need to be specified if something
-  changes, like a new add-on is made available.    
+  changes, like a new add-on is made available.
 - `options`: Options passed to the `package` resource used for
   installation.  
 - `master_token`: Used for packagecloud private repositories.
@@ -53,6 +53,8 @@ and running the `ctl reconfigure` of individual packages.
 - `package_source`: Full path to a location where the package is
   located. If present, this file is used for installing the package.
   Default `nil`.  
+- `timeout`: The amount of time (in seconds) to wait to fetch the installer
+  before timing out. Default: default timeout of the Chef package resource.
 
 License and Author
 ------------------

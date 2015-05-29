@@ -55,6 +55,7 @@ class Chef
           version new_resource.version
           source new_resource.package_source
           provider local_provider if new_resource.package_source
+          timeout new_resource.timeout
         end
       end
 
