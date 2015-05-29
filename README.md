@@ -54,7 +54,7 @@ and running the `ctl reconfigure` of individual packages.
   located. If present, this file is used for installing the package.
   Default `nil`.  
 - `timeout`: The amount of time (in seconds) to wait to fetch the installer
-  before timing out. Default `900` seconds.
+  before timing out. Default: default timeout of the Chef package resource.
 
 License and Author
 ------------------

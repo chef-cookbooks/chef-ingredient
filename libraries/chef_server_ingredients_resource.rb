@@ -20,7 +20,7 @@ class Chef
       attribute :version, kind_of: String, default: nil
       attribute :installed, kind_of: [TrueClass, FalseClass, NilClass], default: false
       attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false
-      attribute :timeout, kind_of: [Integer, String], default: 900
+      attribute :timeout, kind_of: [Integer, String, NilClass], default: nil
     end
   end
 end
