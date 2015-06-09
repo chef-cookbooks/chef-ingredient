@@ -50,27 +50,13 @@ class Chef
           only_if { new_resource.package_source.nil? }
         end
 
-        if new_resource.package_source.nil?
-          # install package using default OS package provider (yum/apt)
-          package new_resource.package_name do
-            options new_resource.options
-            version new_resource.version
-            timeout new_resource.timeout
-          end
-        else # local package source or explicitly specified url
-          if node['platform_family'] == 'rhel'
-            rpm_package new_resource.package_name do
-              options new_resource.options
-              source new_resource.package_source
-              timeout new_resource.timeout
-            end
-          elsif node['platform_family'] == 'debian'
-            dpkg_package new_resource.package_name do
-              options new_resource.options
-              source new_resource.package_source
-              timeout new_resource.timeout
-            end
-          end
+        package_resource = new_resource.package_source.nil? ? :package : local_package_resource
+
+        declare_resource package_resource, new_resource.package_name do
+          options new_resource.options
+          version new_resource.version
+          source new_resource.package_source
+          timeout new_resource.timeout
         end
       end
 
