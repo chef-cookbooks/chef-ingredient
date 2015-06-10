@@ -42,6 +42,7 @@ module ChefServerIngredientsCookbook
     def local_package_resource
       return :dpkg_package if node['platform_family'] == 'debian'
       return :rpm_package if node['platform_family'] == 'rhel'
+      :package # fallback if there's no platform match
     end
 
     def ctl_command
