@@ -50,11 +50,12 @@ class Chef
           only_if { new_resource.package_source.nil? }
         end
 
-        package new_resource.package_name do
+        package_resource = new_resource.package_source.nil? ? :package : local_package_resource
+
+        declare_resource package_resource, new_resource.package_name do
           options new_resource.options
           version new_resource.version
           source new_resource.package_source
-          provider local_provider if new_resource.package_source
           timeout new_resource.timeout
         end
       end
