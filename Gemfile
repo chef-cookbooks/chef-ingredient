@@ -8,8 +8,8 @@ group :lint do
 end
 
 group :unit do
-  gem 'berkshelf',   '~> 3.2'
-  gem 'chefspec',   '~> 4.2'
+  gem 'berkshelf', '~> 3.2'
+  gem 'chefspec', '~> 4.2'
 end
 
 group :kitchen_common do
@@ -25,4 +25,5 @@ group :development do
   gem 'guard-foodcritic'
   gem 'guard-rspec'
   gem 'guard-rubocop'
+  gem 'mixlib-versioning'
 end

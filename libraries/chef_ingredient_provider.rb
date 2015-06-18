@@ -1,9 +1,6 @@
 #
 # Author:: Joshua Timberman <joshua@getchef.com
-# Copyright (c) 2014, Chef Software, Inc. <legal@getchef.com>
-#
-# Portions from https://github.com/computology/packagecloud-cookbook:
-# Copyright (c) 2014, Computology, LLC.
+# Copyright (c) 2014-2015, Chef Software, Inc. <legal@getchef.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,17 +16,16 @@
 #
 
 require_relative './helpers'
-require 'uri'
-require 'pathname'
 
 class Chef
   class Provider
-    class ChefServerIngredient < Chef::Provider::LWRPBase
+    class ChefIngredient < Chef::Provider::LWRPBase
+      # for include_recipe
+      require 'chef/dsl/include_recipe'
+      include Chef::DSL::IncludeRecipe
+
       # Methods for use in resources, found in helpers.rb
-      include ChefServerIngredientsCookbook::Helpers
-      # FIXME: (jtimberman) remove this include when we switch to packagecloud_repo.
-      # QUESTION: (someara) is this still needed?
-      include PackageCloud::Helper
+      include ChefIngredientCookbook::Helpers
 
       use_inline_resources
 
@@ -38,23 +34,25 @@ class Chef
       end
 
       action :install do
-        # FIXME: Create yum-chef and apt-chef cookbooks and set
-        # installation location with node attributes for use behind
-        # firewalls.
-        # See yum-centos, yum-epel, etc for examples.
+        if new_resource.version
+          # We need Mixlib::Versioning in the library helpers for
+          # parsing the version string. But only if the version is
+          # specified!
+          chef_gem 'mixlib-versioning' do
+            compile_time true
+          end
 
-        # TODO: create manage_package_repo boolean on resource
-        # add another only_if
-        packagecloud_repo new_resource.repository do
-          type value_for_platform_family(debian: 'deb', rhel: 'rpm')
-          only_if { new_resource.package_source.nil? }
+          require 'mixlib/versioning'
         end
+
+        cleanup_old_repo_config if ::File.exist?(old_ingredient_repo_file)
+        include_recipe "#{package_repo_type}-chef" if new_resource.package_source.nil?
 
         package_resource = new_resource.package_source.nil? ? :package : local_package_resource
 
         declare_resource package_resource, new_resource.package_name do
           options new_resource.options
-          version new_resource.version
+          version install_version if new_resource.version
           source new_resource.package_source
           timeout new_resource.timeout
         end

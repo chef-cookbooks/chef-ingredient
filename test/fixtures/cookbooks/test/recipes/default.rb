@@ -3,3 +3,5 @@ remote_file '/etc/pki/tls/certs/ca-bundle.crt' do
   checksum 'a9cce49cec92304d29d05794c9b576899d8a285659b3f987dd7ed784ab3e0621'
   sensitive true
 end if platform_family?('rhel')
+
+execute 'apt-get update' if platform_family?('debian')

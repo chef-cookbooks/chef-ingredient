@@ -1,10 +1,12 @@
-name 'chef-server-ingredient'
-version '0.4.0'
+name 'chef-ingredient'
+version '0.5.0'
 maintainer 'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
 license 'Apache 2.0'
-description 'Manages Chef Server packages/add-ons, aka "ingredients"'
-source_url 'https://github.com/chef-cookbooks/chef-server-ingredient'
-issues_url 'https://github.com/chef-cookbooks/chef-server-ingredient/issues'
+description 'Primitives for managing Chef products and packages'
 
-depends 'packagecloud'
+source_url 'https://github.com/chef-cookbooks/chef-ingredient' if defined?(:source_url)
+issues_url 'https://github.com/chef-cookbooks/chef-ingredient/issues' if defined?(:issues_url)
+
+depends 'apt-chef'
+depends 'yum-chef'

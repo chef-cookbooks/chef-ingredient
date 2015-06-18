@@ -9,17 +9,13 @@ provisioner:
   name: chef_zero
 
 platforms:
-  - name: ubuntu-10.04
-    run_list:
-    - recipe[apt]
   - name: ubuntu-12.04
-    run_list:
-    - recipe[apt]
   - name: ubuntu-14.04
-    run_list:
-    - recipe[apt]
-  - name: centos-5.11
   - name: centos-6.6
+  # TODO: (jtimberman) We do not currently create packages
+  # specifically for EL7, but we want to! And then we'll uncomment
+  # this so we can test them in the kitchen.
+  # - name: centos-7.1
 
 suites:
   - name: default
@@ -35,7 +31,22 @@ suites:
     attributes:
       test:
         chef-server-core:
-          version: 12.0.4-1
+          version: 12.0.4
+
+  - name: override_package_versions_rc
+    run_list:
+      - recipe[test]
+      - recipe[test::repo]
+    attributes:
+      apt-chef:
+        repo-name: 'chef-current'
+        uri: 'https://packagecloud.io/chef/current/ubuntu/'
+      yum-chef:
+        repositoryid: 'chef-current'
+        baseurl: 'https://packagecloud.io/chef/current/el/6/$basearch'
+      test:
+        chef-server-core:
+          version: 12.1.0-rc.3
 
   - name: local_package_install
     run_list:

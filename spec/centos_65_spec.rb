@@ -1,23 +1,19 @@
 require 'spec_helper'
 
-describe 'test::repo' do
-  cached(:centos_65) do
-    ChefSpec::SoloRunner.new(
-      platform: 'centos',
-      version: '6.5',
-      step_into: 'chef_server_ingredient'
-      ) do |node|
-      node.set['chef-server-core']['version'] = nil
-    end.converge('test::repo')
-  end
-
+describe 'test::repo on centos' do
   context 'compiling the test recipe' do
-    it 'creates packagecloud_repo[chef/stable]' do
-      expect(centos_65).to create_packagecloud_repo('chef/stable')
+    cached(:centos_65) do
+      ChefSpec::SoloRunner.new(
+        platform: 'centos',
+        version: '6.5',
+        step_into: %w(chef_ingredient chef_server_ingredient)
+      ) do |node|
+        node.set['chef-server-core']['version'] = nil
+      end.converge('test::repo')
     end
 
-    it 'installs chef_server_ingredient[chef-server-core]' do
-      expect(centos_65).to install_chef_server_ingredient('chef-server-core')
+    it 'installs chef_ingredient[chef-server-core]' do
+      expect(centos_65).to install_chef_ingredient('chef-server-core')
     end
 
     it 'installs yum_package[chef-server-core]' do
@@ -40,23 +36,88 @@ describe 'test::repo' do
       expect(centos_65).to create_file('/tmp/opscode-manage.firstrun')
     end
   end
-end
 
-
-describe 'test::local' do
-  cached(:centos_65) do
-    ChefSpec::SoloRunner.new(
-      platform: 'centos',
-      version: '6.5',
-      step_into: 'chef_server_ingredient'
+  context 'release version specified' do
+    cached(:centos_65) do
+      ChefSpec::SoloRunner.new(
+        platform: 'centos',
+        version: '6.5',
+        step_into: ['chef_ingredient']
       ) do |node|
-      node.set['chef-server-core']['version'] = nil
-    end.converge('test::local')
+        node.set['test']['chef-server-core']['version'] = '12.0.4'
+      end.converge('test::repo')
+    end
+
+    it 'installs the mixlib-versioning gem' do
+      expect(centos_65).to install_chef_gem('mixlib-versioning')
+    end
+
+    it 'installs the package with the release version string' do
+      expect(centos_65).to install_yum_package('chef-server-core').with(
+        version: '12.0.4-1.el6'
+      )
+    end
   end
 
+  context 'package iteration version specified' do
+    cached(:ubuntu_1404) do
+      ChefSpec::SoloRunner.new(
+        platform: 'ubuntu',
+        version: '14.04',
+        step_into: ['chef_ingredient']
+      ) do |node|
+        node.set['test']['chef-server-core']['version'] = '12.0.4-1'
+      end.converge('test::repo')
+    end
+
+    it 'installs the mixlib-versioning gem' do
+      expect(ubuntu_1404).to install_chef_gem('mixlib-versioning')
+    end
+
+    it 'installs the package with the release version string' do
+      expect(ubuntu_1404).to install_apt_package('chef-server-core').with(
+        version: '12.0.4-1'
+      )
+    end
+  end
+
+  context 'release candidate version specified' do
+    cached(:centos_65) do
+      ChefSpec::SoloRunner.new(
+        platform: 'centos',
+        version: '6.5',
+        step_into: ['chef_ingredient']
+      ) do |node|
+        node.set['test']['chef-server-core']['version'] = '12.1.0-rc.3'
+      end.converge('test::repo')
+    end
+
+    it 'installs the mixlib-versioning gem' do
+      expect(centos_65).to install_chef_gem('mixlib-versioning')
+    end
+
+    it 'installs the package with the tilde version separator and release identifier' do
+      expect(centos_65).to install_yum_package('chef-server-core').with(
+        version: '12.1.0~rc.3-1.el6'
+      )
+    end
+  end
+end
+
+describe 'test::local on centos' do
   context 'compiling the test recipe' do
-    it 'installs chef_server_ingredient[chef-server-core]' do
-      expect(centos_65).to install_chef_server_ingredient('chef-server-core')
+    cached(:centos_65) do
+      ChefSpec::SoloRunner.new(
+        platform: 'centos',
+        version: '6.5',
+        step_into: %w(chef_ingredient chef_server_ingredient)
+      ) do |node|
+        node.set['chef-server-core']['version'] = nil
+      end.converge('test::local')
+    end
+
+    it 'installs chef_ingredient[chef-server-core]' do
+      expect(centos_65).to install_chef_ingredient('chef-server-core')
     end
 
     it 'uses the rpm_package provider instead of yum_package' do

@@ -9,13 +9,13 @@ remote_file "#{cache_path}/#{pkgname}" do
   mode '0644'
 end
 
-chef_server_ingredient 'chef-server-core' do
+chef_ingredient 'chef-server-core' do
   package_source "#{cache_path}/#{pkgname}"
-  action [:install]
+  action :install
 end
 
 file '/tmp/chef-server-core.firstrun' do
   content 'ilovechef\n'
-  notifies :reconfigure, 'chef_server_ingredient[chef-server-core]'
+  notifies :reconfigure, 'chef_ingredient[chef-server-core]'
   action :create
 end
