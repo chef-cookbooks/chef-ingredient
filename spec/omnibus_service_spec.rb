@@ -10,7 +10,7 @@ describe 'test::omnibus_service' do
   let(:log_message) { chef_run.log('I tell nginx to stop')}
 
   it 'allows the chef-server-core/rabbitmq service to restart' do
-    expect(chef_run).to restart_omnibus_service('chef-server-core/rabbitmq')
+    expect(chef_run).to restart_omnibus_service('chef-server/rabbitmq')
   end
 
   it 'restarts the rabbitmq service' do
@@ -18,7 +18,7 @@ describe 'test::omnibus_service' do
   end
 
   it 'has a log service that notifies the chef server nginx' do
-    expect(log_message).to notify('omnibus_service[chef-server-core/nginx]').to(:stop)
+    expect(log_message).to notify('omnibus_service[chef-server/nginx]').to(:stop)
   end
 
   it 'starts with a made up service' do

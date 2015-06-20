@@ -34,25 +34,30 @@ class Chef
       end
 
       action :install do
-        if new_resource.version
-          # We need Mixlib::Versioning in the library helpers for
-          # parsing the version string. But only if the version is
-          # specified!
-          chef_gem 'mixlib-versioning' do
-            compile_time true
-          end
-
-          require 'mixlib/versioning'
+        # We need Mixlib::Versioning in the library helpers for
+        # parsing the version string.
+        chef_gem "#{new_resource.product_name}-mixlib-versioning" do
+          package_name 'mixlib-versioning'
+          compile_time true
         end
+
+        require 'mixlib/versioning'
 
         cleanup_old_repo_config if ::File.exist?(old_ingredient_repo_file)
         include_recipe "#{package_repo_type}-chef" if new_resource.package_source.nil?
 
         package_resource = new_resource.package_source.nil? ? :package : local_package_resource
 
-        declare_resource package_resource, new_resource.package_name do
+        pkg_name = if new_resource.package_name
+                     new_resource.package_name
+                   else
+                     product_lookup(new_resource.product_name, new_resource.version)['package-name']
+                   end
+
+        declare_resource package_resource, new_resource.product_name do
+          package_name pkg_name
           options new_resource.options
-          version install_version if new_resource.version
+          version install_version if Mixlib::Versioning.parse(new_resource.version) > '0.0.0'
           source new_resource.package_source
           timeout new_resource.timeout
         end

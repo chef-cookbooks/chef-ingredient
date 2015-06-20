@@ -17,20 +17,8 @@
 
 module ChefIngredientCookbook
   module Helpers
-    # FIXME: (jtimberman) make this data we can change / use without
-    # having to update the library code (e.g., if we create new
-    # add-ons, or change any of these in the future).
-    def chef_ctl_command(pkg)
-      ctl_cmds = {
-        'chef-server-core' => 'chef-server-ctl',
-        'opscode-manage' => 'opscode-manage-ctl',
-        'opscode-push-jobs-server' => 'opscode-push-jobs-server-ctl',
-        'opscode-reporting' => 'opscode-reporting-ctl',
-        'opscode-analytics' => 'opscode-analytics-ctl',
-        'chef-sync' => 'chef-sync-ctl',
-        'supermarket' => 'supermarket-ctl'
-      }
-      ctl_cmds[pkg]
+    def chef_ctl_command(product)
+      product_lookup(product, new_resource.version)['ctl-command']
     end
 
     def local_package_resource
@@ -85,6 +73,57 @@ module ChefIngredientCookbook
       execute "#{new_resource.package_name}-reconfigure" do
         command "#{ctl_cmd} reconfigure"
       end
+    end
+
+    def product_matrix
+      {
+        'analytics'    => {'package-name' => 'opscode-analytics', 'ctl-command' => 'opscode-analytics-ctl' },
+        'chef'         => {'package-name' => 'chef',              'ctl-command' => nil                     },
+        'chef-ha'      => {'package-name' => 'chef-ha',           'ctl-command' => nil                     },
+        'chef-server'  => {'package-name' => 'chef-server-core',  'ctl-command' => 'chef-server-ctl'       },
+        'chef-sync'    => {'package-name' => 'chef-sync',         'ctl-command' => 'chef-sync-ctl'         },
+        'chefdk'       => {'package-name' => 'chefdk',            'ctl-command' => nil                     },
+        'delivery'     => {'package-name' => 'delivery',          'ctl-command' => 'delivery-ctl'          },
+        'delivery-cli' => {'package-name' => 'delivery-cli',      'ctl-command' => nil                     },
+        'manage'       => {'package-name' => 'chef-manage',       'ctl-command' => 'chef-manage-ctl'       },
+        'private-chef' => {'package-name' => 'private-chef',      'ctl-command' => 'private-chef-ctl'      },
+        'push-client'  => {'package-name' => 'chef-push-client',  'ctl-command' => nil                     },
+        'push-server'  => {'package-name' => 'chef-push-server',  'ctl-command' => 'chef-push-ctl'         },
+        'reporting'    => {'package-name' => 'opscode-reporting', 'ctl-command' => 'opscode-reporting-ctl' },
+        'supermarket'  => {'package-name' => 'supermarket',       'ctl-command' => 'supermarket-ctl'       },
+      }
+    end
+
+    def product_lookup(product, version = '0.0.0')
+      unless product_matrix.has_key?(product)
+        Chef::Log.fatal("We don't have a product, '#{product}'. Please specify a valid product name:")
+        Chef::Log.fatal(product_matrix.keys.join(' '))
+        fail
+      end
+
+      require 'mixlib/versioning'
+      v = Mixlib::Versioning.parse(version)
+
+      data = product_matrix[product]
+
+      if (product == 'chef-server')
+        if (v < Mixlib::Versioning.parse('12.0.0') && v > Mixlib::Versioning.parse('11.0.0'))
+          data['package-name'] = 'chef-server'
+        elsif (v < Mixlib::Versioning.parse('11.0.0')) && (v > Mixlib::Versioning.parse('1.0.0'))
+          Chef::Log.fatal("Invalid version specified, '#{version}' for #{product}!")
+          fail
+        end
+      elsif (product == 'manage') && (v < Mixlib::Versioning.parse('2.0.0'))
+        data['package-name'] = 'opscode-manage'
+        data['ctl-command'] = 'opscode-manage-ctl'
+      elsif (product == 'push-server') && (v < Mixlib::Versioning.parse('2.0.0'))
+        data['package-name'] = 'chef-push-server'
+        data['ctl-command'] = 'chef-push-ctl'
+      elsif (product == 'push-client') && (v < Mixlib::Versioning.parse('2.0.0'))
+        data['package-name'] = 'chef-push-client'
+      end
+
+      data
     end
   end
 end
