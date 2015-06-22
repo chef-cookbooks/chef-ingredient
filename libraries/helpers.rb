@@ -18,8 +18,11 @@
 module ChefIngredientCookbook
   module Helpers
     def chef_ctl_command(product)
-      version = new_resource.respond_to?(:version) ? new_resource.version : '0.0.0'
-      product_lookup(product, version)['ctl-command']
+      if new_resource.respond_to?(:version)
+        product_lookup(product, new_resource.version)['ctl-command']
+      else
+        product_lookup(product)['ctl-command']
+      end
     end
 
     def local_package_resource
@@ -96,6 +99,10 @@ module ChefIngredientCookbook
       }
     end
 
+    # Version has a default value of 0.0.0 so that it is a valid
+    # string for the Mixlib::Versioning.parse method. This implies
+    # "latest", but "latest" is not a value that is valid for
+    # mixlib/versioning.
     def product_lookup(product, version = '0.0.0')
       unless product_matrix.has_key?(product)
         Chef::Log.fatal("We don't have a product, '#{product}'. Please specify a valid product name:")
@@ -108,6 +115,11 @@ module ChefIngredientCookbook
 
       data = product_matrix[product]
 
+      # We want to validate that we're getting a version that is valid
+      # for the Chef Server. However, since the default is 0.0.0,
+      # implying latest, we need to additionally ensure that the
+      # bottom version is something valid. If we don't have the check
+      # in the elsif, it will say that 0.0.0 is not a valid version.
       if (product == 'chef-server')
         if (v < Mixlib::Versioning.parse('12.0.0') && v > Mixlib::Versioning.parse('11.0.0'))
           data['package-name'] = 'chef-server'
