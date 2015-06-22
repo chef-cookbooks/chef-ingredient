@@ -1,3 +1,9 @@
+# v0.6.0
+
+**Breaking changes** This version is backwards-incompatible with previous versions. We're still sub-1.0, but those who wish to use the chef_server_ingredient resource really should pin to version 0.5.0.
+
+- [#1](https://github.com/chef-cookbooks/chef-ingredient/issues/1) Use product names instead of package names.
+
 # v0.5.0
 
 - Major refactor and rename. It's fine, this is a new cookbook!
