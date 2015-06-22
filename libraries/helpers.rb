@@ -18,7 +18,8 @@
 module ChefIngredientCookbook
   module Helpers
     def chef_ctl_command(product)
-      product_lookup(product, new_resource.version)['ctl-command']
+      version = new_resource.respond_to?(:version) ? new_resource.version : '0.0.0'
+      product_lookup(product, version)['ctl-command']
     end
 
     def local_package_resource
@@ -75,6 +76,7 @@ module ChefIngredientCookbook
       end
     end
 
+    # When updating this, also update PRODUCT_MATRIX.md
     def product_matrix
       {
         'analytics'    => {'package-name' => 'opscode-analytics', 'ctl-command' => 'opscode-analytics-ctl' },

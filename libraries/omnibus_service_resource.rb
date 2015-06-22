@@ -24,7 +24,6 @@ class Chef
 
       attribute :ctl_command, kind_of: String
       attribute :service_name, kind_of: String, regex: %r{[\w-]+/[\w-]+}, name_attribute: true
-      attribute :version, kind_of: String, default: '0.0.0'
     end
   end
 end

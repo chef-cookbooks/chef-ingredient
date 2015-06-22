@@ -9,6 +9,8 @@ This cookbook provides primitives - helpers and resources - to manage Chef Softw
 
 It will perform component installation and configuration. It provides no recipes. Instead, wrapper cookbooks should be created using the resources that this cookbook provides.
 
+For a product to package matrix, see [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md)
+
 ## Requirements
 
 - apt
@@ -37,7 +39,7 @@ A "chef ingredient" is the core package itself, or products or add-on components
 - `reconfigure` - Performs the `ctl reconfigure` command for the package.
 
 #### Properties
-- `product_name`: (name attribute) The product name. See the `#product_matrix` method in `libraries/helpers.rb` for a list of valid product names. For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
+- `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
 - `package_name`: The name of the package in the repository. Should correspond to the published package names (`chef-server-core`, `opscode-manage`, etc).
 - `ctl_command`: The "ctl" command, e.g., `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
 - `options`: Options passed to the `package` resource used for installation.
