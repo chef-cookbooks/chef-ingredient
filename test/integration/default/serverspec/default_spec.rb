@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'chef-ingredient::default' do
-  describe package('chef-server-core') do
+  describe package('chef-server') do
     it { should be_installed }
   end
 
@@ -9,7 +9,7 @@ describe 'chef-ingredient::default' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe package('opscode-manage') do
+  describe package('manage') do
     it { should be_installed }
   end
 

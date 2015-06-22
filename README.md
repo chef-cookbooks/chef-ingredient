@@ -9,6 +9,8 @@ This cookbook provides primitives - helpers and resources - to manage Chef Softw
 
 It will perform component installation and configuration. It provides no recipes. Instead, wrapper cookbooks should be created using the resources that this cookbook provides.
 
+For a product to package matrix, see [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md)
+
 ## Requirements
 
 - apt
@@ -37,7 +39,8 @@ A "chef ingredient" is the core package itself, or products or add-on components
 - `reconfigure` - Performs the `ctl reconfigure` command for the package.
 
 #### Properties
-- `package_name`: (name attribute) The name of the package. Should correspond to the published package names (chef-server-core, opscode-manage, etc).
+- `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
+- `package_name`: The name of the package in the repository. Should correspond to the published package names (`chef-server-core`, `opscode-manage`, etc).
 - `ctl_command`: The "ctl" command, e.g., `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
 - `options`: Options passed to the `package` resource used for installation.
 - `version`: Package version, e.g., `12.0.4`. Do not use if specifying `package_source`. Default `nil`.
@@ -55,7 +58,7 @@ This delegates to the ctl command the service management command specified in th
 #### Properties
 
 - `ctl_command`: The "ctl" command, e.g. `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a  new add-on is made available.
-- `service_name`: (name attribute) The name of the service to manage. Specify this like `package_name/service`, for example, `chef-server-core/rabbitmq`.
+- `service_name`: (name attribute) The name of the service to manage. Specify this like `product_name/service`, for example, `chef-server/rabbitmq`.
 
 #### Examples
 

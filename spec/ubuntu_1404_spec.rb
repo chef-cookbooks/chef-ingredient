@@ -13,7 +13,7 @@ describe 'test::repo on ubuntu' do
     end
 
     it 'installs chef_ingredient[chef-server-core]' do
-      expect(ubuntu_1404).to install_chef_ingredient('chef-server-core')
+      expect(ubuntu_1404).to install_chef_ingredient('chef-server')
     end
 
     it 'installs apt_package[chef-server-core]' do
@@ -24,8 +24,8 @@ describe 'test::repo on ubuntu' do
       expect(ubuntu_1404).to create_file('/tmp/chef-server-core.firstrun')
     end
 
-    it 'installs chef_server_ingredient[opscode-manage]' do
-      expect(ubuntu_1404).to install_chef_server_ingredient('opscode-manage')
+    it 'installs chef_server_ingredient[manage]' do
+      expect(ubuntu_1404).to install_chef_server_ingredient('manage')
     end
 
     it 'installs apt_package[opscode-manage]' do
@@ -116,8 +116,8 @@ describe 'test::local on ubuntu' do
       end.converge('test::local')
     end
 
-    it 'installs chef_ingredient[chef-server-core]' do
-      expect(ubuntu_1404).to install_chef_ingredient('chef-server-core')
+    it 'installs chef_ingredient[chef-server]' do
+      expect(ubuntu_1404).to install_chef_ingredient('chef-server')
     end
 
     it 'uses the dpkg_package provider instead of apt_package' do
