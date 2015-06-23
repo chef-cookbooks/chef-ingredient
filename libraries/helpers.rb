@@ -19,10 +19,19 @@ module ChefIngredientCookbook
   module Helpers
     def chef_ctl_command(product)
       if new_resource.respond_to?(:version)
-        product_lookup(product, new_resource.version)['ctl-command']
+        product_lookup(product, version_string(new_resource.version))['ctl-command']
       else
         product_lookup(product)['ctl-command']
       end
+    end
+
+    def version_string(vers)
+      return '0.0.0' if vers == :latest || vers == 'latest'
+      vers
+    end
+
+    def ingredient_package_name
+      product_lookup(new_resource.product_name, version_string(new_resource.version))['package-name']
     end
 
     def local_package_resource
@@ -43,7 +52,7 @@ module ChefIngredientCookbook
 
     def install_version
       require 'mixlib/versioning'
-      v = Mixlib::Versioning.parse(new_resource.version)
+      v = Mixlib::Versioning.parse(version_string(new_resource.version))
       version = "#{v.major}.#{v.minor}.#{v.patch}"
       version << "~#{v.prerelease}" if v.prerelease? && !v.prerelease.match(/^\d$/)
       version << "+#{v.build}" if v.build?
@@ -82,20 +91,20 @@ module ChefIngredientCookbook
     # When updating this, also update PRODUCT_MATRIX.md
     def product_matrix
       {
-        'analytics'    => {'package-name' => 'opscode-analytics', 'ctl-command' => 'opscode-analytics-ctl' },
-        'chef'         => {'package-name' => 'chef',              'ctl-command' => nil                     },
-        'chef-ha'      => {'package-name' => 'chef-ha',           'ctl-command' => nil                     },
-        'chef-server'  => {'package-name' => 'chef-server-core',  'ctl-command' => 'chef-server-ctl'       },
-        'chef-sync'    => {'package-name' => 'chef-sync',         'ctl-command' => 'chef-sync-ctl'         },
-        'chefdk'       => {'package-name' => 'chefdk',            'ctl-command' => nil                     },
-        'delivery'     => {'package-name' => 'delivery',          'ctl-command' => 'delivery-ctl'          },
-        'delivery-cli' => {'package-name' => 'delivery-cli',      'ctl-command' => nil                     },
-        'manage'       => {'package-name' => 'chef-manage',       'ctl-command' => 'chef-manage-ctl'       },
-        'private-chef' => {'package-name' => 'private-chef',      'ctl-command' => 'private-chef-ctl'      },
-        'push-client'  => {'package-name' => 'chef-push-client',  'ctl-command' => nil                     },
-        'push-server'  => {'package-name' => 'chef-push-server',  'ctl-command' => 'chef-push-ctl'         },
-        'reporting'    => {'package-name' => 'opscode-reporting', 'ctl-command' => 'opscode-reporting-ctl' },
-        'supermarket'  => {'package-name' => 'supermarket',       'ctl-command' => 'supermarket-ctl'       },
+        'analytics'    => { 'package-name' => 'opscode-analytics', 'ctl-command' => 'opscode-analytics-ctl' },
+        'chef'         => { 'package-name' => 'chef',              'ctl-command' => nil                     },
+        'chef-ha'      => { 'package-name' => 'chef-ha',           'ctl-command' => nil                     },
+        'chef-server'  => { 'package-name' => 'chef-server-core',  'ctl-command' => 'chef-server-ctl'       },
+        'chef-sync'    => { 'package-name' => 'chef-sync',         'ctl-command' => 'chef-sync-ctl'         },
+        'chefdk'       => { 'package-name' => 'chefdk',            'ctl-command' => nil                     },
+        'delivery'     => { 'package-name' => 'delivery',          'ctl-command' => 'delivery-ctl'          },
+        'delivery-cli' => { 'package-name' => 'delivery-cli',      'ctl-command' => nil                     },
+        'manage'       => { 'package-name' => 'chef-manage',       'ctl-command' => 'chef-manage-ctl'       },
+        'private-chef' => { 'package-name' => 'private-chef',      'ctl-command' => 'private-chef-ctl'      },
+        'push-client'  => { 'package-name' => 'chef-push-client',  'ctl-command' => nil                     },
+        'push-server'  => { 'package-name' => 'chef-push-server',  'ctl-command' => 'chef-push-ctl'         },
+        'reporting'    => { 'package-name' => 'opscode-reporting', 'ctl-command' => 'opscode-reporting-ctl' },
+        'supermarket'  => { 'package-name' => 'supermarket',       'ctl-command' => 'supermarket-ctl'       }
       }
     end
 
@@ -104,14 +113,14 @@ module ChefIngredientCookbook
     # "latest", but "latest" is not a value that is valid for
     # mixlib/versioning.
     def product_lookup(product, version = '0.0.0')
-      unless product_matrix.has_key?(product)
+      unless product_matrix.key?(product)
         Chef::Log.fatal("We don't have a product, '#{product}'. Please specify a valid product name:")
         Chef::Log.fatal(product_matrix.keys.join(' '))
         fail
       end
 
       require 'mixlib/versioning'
-      v = Mixlib::Versioning.parse(version)
+      v = Mixlib::Versioning.parse(version_string(version))
 
       data = product_matrix[product]
 
@@ -121,7 +130,7 @@ module ChefIngredientCookbook
       # bottom version is something valid. If we don't have the check
       # in the elsif, it will say that 0.0.0 is not a valid version.
       if (product == 'chef-server')
-        if (v < Mixlib::Versioning.parse('12.0.0') && v > Mixlib::Versioning.parse('11.0.0'))
+        if (v < Mixlib::Versioning.parse('12.0.0')) && (v > Mixlib::Versioning.parse('11.0.0'))
           data['package-name'] = 'chef-server'
         elsif (v < Mixlib::Versioning.parse('11.0.0')) && (v > Mixlib::Versioning.parse('1.0.0'))
           Chef::Log.fatal("Invalid version specified, '#{version}' for #{product}!")

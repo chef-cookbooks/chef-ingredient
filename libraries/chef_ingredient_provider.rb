@@ -36,7 +36,7 @@ class Chef
       action :install do
         # We need Mixlib::Versioning in the library helpers for
         # parsing the version string.
-        chef_gem "#{new_resource.product_name}-mixlib-versioning" do
+        chef_gem "#{new_resource.product_name}-mixlib-versioning" do #~FC009 foodcritic needs an update
           package_name 'mixlib-versioning'
           compile_time true
         end
@@ -48,35 +48,29 @@ class Chef
 
         package_resource = new_resource.package_source.nil? ? :package : local_package_resource
 
-        pkg_name = if new_resource.package_name
-                     new_resource.package_name
-                   else
-                     product_lookup(new_resource.product_name, new_resource.version)['package-name']
-                   end
-
         declare_resource package_resource, new_resource.product_name do
-          package_name pkg_name
+          package_name ingredient_package_name
           options new_resource.options
-          version install_version if Mixlib::Versioning.parse(new_resource.version) > '0.0.0'
+          version install_version if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
           source new_resource.package_source
           timeout new_resource.timeout
         end
       end
 
       action :uninstall do
-        package new_resource.package_name do
+        package ingredient_package_name do
           action :remove
         end
       end
 
       action :remove do
-        package new_resource.package_name do
+        package ingredient_package_name do
           action :remove
         end
       end
 
       action :reconfigure do
-        execute "#{new_resource.package_name}-reconfigure" do
+        execute "#{ingredient_package_name}-reconfigure" do
           command "#{ctl_command} reconfigure"
         end
       end

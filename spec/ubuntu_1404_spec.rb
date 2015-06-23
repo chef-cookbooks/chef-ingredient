@@ -102,6 +102,46 @@ describe 'test::repo on ubuntu' do
       )
     end
   end
+
+  context '`latest` is specified for the version as a symbol' do
+    cached(:ubuntu_1404) do
+      ChefSpec::SoloRunner.new(
+        platform: 'ubuntu',
+        version: '14.04',
+        step_into: ['chef_ingredient']
+      ) do |node|
+        node.set['test']['chef-server-core']['version'] = :latest
+      end.converge('test::repo')
+    end
+
+    it 'installs chef_ingredient[chef-server]' do
+      expect(ubuntu_1404).to install_chef_ingredient('chef-server')
+    end
+
+    it 'installs yum_package[chef-server]' do
+      expect(ubuntu_1404).to install_apt_package('chef-server-core')
+    end
+  end
+
+  context '`latest` is specified for the version as a string' do
+    cached(:ubuntu_1404) do
+      ChefSpec::SoloRunner.new(
+        platform: 'ubuntu',
+        version: '14.04',
+        step_into: ['chef_ingredient']
+      ) do |node|
+        node.set['test']['chef-server-core']['version'] = 'latest'
+      end.converge('test::repo')
+    end
+
+    it 'installs chef_ingredient[chef-server]' do
+      expect(ubuntu_1404).to install_chef_ingredient('chef-server')
+    end
+
+    it 'installs yum_package[chef-server]' do
+      expect(ubuntu_1404).to install_apt_package('chef-server-core')
+    end
+  end
 end
 
 describe 'test::local on ubuntu' do

@@ -7,7 +7,7 @@ describe 'test::omnibus_service' do
     ).converge(described_recipe)
   end
 
-  let(:log_message) { chef_run.log('I tell nginx to stop')}
+  let(:log_message) { chef_run.log('I tell nginx to stop') }
 
   it 'allows the chef-server-core/rabbitmq service to restart' do
     expect(chef_run).to restart_omnibus_service('chef-server/rabbitmq')

@@ -24,7 +24,6 @@ class Chef
       state_attrs :installed
 
       attribute :product_name, kind_of: String, name_attribute: true
-      attribute :package_name, kind_of: String
       attribute :installed, kind_of: [TrueClass, FalseClass, NilClass], default: false
       attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false
       attribute :config, kind_of: [Hash, Mash], default: {}
@@ -37,7 +36,7 @@ class Chef
 
       # Attributes for package
       attribute :options, kind_of: String
-      attribute :version, kind_of: String, default: '0.0.0'
+      attribute :version, kind_of: [String, Symbol], default: '0.0.0'
       attribute :timeout, kind_of: [Integer, String, NilClass], default: nil
     end
   end

@@ -102,6 +102,46 @@ describe 'test::repo on centos' do
       )
     end
   end
+
+  context '`latest` is specified for the version as a symbol' do
+    cached(:centos_65) do
+      ChefSpec::SoloRunner.new(
+        platform: 'centos',
+        version: '6.5',
+        step_into: ['chef_ingredient']
+      ) do |node|
+        node.set['test']['chef-server-core']['version'] = :latest
+      end.converge('test::repo')
+    end
+
+    it 'installs chef_ingredient[chef-server]' do
+      expect(centos_65).to install_chef_ingredient('chef-server')
+    end
+
+    it 'installs yum_package[chef-server]' do
+      expect(centos_65).to install_yum_package('chef-server-core')
+    end
+  end
+
+  context '`latest` is specified for the version as a string' do
+    cached(:centos_65) do
+      ChefSpec::SoloRunner.new(
+        platform: 'centos',
+        version: '6.5',
+        step_into: ['chef_ingredient']
+      ) do |node|
+        node.set['test']['chef-server-core']['version'] = 'latest'
+      end.converge('test::repo')
+    end
+
+    it 'installs chef_ingredient[chef-server]' do
+      expect(centos_65).to install_chef_ingredient('chef-server')
+    end
+
+    it 'installs yum_package[chef-server]' do
+      expect(centos_65).to install_yum_package('chef-server-core')
+    end
+  end
 end
 
 describe 'test::local on centos' do
