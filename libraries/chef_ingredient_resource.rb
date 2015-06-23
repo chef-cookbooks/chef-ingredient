@@ -36,7 +36,7 @@ class Chef
 
       # Attributes for package
       attribute :options, kind_of: String
-      attribute :version, kind_of: [String, Symbol], default: '0.0.0'
+      attribute :version, kind_of: [String, Symbol], default: :latest
       attribute :timeout, kind_of: [Integer, String, NilClass], default: nil
     end
   end

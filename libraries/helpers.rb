@@ -26,7 +26,7 @@ module ChefIngredientCookbook
     end
 
     def version_string(vers)
-      return '0.0.0' if vers == :latest || vers == 'latest'
+      return '0.0.0' if vers.to_sym == :latest
       vers
     end
 
@@ -78,12 +78,12 @@ module ChefIngredientCookbook
     end
 
     def ctl_command
-      new_resource.ctl_command || chef_ctl_command(new_resource.package_name)
+      new_resource.ctl_command || chef_ctl_command(new_resource.product_name)
     end
 
     def reconfigure
       ctl_cmd = ctl_command
-      execute "#{new_resource.package_name}-reconfigure" do
+      execute "#{new_resource.product_name}-reconfigure" do
         command "#{ctl_cmd} reconfigure"
       end
     end
