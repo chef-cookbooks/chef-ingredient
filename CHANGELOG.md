@@ -1,3 +1,8 @@
+# v0.7.0
+
+- [#3](https://github.com/chef-cookbooks/chef-ingredient/issues/3) Allow :latest as a version
+- Removes the package_name property from the chef_ingredient resource, long live product_name
+
 # v0.6.0
 
 **Breaking changes** This version is backwards-incompatible with previous versions. We're still sub-1.0, but those who wish to use the chef_server_ingredient resource really should pin to version 0.5.0.
