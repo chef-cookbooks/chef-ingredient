@@ -26,7 +26,7 @@ class Chef
       attribute :product_name, kind_of: String, name_attribute: true
       attribute :installed, kind_of: [TrueClass, FalseClass, NilClass], default: false
       attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false
-      attribute :config, kind_of: [Hash, Mash], default: {}
+      attribute :config, kind_of: String, default: nil
 
       # Attribute to install package from local file
       attribute :package_source, kind_of: String, default: nil
