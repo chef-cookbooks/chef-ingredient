@@ -29,18 +29,19 @@ class Chef
         true
       end
 
-      %i[start stop restart hup int kill graceful-kill once].each do |sv_command|
+      %i(start stop restart hup int kill graceful-kill once).each do |sv_command|
         action sv_command do
-          execute "#{get_ctl_command} #{sv_command} #{get_service_properties.last}"
+          execute "#{omnibus_ctl_command} #{sv_command} #{omnibus_service_name.last}"
         end
       end
 
       private
-      def get_ctl_command
-        new_resource.ctl_command || chef_ctl_command(get_service_properties.first)
+
+      def omnibus_ctl_command
+        new_resource.ctl_command || chef_ctl_command(omnibus_service_name.first)
       end
 
-      def get_service_properties
+      def omnibus_service_name
         new_resource.service_name.split('/')
       end
     end

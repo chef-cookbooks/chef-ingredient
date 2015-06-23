@@ -40,10 +40,9 @@ A "chef ingredient" is the core package itself, or products or add-on components
 
 #### Properties
 - `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
-- `package_name`: The name of the package in the repository. Should correspond to the published package names (`chef-server-core`, `opscode-manage`, etc).
 - `ctl_command`: The "ctl" command, e.g., `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
 - `options`: Options passed to the `package` resource used for installation.
-- `version`: Package version, e.g., `12.0.4`. Do not use if specifying `package_source`. Default `nil`.
+- `version`: Package version to install. Can be specified in various semver-alike ways: `12.0.4`, `12.0.3-rc.3`, and also `:latest`/`'latest'`. Do not use this property when specifying `package_source`. Default is `:latest`, which will install the latest package from the repository.
 - `package_source`: Full path to a location where the package is located. If present, this file is used for installing the package. Default `nil`.
 - `timeout`: The amount of time (in seconds) to wait to fetch the installer before timing out. Default: default timeout of the Chef package resource - `900` seconds.
 
