@@ -56,7 +56,7 @@ module ChefIngredientCookbook
     def install_mixlib_versioning
       # We need Mixlib::Versioning in the library helpers for
       # parsing the version string.
-      chef_gem "#{new_resource.product_name}-mixlib-versioning" do #~FC009 foodcritic needs an update
+      chef_gem "#{new_resource.product_name}-mixlib-versioning" do # ~FC009 foodcritic needs an update
         package_name 'mixlib-versioning'
         compile_time true
       end
