@@ -53,3 +53,7 @@ suites:
       - recipe[test]
       - recipe[test::local]
     attributes:
+
+  - name: chefdk
+    run_list:
+      - recipe[test::chefdk]
