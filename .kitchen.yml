@@ -57,3 +57,7 @@ suites:
   - name: chefdk
     run_list:
       - recipe[test::chefdk]
+
+  - name: upgrade
+    run_list:
+      - recipe[test::upgrade]

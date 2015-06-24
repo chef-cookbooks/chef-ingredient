@@ -40,6 +40,35 @@ module ChefIngredientCookbook
       :package # fallback if there's no platform match
     end
 
+    def package_resource(ingredient_action)
+      presource = new_resource.package_source.nil? ? :package : local_package_resource
+
+      declare_resource presource, new_resource.product_name do
+        package_name ingredient_package_name
+        options new_resource.options
+        version install_version if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
+        source new_resource.package_source
+        timeout new_resource.timeout
+        action ingredient_action
+      end
+    end
+
+    def install_mixlib_versioning
+      # We need Mixlib::Versioning in the library helpers for
+      # parsing the version string.
+      chef_gem "#{new_resource.product_name}-mixlib-versioning" do # ~FC009 foodcritic needs an update
+        package_name 'mixlib-versioning'
+        compile_time true
+      end
+
+      require 'mixlib/versioning'
+    end
+
+    def create_repository
+      cleanup_old_repo_config if ::File.exist?(old_ingredient_repo_file)
+      include_recipe "#{package_repo_type}-chef" if new_resource.package_source.nil?
+    end
+
     def package_repo_type
       return 'apt' if node['platform_family'] == 'debian'
       return 'yum' if node['platform_family'] == 'rhel'
