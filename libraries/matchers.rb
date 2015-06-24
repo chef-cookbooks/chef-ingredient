@@ -3,6 +3,10 @@ if defined?(ChefSpec)
     ChefSpec::Matchers::ResourceMatcher.new(:chef_ingredient, :install, pkg)
   end
 
+  def upgrade_chef_ingredient(pkg)
+    ChefSpec::Matchers::ResourceMatcher.new(:chef_ingredient, :upgrade, pkg)
+  end
+
   def uninstall_chef_ingredient(pkg)
     ChefSpec::Matchers::ResourceMatcher.new(:chef_ingredient, :uninstall, pkg)
   end

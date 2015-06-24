@@ -34,27 +34,15 @@ class Chef
       end
 
       action :install do
-        # We need Mixlib::Versioning in the library helpers for
-        # parsing the version string.
-        chef_gem "#{new_resource.product_name}-mixlib-versioning" do #~FC009 foodcritic needs an update
-          package_name 'mixlib-versioning'
-          compile_time true
-        end
+        install_mixlib_versioning
+        create_repository
+        package_resource(:install)
+      end
 
-        require 'mixlib/versioning'
-
-        cleanup_old_repo_config if ::File.exist?(old_ingredient_repo_file)
-        include_recipe "#{package_repo_type}-chef" if new_resource.package_source.nil?
-
-        package_resource = new_resource.package_source.nil? ? :package : local_package_resource
-
-        declare_resource package_resource, new_resource.product_name do
-          package_name ingredient_package_name
-          options new_resource.options
-          version install_version if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
-          source new_resource.package_source
-          timeout new_resource.timeout
-        end
+      action :upgrade do
+        install_mixlib_versioning
+        create_repository
+        package_resource(:upgrade)
       end
 
       action :uninstall do
