@@ -153,7 +153,7 @@ module ChefIngredientCookbook
         'delivery' => {
           'package-name' => 'delivery',
           'ctl-command'  => 'delivery-ctl',
-          'config-file'  => nil
+          'config-file'  => '/etc/delivery/delivery.rb'
         },
         'delivery-cli' => {
           'package-name' => 'delivery-cli',
@@ -164,7 +164,7 @@ module ChefIngredientCookbook
           'package-name' => 'chef-manage',
           'ctl-command'  => 'chef-manage-ctl',
           'config-file'  => '/etc/opscode-manage/manage.rb'
-          },
+        },
         'private-chef' => {
           'package-name' => 'private-chef',
           'ctl-command'  => 'private-chef-ctl',
@@ -183,12 +183,12 @@ module ChefIngredientCookbook
         'reporting' => {
           'package-name' => 'opscode-reporting',
           'ctl-command'  => 'opscode-reporting-ctl',
-          'config-file'  => nil
+          'config-file'  => '/etc/opscode-reporting/opscode-reporting.rb'
         },
         'supermarket' => {
           'package-name' => 'supermarket',
           'ctl-command'  => 'supermarket-ctl',
-          'config-file'  => "/etc/supermarket/supermarket.rb"
+          'config-file'  => '/etc/supermarket/supermarket.rb'
         }
       }
     end
@@ -241,14 +241,14 @@ module ChefIngredientCookbook
     def add_config(product, content)
       return if content.nil?
 
-      node.run_state[:ingredient_config_data] ||= { }
-      node.run_state[:ingredient_config_data][product] ||= ""
+      node.run_state[:ingredient_config_data] ||= {}
+      node.run_state[:ingredient_config_data][product] ||= ''
       node.run_state[:ingredient_config_data][product] += content
     end
 
     def get_config(product)
-      node.run_state[:ingredient_config_data] ||= { }
-      node.run_state[:ingredient_config_data][product] ||= ""
+      node.run_state[:ingredient_config_data] ||= {}
+      node.run_state[:ingredient_config_data][product] ||= ''
     end
   end
 end

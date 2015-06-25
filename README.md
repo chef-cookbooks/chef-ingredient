@@ -91,7 +91,7 @@ To install Chef Server using some custom configuration options:
 chef_ingredient "chef-server" do
   config <<-EOS
 api_fqdn "#{node["fqdn"]}"
-ip_version "ipv6",
+ip_version "ipv6"
 notification_email "#{node["chef_admin"]}"
 nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
 EOS

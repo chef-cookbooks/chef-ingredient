@@ -46,7 +46,6 @@ class Chef
           content get_config(new_resource.product_name)
         end
       end
-
     end
   end
 end
