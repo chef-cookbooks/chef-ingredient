@@ -7,6 +7,7 @@ driver:
 
 provisioner:
   name: chef_zero
+  data_bags_path: test/fixtures/data_bags
 
 platforms:
   - name: ubuntu-12.04
