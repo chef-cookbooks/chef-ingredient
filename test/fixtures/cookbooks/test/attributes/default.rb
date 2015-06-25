@@ -1,3 +1,4 @@
+default['test']['push-client']['version'] = nil
 default['test']['chef-server-core']['version'] = nil
 default['test']['source_url'] = case node['platform_family']
                                 when 'debian'

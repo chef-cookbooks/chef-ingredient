@@ -168,11 +168,15 @@ module ChefIngredientCookbook
       elsif (product == 'manage') && (v < Mixlib::Versioning.parse('2.0.0'))
         data['package-name'] = 'opscode-manage'
         data['ctl-command'] = 'opscode-manage-ctl'
+      # TODO: When Chef Push server and client 2.0 are released, we
+      # need to implement similar logic to chef-server, so that the
+      # default "latest" version, 0.0.0 (no constraint) doesn't result
+      # in the old package.
       elsif (product == 'push-server') && (v < Mixlib::Versioning.parse('2.0.0'))
-        data['package-name'] = 'chef-push-server'
-        data['ctl-command'] = 'chef-push-ctl'
+        data['package-name'] = 'opscode-push-jobs-server'
+        data['ctl-command'] = 'opscode-push-jobs-server-ctl'
       elsif (product == 'push-client') && (v < Mixlib::Versioning.parse('2.0.0'))
-        data['package-name'] = 'chef-push-client'
+        data['package-name'] = 'opscode-push-jobs-client'
       end
 
       data

@@ -62,3 +62,9 @@ suites:
   - name: upgrade
     run_list:
       - recipe[test::upgrade]
+
+  - name: push_client
+    # we don't yet have push client packages for trusty, only precise
+    excludes: ['ubuntu-14.04']
+    run_list:
+      - recipe[test::push]
