@@ -1,3 +1,7 @@
+# v0.8.1
+
+- Update PRODUCT_MATRIX.md with correct updated Chef Push product names (push-server, push-client). The code was updated but not the document.
+
 # v0.8.0
 
 - [#7](https://github.com/chef-cookbooks/chef-ingredient/issues/7) Add `ingredient_config` resource
