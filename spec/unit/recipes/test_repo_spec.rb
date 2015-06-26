@@ -6,8 +6,10 @@ describe 'test::repo' do
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
-          platform.merge(step_into: ['chef_ingredient'])
-        ).converge(described_recipe)
+          platform.merge(step_into: %w(chef_ingredient chef_server_ingredient ingredient_config))
+        ) do |node|
+          node.set['chef_admin'] = 'admin@chef.io'
+        end.converge(described_recipe)
       end
 
       it 'installs chef_ingredient[chef-server]' do
@@ -22,8 +24,21 @@ describe 'test::repo' do
         expect(chef_run).to create_file('/tmp/chef-server-core.firstrun')
       end
 
-      it 'uses /tmp/chef-server-core.firstrun to notify a reconfigure' do
-        resource = chef_run.file('/tmp/chef-server-core.firstrun')
+      it 'creates config directory for chef-server' do
+        expect(chef_run).to create_directory('/etc/opscode')
+      end
+
+      it 'creates config file for chef-server' do
+        expect(chef_run).to create_file('/etc/opscode/chef-server.rb').with content: <<-EOS
+api_fqdn "fauxhai.local"
+ip_version "ipv6"
+notification_email "admin@chef.io"
+nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
+EOS
+      end
+
+      it 'uses ingredient_config to notify a reconfigure for chef-server' do
+        resource = chef_run.find_resource('ingredient_config', 'chef-server')
         expect(resource).to notify('chef_ingredient[chef-server]')
       end
 
@@ -33,6 +48,22 @@ describe 'test::repo' do
 
       it 'creates file[/tmp/opscode-manage.firstrun]' do
         expect(chef_run).to create_file('/tmp/opscode-manage.firstrun')
+      end
+
+      it 'creates config directory for manage' do
+        expect(chef_run).to create_directory('/etc/opscode-manage')
+      end
+
+      it 'creates config file for manage' do
+        expect(chef_run).to create_file('/etc/opscode-manage/manage.rb').with content: <<-EOS
+disable_sign_up true
+support_email_address "admin@chef.io"
+EOS
+      end
+
+      it 'uses ingredient_config to notify a reconfigure for manage' do
+        resource = chef_run.find_resource('ingredient_config', 'manage')
+        expect(resource).to notify('chef_server_ingredient[manage]')
       end
     end
   end

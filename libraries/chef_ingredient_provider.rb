@@ -37,12 +37,14 @@ class Chef
         install_mixlib_versioning
         create_repository
         package_resource(:install)
+        add_config(new_resource.product_name, new_resource.config)
       end
 
       action :upgrade do
         install_mixlib_versioning
         create_repository
         package_resource(:upgrade)
+        add_config(new_resource.product_name, new_resource.config)
       end
 
       action :uninstall do
@@ -58,6 +60,8 @@ class Chef
       end
 
       action :reconfigure do
+        add_config(new_resource.product_name, new_resource.config)
+
         execute "#{ingredient_package_name}-reconfigure" do
           command "#{ctl_command} reconfigure"
         end

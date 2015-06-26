@@ -40,6 +40,7 @@ A "chef ingredient" is the core package itself, or products or add-on components
 
 #### Properties
 - `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
+- `config`: String content that will be added to the configuration file of the given product.
 - `ctl_command`: The "ctl" command, e.g., `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
 - `options`: Options passed to the `package` resource used for installation.
 - `version`: Package version to install. Can be specified in various semver-alike ways: `12.0.4`, `12.0.3-rc.3`, and also `:latest`/`'latest'`. Do not use this property when specifying `package_source`. Default is `:latest`, which will install the latest package from the repository.
@@ -59,6 +60,17 @@ This delegates to the ctl command the service management command specified in th
 - `ctl_command`: The "ctl" command, e.g. `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a  new add-on is made available.
 - `service_name`: (name attribute) The name of the service to manage. Specify this like `product_name/service`, for example, `chef-server/rabbitmq`.
 
+### ingredient_config
+
+Makes it easy to create update configuration files of each Chef product. It uses the default locations for each product.
+
+#### Actions
+
+- `render` - (default) Creates the configuration file using the options passed in via `config` attribute of `chef_ingredient` resource
+
+#### Properties
+- `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
+
 #### Examples
 
 We may need to restart the RabbitMQ service on the Chef Server, for example when adding configuration for Chef Analytics.
@@ -73,9 +85,29 @@ omnibus_service 'chef-server-core/rabbitmq' do
 end
 ```
 
+To install Chef Server using some custom configuration options:
+
+```ruby
+chef_ingredient "chef-server" do
+  config <<-EOS
+api_fqdn "#{node["fqdn"]}"
+ip_version "ipv6"
+notification_email "#{node["chef_admin"]}"
+nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
+EOS
+  action :install
+end
+
+ingredient_config "chef-server" do
+  notifies :reconfigure, "chef_ingredient[chef-server]"
+end
+
+```
+
 ## License and Author
 
 - Author: Joshua Timberman <joshua@chef.io>
+- Author: Serdar Sutay <serdar@chef.io>
 - Copyright (C) 2014-2015, Chef Software Inc. <legal@chef.io>
 
 Licensed under the Apache License, Version 2.0 (the "License");

@@ -1,5 +1,4 @@
 #
-# Author:: Joshua Timberman <joshua@getchef.com
 # Copyright (c) 2015, Chef Software, Inc. <legal@getchef.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +15,13 @@
 #
 class Chef
   class Resource
-    class OmnibusService < Chef::Resource::LWRPBase
-      self.resource_name = 'omnibus_service'
+    class IngredientConfig < Chef::Resource::LWRPBase
+      self.resource_name = 'ingredient_config'
 
-      actions %i(start stop restart hup int kill graceful_kill once)
-      default_action :nothing
+      actions :render
+      default_action :render
 
-      attribute :ctl_command, kind_of: String
-      attribute :service_name, kind_of: String, regex: %r{[\w-]+\/[\w-]+}, name_attribute: true
+      attribute :product_name, kind_of: String, name_attribute: true
     end
   end
 end

@@ -44,3 +44,6 @@ AllCops:
 
 Style/GuardClause:
   Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
