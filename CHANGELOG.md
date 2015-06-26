@@ -1,3 +1,9 @@
+# v0.8.0
+
+- [#7](https://github.com/chef-cookbooks/chef-ingredient/issues/7) Add `ingredient_config` resource
+- [#10](https://github.com/chef-cookbooks/chef-ingredient/pull/10) Add upgrade action for `chef_ingredient`
+- Test cleanup, various rubocop fixes
+
 # v0.7.0
 
 - [#3](https://github.com/chef-cookbooks/chef-ingredient/issues/3) Allow :latest as a version
