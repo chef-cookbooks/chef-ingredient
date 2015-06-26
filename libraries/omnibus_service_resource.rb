@@ -23,7 +23,7 @@ class Chef
       default_action :nothing
 
       attribute :ctl_command, kind_of: String
-      attribute :service_name, kind_of: String, regex: /[\w-]+\/[\w-]+/, name_attribute: true
+      attribute :service_name, kind_of: String, regex: %r{[\w-]+\/[\w-]+}, name_attribute: true
     end
   end
 end
