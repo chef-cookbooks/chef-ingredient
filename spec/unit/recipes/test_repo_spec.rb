@@ -28,8 +28,8 @@ describe 'test::repo' do
         expect(chef_run).to create_directory('/etc/opscode')
       end
 
-      it 'creates config file for chef-server' do
-        expect(chef_run).to create_file('/etc/opscode/chef-server.rb').with content: <<-EOS
+      it 'creates config file for chef-server with default of false for sensitive' do
+        expect(chef_run).to create_file('/etc/opscode/chef-server.rb').with sensitive: false, content: <<-EOS
 api_fqdn "fauxhai.local"
 ip_version "ipv6"
 notification_email "admin@chef.io"
@@ -54,8 +54,8 @@ EOS
         expect(chef_run).to create_directory('/etc/opscode-manage')
       end
 
-      it 'creates config file for manage' do
-        expect(chef_run).to create_file('/etc/opscode-manage/manage.rb').with content: <<-EOS
+      it 'creates config file for manage with sensitive set' do
+        expect(chef_run).to create_file('/etc/opscode-manage/manage.rb').with sensitive: true, content: <<-EOS
 disable_sign_up true
 support_email_address "admin@chef.io"
 EOS

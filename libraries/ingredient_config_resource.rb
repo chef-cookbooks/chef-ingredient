@@ -16,12 +16,13 @@
 class Chef
   class Resource
     class IngredientConfig < Chef::Resource::LWRPBase
-      self.resource_name = 'ingredient_config'
+      resource_name :ingredient_config
 
       actions :render
       default_action :render
 
       attribute :product_name, kind_of: String, name_attribute: true
+      attribute :sensitive, kind_of: [TrueClass, FalseClass], default: false
     end
   end
 end
