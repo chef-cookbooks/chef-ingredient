@@ -16,7 +16,7 @@
 class Chef
   class Resource
     class IngredientConfig < Chef::Resource::LWRPBase
-      self.resource_name = 'ingredient_config'
+      resource_name :ingredient_config
 
       actions :render
       default_action :render
