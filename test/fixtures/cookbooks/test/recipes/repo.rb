@@ -35,4 +35,5 @@ end
 
 ingredient_config 'manage' do
   notifies :reconfigure, 'chef_server_ingredient[manage]'
+  sensitive true
 end

@@ -43,6 +43,7 @@ class Chef
           owner 'root'
           group 'root'
           action :create
+          sensitive new_resource.sensitive
           content get_config(new_resource.product_name)
         end
       end

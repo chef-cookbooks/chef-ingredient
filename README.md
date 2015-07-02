@@ -70,6 +70,7 @@ Makes it easy to create update configuration files of each Chef product. It uses
 
 #### Properties
 - `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
+- `sensitive`: (default `false`) Set to mask the config contents in logs. Use when you config contains information like passwords or secrets.
 
 #### Examples
 

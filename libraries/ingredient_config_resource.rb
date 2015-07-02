@@ -22,6 +22,7 @@ class Chef
       default_action :render
 
       attribute :product_name, kind_of: String, name_attribute: true
+      attribute :sensitive, kind_of: [TrueClass, FalseClass], default: false
     end
   end
 end
