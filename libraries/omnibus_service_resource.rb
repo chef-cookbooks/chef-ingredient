@@ -17,7 +17,7 @@
 class Chef
   class Resource
     class OmnibusService < Chef::Resource::LWRPBase
-      self.resource_name = 'omnibus_service'
+      resource_name :omnibus_service
 
       actions %i(start stop restart hup int kill graceful_kill once)
       default_action :nothing

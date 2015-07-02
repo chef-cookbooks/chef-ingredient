@@ -17,7 +17,7 @@
 class Chef
   class Resource
     class ChefIngredient < Chef::Resource::LWRPBase
-      self.resource_name = 'chef_ingredient'
+      resource_name :chef_ingredient
 
       actions :install, :uninstall, :remove, :reconfigure, :upgrade
       default_action :install

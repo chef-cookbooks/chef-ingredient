@@ -28,7 +28,7 @@ end
 class Chef
   class Resource
     class ChefServerIngredient < Chef::Resource::ChefIngredient
-      self.resource_name = 'chef_server_ingredient'
+      resource_name :chef_server_ingredient
     end
   end
 end
