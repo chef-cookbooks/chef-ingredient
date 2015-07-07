@@ -48,18 +48,21 @@ class Chef
       end
 
       action :uninstall do
+        install_mixlib_versioning
         package ingredient_package_name do
           action :remove
         end
       end
 
       action :remove do
+        install_mixlib_versioning
         package ingredient_package_name do
           action :remove
         end
       end
 
       action :reconfigure do
+        install_mixlib_versioning
         add_config(new_resource.product_name, new_resource.config)
 
         execute "#{ingredient_package_name}-reconfigure" do
