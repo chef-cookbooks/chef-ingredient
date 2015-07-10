@@ -66,6 +66,11 @@ class Chef
           command "#{ctl_command} reconfigure"
         end
       end
+
+      action :add_config do
+        add_config(new_resource.product_name, new_resource.config)
+      end
+
     end
   end
 end
