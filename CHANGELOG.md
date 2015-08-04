@@ -1,3 +1,8 @@
+# v0.9.0
+
+- Add sensitive property to `ingredient_config`
+- Use recipe DSL to set resource name
+
 # v0.8.1
 
 - Update PRODUCT_MATRIX.md with correct updated Chef Push product names (push-server, push-client). The code was updated but not the document.
@@ -11,11 +16,11 @@
 # v0.7.0
 
 - [#3](https://github.com/chef-cookbooks/chef-ingredient/issues/3) Allow :latest as a version
-- Removes the package_name property from the chef_ingredient resource, long live product_name
+- Removes the `package_name` property from the `chef_ingredient` resource, long live `product_name`
 
 # v0.6.0
 
-**Breaking changes** This version is backwards-incompatible with previous versions. We're still sub-1.0, but those who wish to use the chef_server_ingredient resource really should pin to version 0.5.0.
+**Breaking changes** This version is backwards-incompatible with previous versions. We're still sub-1.0, but those who wish to use the `chef_server_ingredient` resource really should pin to version 0.5.0.
 
 - [#1](https://github.com/chef-cookbooks/chef-ingredient/issues/1) Use product names instead of package names.
 
