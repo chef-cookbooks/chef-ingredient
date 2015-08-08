@@ -13,12 +13,16 @@ For a product to package matrix, see [PRODUCT_MATRIX.md](https://github.com/chef
 
 ## Requirements
 
+Chef version 12.1.0 or higher, latest/current version is always recommended.
+
+### Cookbooks
+
 - apt
 - yum
 
-## Platform
+### Platform
 
-- Ubuntu 10.04, 12.04, 14.04
+- Ubuntu 12.04, 14.04
 - CentOS 6, 7
 
 ## Resources
