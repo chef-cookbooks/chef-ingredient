@@ -66,4 +66,8 @@ if defined?(ChefSpec)
   def once_kill_omnibus_service(pkg)
     ChefSpec::Matchers::ResourceMatcher.new(:omnibus_service, :once, pkg)
   end
+
+  def render_ingredient_config(pkg)
+    ChefSpec::Matchers::ResourceMatcher.new(:ingredient_config, :render, pkg)
+  end
 end
