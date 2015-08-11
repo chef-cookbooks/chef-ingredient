@@ -32,16 +32,11 @@ class Chef
         return if target_config.nil?
 
         directory ::File.dirname(target_config) do
-          owner 'root'
-          group 'root'
-          mode '0755'
           recursive true
           action :create
         end
 
         file target_config do
-          owner 'root'
-          group 'root'
           action :create
           sensitive new_resource.sensitive
           content get_config(new_resource.product_name)
