@@ -28,7 +28,7 @@ describe 'test::upgrade' do
     end
 
     it 'upgrades yum_package[chef-server]' do
-      expect(centos_65).to upgrade_yum_package('chef-server-core')
+      expect(centos_65).to upgrade_package('chef-server-core')
     end
   end
 
@@ -44,7 +44,7 @@ describe 'test::upgrade' do
     end
 
     it 'upgrades apt_package[chef-server]' do
-      expect(ubuntu_1404).to upgrade_apt_package('chef-server-core')
+      expect(ubuntu_1404).to upgrade_package('chef-server-core')
     end
   end
 end

@@ -79,12 +79,22 @@ EOS
       end.converge(described_recipe)
     end
 
+    it 'creates the yum repository' do
+      expect(centos_65).to create_yum_repository('chef-stable')
+    end
+
     it 'installs yum_package[chef-server]' do
-      expect(centos_65).to install_yum_package('chef-server-core')
+      pkgres = centos_65.find_resource('package', 'chef-server')
+      expect(pkgres).to_not be_nil
+      expect(pkgres).to be_a(Chef::Resource::YumPackage)
+      expect(centos_65).to install_package('chef-server')
     end
 
     it 'installs yum_package[opscode-manage]' do
-      expect(centos_65).to install_yum_package('opscode-manage')
+      pkgres = centos_65.find_resource('package', 'manage')
+      expect(pkgres).to_not be_nil
+      expect(pkgres).to be_a(Chef::Resource::YumPackage)
+      expect(centos_65).to install_package('manage')
     end
   end
 
@@ -100,7 +110,7 @@ EOS
     end
 
     it 'installs the package with the release version string and el6' do
-      expect(centos_65).to install_yum_package('chef-server-core').with(
+      expect(centos_65).to install_package('chef-server-core').with(
         version: '12.0.4-1.el6'
       )
     end
@@ -118,7 +128,7 @@ EOS
     end
 
     it 'installs the package with the release version string and el6' do
-      expect(centos_65).to install_yum_package('chef-server-core').with(
+      expect(centos_65).to install_package('chef-server-core').with(
         version: '12.0.4-1.el6'
       )
     end
@@ -136,7 +146,7 @@ EOS
     end
 
     it 'installs the package with the tilde version separator and release identifier and el6' do
-      expect(centos_65).to install_yum_package('chef-server-core').with(
+      expect(centos_65).to install_package('chef-server-core').with(
         version: '12.1.0~rc.3-1.el6'
       )
     end
@@ -154,7 +164,7 @@ EOS
     end
 
     it 'installs yum_package[chef-server]' do
-      expect(centos_65).to install_yum_package('chef-server-core')
+      expect(centos_65).to install_package('chef-server-core')
     end
   end
 
@@ -170,7 +180,7 @@ EOS
     end
 
     it 'installs yum_package[chef-server]' do
-      expect(centos_65).to install_yum_package('chef-server-core')
+      expect(centos_65).to install_package('chef-server-core')
     end
   end
 
@@ -186,11 +196,17 @@ EOS
     end
 
     it 'installs apt_package[chef-server-core]' do
-      expect(ubuntu_1404).to install_apt_package('chef-server-core')
+      pkgres = ubuntu_1404.find_resource('package', 'chef-server')
+      expect(pkgres).to_not be_nil
+      expect(pkgres).to be_a(Chef::Resource::AptPackage)
+      expect(ubuntu_1404).to install_package('chef-server')
     end
 
     it 'installs apt_package[opscode-manage]' do
-      expect(ubuntu_1404).to install_apt_package('opscode-manage')
+      pkgres = ubuntu_1404.find_resource('package', 'manage')
+      expect(pkgres).to_not be_nil
+      expect(pkgres).to be_a(Chef::Resource::AptPackage)
+      expect(ubuntu_1404).to install_package('manage')
     end
   end
 
@@ -206,7 +222,7 @@ EOS
     end
 
     it 'installs the package with the release version string' do
-      expect(ubuntu_1404).to install_apt_package('chef-server-core').with(
+      expect(ubuntu_1404).to install_package('chef-server-core').with(
         version: '12.0.4-1'
       )
     end
@@ -224,7 +240,7 @@ EOS
     end
 
     it 'installs the package with the release version string' do
-      expect(ubuntu_1404).to install_apt_package('chef-server-core').with(
+      expect(ubuntu_1404).to install_package('chef-server-core').with(
         version: '12.0.4-1'
       )
     end
@@ -242,7 +258,7 @@ EOS
     end
 
     it 'installs the package with the tilde version separator' do
-      expect(ubuntu_1404).to install_apt_package('chef-server-core').with(
+      expect(ubuntu_1404).to install_package('chef-server-core').with(
         version: '12.1.0~rc.3-1'
       )
     end
@@ -260,7 +276,7 @@ EOS
     end
 
     it 'installs yum_package[chef-server]' do
-      expect(ubuntu_1404).to install_apt_package('chef-server-core')
+      expect(ubuntu_1404).to install_package('chef-server-core')
     end
   end
 
@@ -276,7 +292,7 @@ EOS
     end
 
     it 'installs apt_package[chef-server]' do
-      expect(ubuntu_1404).to install_apt_package('chef-server-core')
+      expect(ubuntu_1404).to install_package('chef-server-core')
     end
   end
 end
