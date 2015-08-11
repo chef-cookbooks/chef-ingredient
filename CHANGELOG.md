@@ -1,3 +1,7 @@
+# v0.9.1
+
+- [#26](https://github.com/chef-cookbooks/chef-ingredient/issues/26) Remove mode, owner, and group properties from `ingredient_config`'s resources to prevent resource updates after running ctl commands that manage those file permissions.
+
 # v0.9.0
 
 - Add sensitive property to `ingredient_config`
