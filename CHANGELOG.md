@@ -1,3 +1,8 @@
+# v0.10.0
+
+- [#23](https://github.com/chef-cookbooks/chef-ingredient/pull/23) Add Chef Marketplace
+- [#29](https://github.com/chef-cookbooks/chef-ingredient/pull/29) Fix RSpec and noisy warnings
+
 # v0.9.1
 
 - [#26](https://github.com/chef-cookbooks/chef-ingredient/issues/26) Remove mode, owner, and group properties from `ingredient_config`'s resources to prevent resource updates after running ctl commands that manage those file permissions.
