@@ -135,6 +135,11 @@ module ChefIngredientCookbook
           'ctl-command'  => nil,
           'config-file'  => '/etc/opscode/chef-server.rb'
         },
+        'chef-marketplace' => {
+          'package-name' => 'chef-marketplace',
+          'ctl-command'  => 'chef-marketplace-ctl',
+          'config-file'  => '/etc/chef-marketplace/marketplace.rb'
+        },
         'chef-server' => {
           'package-name' => 'chef-server-core',
           'ctl-command'  => 'chef-server-ctl',
