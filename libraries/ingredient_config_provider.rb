@@ -19,6 +19,7 @@ require_relative './helpers'
 class Chef
   class Provider
     class IngredientConfig < Chef::Provider::LWRPBase
+      provides :ingredient_config
       include ChefIngredientCookbook::Helpers
 
       use_inline_resources

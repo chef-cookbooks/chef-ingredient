@@ -20,6 +20,7 @@ require_relative './helpers'
 class Chef
   class Provider
     class OmnibusService < Chef::Provider::LWRPBase
+      provides :omnibus_service
       # Methods for use in resources, found in helpers.rb
       include ChefIngredientCookbook::Helpers
 

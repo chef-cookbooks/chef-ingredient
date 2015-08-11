@@ -20,6 +20,7 @@ require_relative './helpers'
 class Chef
   class Provider
     class ChefIngredient < Chef::Provider::LWRPBase
+      provides :chef_ingredient
       # for include_recipe
       require 'chef/dsl/include_recipe'
       include Chef::DSL::IncludeRecipe
