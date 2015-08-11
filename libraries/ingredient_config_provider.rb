@@ -35,6 +35,7 @@ class Chef
           owner 'root'
           group 'root'
           mode '0755'
+          not_if { ::File.exist?(::File.dirname(target_config)) }
           recursive true
           action :create
         end
