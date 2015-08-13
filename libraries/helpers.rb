@@ -193,7 +193,7 @@ module ChefIngredientCookbook
         'supermarket' => {
           'package-name' => 'supermarket',
           'ctl-command'  => 'supermarket-ctl',
-          'config-file'  => '/etc/supermarket/supermarket.rb'
+          'config-file'  => '/etc/supermarket/supermarket.json'
         }
       }
     end
