@@ -1,3 +1,7 @@
+# v0.10.1
+
+- [#30](https://github.com/chef-cookbooks/chef-ingredient/issues/30) Supermarket doesn't use supermarket.rb for configuration, it's supermarket.json
+
 # v0.10.0
 
 - [#23](https://github.com/chef-cookbooks/chef-ingredient/pull/23) Add Chef Marketplace
