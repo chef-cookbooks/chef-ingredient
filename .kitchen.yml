@@ -68,3 +68,7 @@ suites:
     excludes: ['ubuntu-14.04']
     run_list:
       - recipe[test::push]
+
+  - name: ingredient_config
+    run_list:
+      - recipe[test::ingredient_config]

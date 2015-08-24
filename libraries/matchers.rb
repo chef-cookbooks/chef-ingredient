@@ -70,4 +70,9 @@ if defined?(ChefSpec)
   def render_ingredient_config(pkg)
     ChefSpec::Matchers::ResourceMatcher.new(:ingredient_config, :render, pkg)
   end
+
+  def add_ingredient_config(pkg)
+    ChefSpec::Matchers::ResourceMatcher.new(:ingredient_config, :add, pkg)
+  end
+
 end

@@ -43,6 +43,10 @@ class Chef
           content get_config(new_resource.product_name)
         end
       end
+
+      action :add do
+        add_config(new_resource.product_name, new_resource.config)
+      end
     end
   end
 end

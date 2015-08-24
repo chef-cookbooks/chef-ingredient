@@ -70,11 +70,13 @@ Makes it easy to create update configuration files of each Chef product. It uses
 
 #### Actions
 
-- `render` - (default) Creates the configuration file using the options passed in via `config` attribute of `chef_ingredient` resource
+- `render` - (default) Creates the configuration file using the options passed in via `add` action or `config` attribute of `chef_ingredient` resource.
+- `add` - Adds the `config` attribute contents to the data collection.  Must run `:render` action to generate the file.
 
 #### Properties
 - `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
 - `sensitive`: (default `false`) Set to mask the config contents in logs. Use when you config contains information like passwords or secrets.
+- `config`: String content that will be added to the configuration file of the given product.
 
 #### Examples
 
