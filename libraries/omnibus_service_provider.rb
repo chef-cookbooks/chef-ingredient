@@ -30,8 +30,8 @@ class Chef
         true
       end
 
-      %i(start stop restart hup int kill graceful-kill once).each do |sv_command|
-        action sv_command do
+      %w(start stop restart hup int kill graceful-kill once).each do |sv_command|
+        action sv_command.tr('-', '_').to_sym do
           execute "#{omnibus_ctl_command} #{sv_command} #{omnibus_service_name.last}"
         end
       end
