@@ -255,6 +255,16 @@ module ChefIngredientCookbook
       node.run_state[:ingredient_config_data] ||= {}
       node.run_state[:ingredient_config_data][product] ||= ''
     end
+
+    def fqdn_resolves?(fqdn)
+      require 'resolv'
+      Resolv.getaddress(fqdn)
+      return true
+    rescue Resolv::ResolvError, Resolv::ResolvTimeout
+      false
+    end
+
+    module_function :fqdn_resolves?
   end
 end
 

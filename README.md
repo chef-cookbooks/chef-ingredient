@@ -5,6 +5,7 @@ This cookbook provides primitives - helpers and resources - to manage Chef Softw
 - Chef Server 12
 - Chef Analytics
 - Chef Delivery
+- Chef Push
 - Supermarket
 
 It will perform component installation and configuration. It provides no recipes. Instead, wrapper cookbooks should be created using the resources that this cookbook provides.
