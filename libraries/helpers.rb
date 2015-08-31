@@ -260,9 +260,11 @@ module ChefIngredientCookbook
       require 'resolv'
       Resolv.getaddress(fqdn)
       return true
-    rescue
+    rescue Resolv::ResolvError, Resolv::ResolvTimeout
       false
     end
+
+    module_function :fqdn_resolves?
   end
 end
 
