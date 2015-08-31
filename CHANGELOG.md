@@ -1,3 +1,7 @@
+# v0.11.0
+
+- [#35](https://github.com/chef-cookbooks/chef-ingredient/issues/35) Add `fqdn_resolves?` method for `chef-server` cookbook.
+
 # v0.10.2
 - Add `:add` action to `ingredient_config`
 
