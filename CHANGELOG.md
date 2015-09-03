@@ -1,3 +1,7 @@
+# v0.11.1
+
+- [#37](https://github.com/chef-cookbooks/chef-ingredient/issues/37) use `define_matchers` for ChefSpec
+
 # v0.11.0
 
 - [#35](https://github.com/chef-cookbooks/chef-ingredient/issues/35) Add `fqdn_resolves?` method for `chef-server` cookbook.
