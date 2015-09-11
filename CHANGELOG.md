@@ -1,3 +1,7 @@
+# v0.11.2
+
+- Add `repository` and `master_token` properties to `chef_server_ingredient` shim for compatibility
+
 # v0.11.1
 
 - [#37](https://github.com/chef-cookbooks/chef-ingredient/issues/37) use `define_matchers` for ChefSpec
