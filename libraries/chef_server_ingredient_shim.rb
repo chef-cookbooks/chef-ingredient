@@ -1,6 +1,6 @@
 #
-# Author:: Joshua Timberman <joshua@getchef.com
-# Copyright (c) 2014, Chef Software, Inc. <legal@getchef.com>
+# Author:: Joshua Timberman <joshua@chef.io
+# Copyright (c) 2014, Chef Software, Inc. <legal@chef.io>
 #
 # Portions from https://github.com/computology/packagecloud-cookbook:
 # Copyright (c) 2014, Computology, LLC.
