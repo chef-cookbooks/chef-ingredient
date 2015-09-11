@@ -1,3 +1,7 @@
+# v0.11.3
+
+- Remove `resource_name` from Provider because `:facepalm:`
+
 # v0.11.2
 
 - Add `repository` and `master_token` properties to `chef_server_ingredient` shim for compatibility

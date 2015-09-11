@@ -22,7 +22,6 @@ class Chef
   class Provider
     class ChefServerIngredient < Chef::Provider::ChefIngredient
       provides :chef_server_ingredient
-      resource_name :chef_server_ingredient
     end
   end
 end
