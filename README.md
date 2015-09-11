@@ -12,6 +12,10 @@ It will perform component installation and configuration. It provides no recipes
 
 For a product to package matrix, see [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md)
 
+## Support
+
+This cookbook is supported by Chef's engineering services team.
+
 ## Requirements
 
 Chef version 12.1.0 or higher, latest/current version is always recommended.

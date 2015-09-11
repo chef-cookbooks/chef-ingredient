@@ -22,6 +22,7 @@ class Chef
   class Provider
     class ChefServerIngredient < Chef::Provider::ChefIngredient
       provides :chef_server_ingredient
+      resource_name :chef_server_ingredient
     end
   end
 end
@@ -30,6 +31,13 @@ class Chef
   class Resource
     class ChefServerIngredient < Chef::Resource::ChefIngredient
       resource_name :chef_server_ingredient
+
+      # Adding this for compatibility, it won't do anything since the
+      # provider doesn't implement it, and uses the yum-chef or
+      # apt-chef attributes.
+      attribute :repository, kind_of: String, default: ''
+      # More compatibility for older versions of chef-server-ingredient
+      attribute :master_token, kind_of: String
     end
   end
 end
