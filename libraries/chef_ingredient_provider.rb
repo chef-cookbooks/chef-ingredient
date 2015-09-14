@@ -16,10 +16,15 @@
 #
 
 require_relative './helpers'
+require_relative './debian_handler'
+require_relative './rhel_handler'
+require_relative './omnitruck_handler'
 
 class Chef
   class Provider
     class ChefIngredient < Chef::Provider::LWRPBase
+      attr_reader :action_handler
+
       provides :chef_ingredient
       # for include_recipe
       require 'chef/dsl/include_recipe'
@@ -34,40 +39,51 @@ class Chef
         true
       end
 
+      def initialize
+        @action_handler = case node['platform_family']
+        when 'debian'
+          ChefIngredient::DebianHandler.new
+        when 'rhel'
+          ChefIngredient::RhelHandler.new
+        else
+          ChefIngredient::OmnitruckHandler.new
+        end
+
+        super
+      end
+
       action :install do
         install_mixlib_versioning
-        create_repository
-        package_resource(:install)
         add_config(new_resource.product_name, new_resource.config)
+
+        action_handler.install
       end
 
       action :upgrade do
         install_mixlib_versioning
-        create_repository
-        package_resource(:upgrade)
         add_config(new_resource.product_name, new_resource.config)
+
+        action_handler.upgrade
       end
 
       action :uninstall do
         install_mixlib_versioning
-        package ingredient_package_name do
-          action :remove
-        end
+        action_handler.uninstall
       end
 
-      action :remove do
-        install_mixlib_versioning
-        package ingredient_package_name do
-          action :remove
-        end
-      end
+      alias_method :remove, :uninstall
 
       action :reconfigure do
         install_mixlib_versioning
         add_config(new_resource.product_name, new_resource.config)
 
-        execute "#{ingredient_package_name}-reconfigure" do
-          command "#{ctl_command} reconfigure"
+        if ctl_command.nil?
+          Chef::Log.warn "Product '#{new_resource.product_name}' does not support reconfigure."
+          Chef::Log.warn 'chef_ingredient is skipping :reconfigure.'
+        else
+          execute "#{ingredient_package_name}-reconfigure" do
+            command "#{ctl_command} reconfigure"
+          end
         end
       end
     end

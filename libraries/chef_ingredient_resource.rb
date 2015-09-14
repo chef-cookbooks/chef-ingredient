@@ -21,21 +21,21 @@ class Chef
 
       actions :install, :uninstall, :remove, :reconfigure, :upgrade
       default_action :install
-      state_attrs :installed
+      state_attrs :installed # TODO: I think we need to at minimum add :version here.
 
       attribute :product_name, kind_of: String, name_attribute: true
       attribute :installed, kind_of: [TrueClass, FalseClass, NilClass], default: false
-      attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false
+      attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false # TODO: Are we honoring this during install or upgrade?
       attribute :config, kind_of: String, default: nil
 
       # Attribute to install package from local file
       attribute :package_source, kind_of: String, default: nil
 
       # Attributes for reconfigure step
-      attribute :ctl_command, kind_of: String
+      attribute :ctl_command, kind_of: String # TODO: Can we rename this to :reconfigure_command?
 
       # Attributes for package
-      attribute :options, kind_of: String
+      attribute :options, kind_of: String # TODO: Has there been a use case around this or is this premature optimization?
       attribute :version, kind_of: [String, Symbol], default: :latest
       attribute :timeout, kind_of: [Integer, String, NilClass], default: nil
     end
