@@ -72,3 +72,8 @@ suites:
   - name: ingredient_config
     run_list:
       - recipe[test::ingredient_config]
+
+  - name: auto_update
+    run_list:
+      - recipe[test::auto_update]
+    attributes:

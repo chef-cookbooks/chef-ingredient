@@ -43,6 +43,13 @@ module ChefIngredientCookbook
     def package_resource(ingredient_action)
       presource = new_resource.package_source.nil? ? :package : local_package_resource
 
+      declare_resource :ruby_block, 'stop chef run' do
+        action :nothing
+        block do
+          fail 'Chef version has changed during the run. Stopping the current Chef run. Please run chef again.'
+        end
+      end
+
       declare_resource presource, new_resource.product_name do
         package_name ingredient_package_name
         options new_resource.options
@@ -50,6 +57,12 @@ module ChefIngredientCookbook
         source new_resource.package_source
         timeout new_resource.timeout
         action ingredient_action
+        # if we are installing or upgrading Chef we would like to stop the run
+        # because the behavior of Chef when it is upgraded in the middle of the
+        # run in undeterministic
+        if new_resource.product_name == 'chef'
+          notifies :run, 'ruby_block[stop chef run]', :immediately
+        end
       end
     end
 
