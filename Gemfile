@@ -30,4 +30,5 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-rubocop'
   gem 'mixlib-versioning'
+  gem 'mixlib-install', github: 'chef/mixlib-install'
 end

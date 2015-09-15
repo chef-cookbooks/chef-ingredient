@@ -15,18 +15,44 @@
 # limitations under the License.
 #
 
+require_relative './omnitruck_helpers'
+
 module ChefIngredient
-  class RhelHandler
+  class OmnitruckHandler
+    include ChefIngredientCookbook::OmnitruckHelpers
+
     def install
-      # TODO: use mixlib-install to install.
+      current_version = current_version(new_resource.product_name)
+      latest_version = latest_available_version(new_resource.product_name)
+
+      if new_resource.version == :latest
+        # When we are installing :latest, we install only if there is no version right now
+        if current_version.nil?
+          configure_version(latest_version)
+        else
+          Chef::Log.debug("Found version #{current_version}, skipping installing :latest.")
+        end
+      else
+        if new_resource.version != current_version
+          configure_version(new_resource.version)
+        end
+      end
     end
 
     def upgrade
-      # TODO: use mixlib-install to upgrade.
+      current_version = current_version(new_resource.product_name)
+      latest_version = latest_available_version(new_resource.product_name)
+
+      candidate_version = new_resource.version == :latest ? latest_version : new_resource.version
+
+      # TODO: We need mixlib-versioning to be able to make this check correctly.
+      if current_version.nil? || candidate_version > current_version
+        configure_version(candidate_version)
+      end
     end
 
     def uninstall
-      # TODO: use mixlib-install to uninstall.
+      uninstall_product(new_resource.product_name)
     end
   end
 end

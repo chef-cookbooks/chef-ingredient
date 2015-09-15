@@ -45,6 +45,10 @@ module ChefIngredient
           package_name ingredient_package_name
           options new_resource.options
           source new_resource.package_source
+
+          if new_resource.product_name == 'chef'
+            notifies :run, 'ruby_block[stop chef run]', :immediately
+          end
         end
       else
         include_recipe 'apt-chef'
@@ -56,6 +60,10 @@ module ChefIngredient
           # TODO: Hrmmm not sure why are we fucking with the given version this much.
           version install_version if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
           timeout new_resource.timeout
+
+          if new_resource.product_name == 'chef'
+            notifies :run, 'ruby_block[stop chef run]', :immediately
+          end
         end
       end
     end

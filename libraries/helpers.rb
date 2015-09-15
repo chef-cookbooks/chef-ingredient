@@ -225,6 +225,21 @@ module ChefIngredientCookbook
     end
 
     module_function :fqdn_resolves?
+
+    def declare_chef_run_stop_resource
+      # We do not supply an option to turn off stopping the chef client run
+      # after a version change. As the gems shipped with omnitruck artifacts
+      # change, chef-client runs *WILL* occasionally break on minor version
+      # updates of chef, so we *MUST* stop the chef-client run when its version
+      # changes. The gems versions that chef-client started with will not
+      # necessarily exist after an upgrade.
+      ruby_block, 'stop chef run' do
+        action :nothing
+        block do
+          Chef::Application.fatal! 'Chef version has changed during the run. Stopping the current Chef run. Please run chef again.'
+        end
+      end
+    end
   end
 end
 
