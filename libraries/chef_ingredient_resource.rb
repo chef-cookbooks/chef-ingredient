@@ -23,7 +23,6 @@ class Chef
       default_action :install
 
       attribute :product_name, kind_of: String, name_attribute: true
-      attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false # TODO: Remove this attribute.
       attribute :config, kind_of: String, default: nil
 
       # Attributes for determining what version to install from which channel

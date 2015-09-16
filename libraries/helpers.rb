@@ -70,13 +70,6 @@ module ChefIngredientCookbook
       new_resource.ctl_command || chef_ctl_command(new_resource.product_name)
     end
 
-    def reconfigure
-      ctl_cmd = ctl_command
-      execute "#{new_resource.product_name}-reconfigure" do
-        command "#{ctl_cmd} reconfigure"
-      end
-    end
-
     # When updating this, also update PRODUCT_MATRIX.md
     def product_matrix
       {
