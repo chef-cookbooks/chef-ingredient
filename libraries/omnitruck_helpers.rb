@@ -55,8 +55,6 @@ module ChefIngredientCookbook
         compile_time true
       end
 
-      declare_chef_run_stop_resource
-
       script "install-#{new_resource.product_name}-#{version}" do
         action :run
         code lazy {

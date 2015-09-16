@@ -23,17 +23,15 @@ require_relative './omnitruck_handler'
 class Chef
   class Provider
     class ChefIngredient < Chef::Provider::LWRPBase
-      attr_reader :action_handler
-
       provides :chef_ingredient
-      # for include_recipe
+      use_inline_resources
+
+      # for using include_recipe
       require 'chef/dsl/include_recipe'
       include Chef::DSL::IncludeRecipe
-
-      # Methods for use in resources, found in helpers.rb
       include ChefIngredientCookbook::Helpers
 
-      use_inline_resources
+      attr_reader :action_handler
 
       def whyrun_supported?
         true
@@ -55,6 +53,7 @@ class Chef
       action :install do
         install_mixlib_versioning
         add_config(new_resource.product_name, new_resource.config)
+        declare_chef_run_stop_resource
 
         action_handler.install
       end
@@ -62,12 +61,14 @@ class Chef
       action :upgrade do
         install_mixlib_versioning
         add_config(new_resource.product_name, new_resource.config)
+        declare_chef_run_stop_resource
 
         action_handler.upgrade
       end
 
       action :uninstall do
         install_mixlib_versioning
+
         action_handler.uninstall
       end
 
@@ -81,6 +82,11 @@ class Chef
           Chef::Log.warn "Product '#{new_resource.product_name}' does not support reconfigure."
           Chef::Log.warn 'chef_ingredient is skipping :reconfigure.'
         else
+          # Render the config incase it is not rendered yet
+          ingredient_config new_resource.package_name do
+            action :render
+          end
+
           execute "#{ingredient_package_name}-reconfigure" do
             command "#{ctl_command} reconfigure"
           end

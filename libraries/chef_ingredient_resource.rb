@@ -21,22 +21,25 @@ class Chef
 
       actions :install, :uninstall, :remove, :reconfigure, :upgrade
       default_action :install
-      state_attrs :installed # TODO: I think we need to at minimum add :version here.
+      state_attrs :installed # TODO: Remove state_attrs and installed.
 
       attribute :product_name, kind_of: String, name_attribute: true
       attribute :installed, kind_of: [TrueClass, FalseClass, NilClass], default: false
-      attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false # TODO: Are we honoring this during install or upgrade?
+      attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false # TODO: Remove this attribute.
       attribute :config, kind_of: String, default: nil
+
+      # Attributes for determining what version to install from which channel
+      attribute :version, kind_of: [String, Symbol], default: :latest
+      attribute :channel, kind_of: Symbol, default: :stable, :equal_to => [:current, :stable]
 
       # Attribute to install package from local file
       attribute :package_source, kind_of: String, default: nil
 
-      # Attributes for reconfigure step
-      attribute :ctl_command, kind_of: String # TODO: Can we rename this to :reconfigure_command?
+      # Sets the *-ctl command to use when doing reconfigure
+      attribute :ctl_command, kind_of: String
 
-      # Attributes for package
-      attribute :options, kind_of: String # TODO: Has there been a use case around this or is this premature optimization?
-      attribute :version, kind_of: [String, Symbol], default: :latest
+      # Attributes for package resources used on rhel and debian platforms
+      attribute :options, kind_of: String
       attribute :timeout, kind_of: [Integer, String, NilClass], default: nil
     end
   end

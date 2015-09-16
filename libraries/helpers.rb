@@ -50,7 +50,7 @@ module ChefIngredientCookbook
       node['platform_version']
     end
 
-    def install_version
+    def version_for_package_resource
       require 'mixlib/versioning'
       v = Mixlib::Versioning.parse(version_string(new_resource.version))
       version = "#{v.major}.#{v.minor}.#{v.patch}"

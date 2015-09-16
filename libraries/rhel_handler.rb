@@ -33,12 +33,6 @@ module ChefIngredient
 
     private
     def configure_package(action_name)
-      # TODO: Hrmmm this is interesting? stable? delete this every time?
-      file '/etc/yum.repos.d/chef_stable_.repo' do
-        action :delete
-        only_if { ::File.exist?('/etc/apt/sources.list.d/chef_stable_.list') }
-      end
-
       if new_resource.package_source
         rpm_package new_resource.product_name do
           action action_name
@@ -51,14 +45,27 @@ module ChefIngredient
           end
         end
       else
+        # This is to cleanup old cruft from chef-server-ingredient
+        file '/etc/yum.repos.d/chef_stable_.repo' do
+          action :delete
+          only_if { ::File.exist?('/etc/apt/sources.list.d/chef_stable_.list') }
+        end
+
+        # Enable the required yum-repository. We treat ['yum-chef']['repo_name']
+        # as an ephemeral attribute that is used during yum-chef recipe.
+        node.set['yum-chef']['repo_name'] = "chef-#{new_resource.channel}"
         include_recipe 'yum-chef'
+        node.rm['yum-chef']['repo_name']
 
         package new_resource.product_name do
           action action_name
           package_name ingredient_package_name
           options new_resource.options
-          # TODO: Hrmmm not sure why are we fucking with the given version this much.
-          version install_version if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
+          # If the user specifies 0.0.0, :latest or "latest" we should not
+          # give any resource to the package resource
+          if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
+            version version_for_package_resource
+          end
           timeout new_resource.timeout
 
           if new_resource.product_name == 'chef'
