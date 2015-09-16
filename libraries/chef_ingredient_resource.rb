@@ -21,10 +21,8 @@ class Chef
 
       actions :install, :uninstall, :remove, :reconfigure, :upgrade
       default_action :install
-      state_attrs :installed # TODO: Remove state_attrs and installed.
 
       attribute :product_name, kind_of: String, name_attribute: true
-      attribute :installed, kind_of: [TrueClass, FalseClass, NilClass], default: false
       attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false # TODO: Remove this attribute.
       attribute :config, kind_of: String, default: nil
 
