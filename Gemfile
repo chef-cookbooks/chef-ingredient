@@ -8,8 +8,12 @@ group :lint do
 end
 
 group :unit do
-  gem 'berkshelf', '~> 3.2'
-  gem 'chefspec', '~> 4.2'
+  # This is required to have policyfile support for ChefSpec
+  gem 'chefspec',
+    git: 'https://github.com/sethvargo/chefspec',
+    ref: 'cd57e28fdbd59fc26962c0dd3b1809b8841312f3'
+
+  gem 'chef-dk', '~> 0.7.0'
 end
 
 group :kitchen_common do
