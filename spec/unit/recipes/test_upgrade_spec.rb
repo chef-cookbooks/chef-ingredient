@@ -28,7 +28,14 @@ describe 'test::upgrade' do
     end
 
     it 'upgrades yum_package[chef-server]' do
-      expect(centos_65).to upgrade_package('chef-server-core')
+      # Since we have two resources with same name and identity we can't use
+      # the upgrade_package & install_package matchers directly.
+      chef_server_resources = centos_65.find_resources(:package)
+      expect(chef_server_resources.length).to eq(2)
+      expect(chef_server_resources[0].action.first).to eq(:install)
+      expect(chef_server_resources[0].package_name).to eq('chef-server-core')
+      expect(chef_server_resources[1].action.first).to eq(:upgrade)
+      expect(chef_server_resources[1].package_name).to eq('chef-server-core')
     end
   end
 
@@ -44,7 +51,14 @@ describe 'test::upgrade' do
     end
 
     it 'upgrades apt_package[chef-server]' do
-      expect(ubuntu_1404).to upgrade_package('chef-server-core')
+      # Since we have two resources with same name and identity we can't use
+      # the upgrade_package & install_package matchers directly.
+      chef_server_resources = ubuntu_1404.find_resources(:package)
+      expect(chef_server_resources.length).to eq(2)
+      expect(chef_server_resources[0].action.first).to eq(:install)
+      expect(chef_server_resources[0].package_name).to eq('chef-server-core')
+      expect(chef_server_resources[1].action.first).to eq(:upgrade)
+      expect(chef_server_resources[1].package_name).to eq('chef-server-core')
     end
   end
 end

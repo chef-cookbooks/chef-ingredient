@@ -31,22 +31,20 @@ class Chef
       include Chef::DSL::IncludeRecipe
       include ChefIngredientCookbook::Helpers
 
-      attr_reader :action_handler
-
       def whyrun_supported?
         true
       end
 
-      def initialize(name, run_context=nil)
+      def initialize(name, run_context = nil)
         super(name, run_context)
-        @action_handler = case node['platform_family']
-                          when 'debian'
-                            ::ChefIngredient::DebianHandler.new
-                          when 'rhel'
-                            ::ChefIngredient::RhelHandler.new
-                          else
-                            ::ChefIngredient::OmnitruckHandler.new
-                          end
+        case node['platform_family']
+        when 'debian'
+          extend ::ChefIngredient::DebianHandler
+        when 'rhel'
+          extend ::ChefIngredient::RhelHandler
+        else
+          extend ::ChefIngredient::OmnitruckHandler
+        end
       end
 
       action :install do
@@ -54,7 +52,7 @@ class Chef
         add_config(new_resource.product_name, new_resource.config)
         declare_chef_run_stop_resource
 
-        action_handler.install
+        handle_install
       end
 
       action :upgrade do
@@ -62,19 +60,19 @@ class Chef
         add_config(new_resource.product_name, new_resource.config)
         declare_chef_run_stop_resource
 
-        action_handler.upgrade
+        handle_upgrade
       end
 
       action :uninstall do
         install_mixlib_versioning
 
-        action_handler.uninstall
+        handle_uninstall
       end
 
       action :uninstall do
         install_mixlib_versioning
 
-        action_handler.uninstall
+        handle_uninstall
       end
 
       action :reconfigure do

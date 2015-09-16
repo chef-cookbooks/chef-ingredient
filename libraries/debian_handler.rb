@@ -16,16 +16,16 @@
 #
 
 module ChefIngredient
-  class DebianHandler
-    def install
+  module DebianHandler
+    def handle_install
       configure_package(:install)
     end
 
-    def upgrade
+    def handle_upgrade
       configure_package(:upgrade)
     end
 
-    def uninstall
+    def handle_uninstall
       package ingredient_package_name do
         action :remove
       end
@@ -52,11 +52,8 @@ module ChefIngredient
           end
         end
       else
-        # Enable the required apt-repository. We treat ['apt-chef']['repo_name']
-        # as an ephemeral attribute that is used during apt-chef recipe.
-        node.set['apt-chef']['repo_name'] = "chef-#{new_resource.channel}"
-        include_recipe 'apt-chef'
-        node.rm('apt-chef', 'repo_name')
+        # Enable the required apt-repository.
+        include_recipe "apt-chef::#{new_resource.channel}"
 
         # Pin it so that product can only be installed from its own channel
         apt_preference ingredient_package_name do

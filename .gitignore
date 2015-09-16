@@ -27,3 +27,6 @@
 /.kitchen.local.yml
 
 .DS_Store
+
+# Chef
+Policyfile.lock.json

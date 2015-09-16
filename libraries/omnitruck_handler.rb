@@ -18,10 +18,10 @@
 require_relative './omnitruck_helpers'
 
 module ChefIngredient
-  class OmnitruckHandler
+  module OmnitruckHandler
     include ChefIngredientCookbook::OmnitruckHelpers
 
-    def install
+    def handle_install
       current_version = current_version(new_resource.product_name)
       latest_version = latest_available_version(new_resource.product_name)
 
@@ -39,7 +39,7 @@ module ChefIngredient
       end
     end
 
-    def upgrade
+    def handle_upgrade
       current_version = current_version(new_resource.product_name)
       latest_version = latest_available_version(new_resource.product_name)
 
@@ -51,7 +51,7 @@ module ChefIngredient
       end
     end
 
-    def uninstall
+    def handle_uninstall
       uninstall_product(new_resource.product_name)
     end
   end

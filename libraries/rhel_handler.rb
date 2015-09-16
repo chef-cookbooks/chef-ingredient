@@ -16,16 +16,16 @@
 #
 
 module ChefIngredient
-  class RhelHandler
-    def install
+  module RhelHandler
+    def handle_install
+      configure_package(:install)
+    end
+
+    def handle_upgrade
       configure_package(:upgrade)
     end
 
-    def upgrade
-      configure_package(:upgrade)
-    end
-
-    def uninstall
+    def handle_uninstall
       package ingredient_package_name do
         action :remove
       end
@@ -52,11 +52,8 @@ module ChefIngredient
           only_if { ::File.exist?('/etc/apt/sources.list.d/chef_stable_.list') }
         end
 
-        # Enable the required yum-repository. We treat ['yum-chef']['repo_name']
-        # as an ephemeral attribute that is used during yum-chef recipe.
-        node.set['yum-chef']['repo_name'] = "chef-#{new_resource.channel}"
-        include_recipe 'yum-chef'
-        node.rm('yum-chef', 'repo_name')
+        # Enable the required yum-repository.
+        include_recipe "yum-chef::#{new_resource.channel}"
 
         # Foodcritic doesn't like timeout attribute in package resource
         package new_resource.product_name do # ~FC009

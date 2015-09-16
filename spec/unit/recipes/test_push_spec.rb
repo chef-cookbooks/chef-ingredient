@@ -27,7 +27,7 @@ describe 'test::push' do
       end.converge(described_recipe)
     end
 
-    it 'creates the yum repository'do
+    it 'creates the yum repository' do
       expect(centos_65).to create_yum_repository('chef-stable')
     end
 
