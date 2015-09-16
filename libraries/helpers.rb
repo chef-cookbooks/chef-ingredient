@@ -199,14 +199,18 @@ module ChefIngredientCookbook
     def add_config(product, content)
       return if content.nil?
 
-      node.run_state[:ingredient_config_data] ||= {}
-      node.run_state[:ingredient_config_data][product] ||= ''
-      node.run_state[:ingredient_config_data][product] += content
+      # FC001: Use strings in preference to symbols to access node attributes
+      # foodcritic thinks we are accessing a node attribute
+      node.run_state[:ingredient_config_data] ||= {}              # ~FC001
+      node.run_state[:ingredient_config_data][product] ||= ''     # ~FC001
+      node.run_state[:ingredient_config_data][product] += content # ~FC001
     end
 
     def get_config(product)
-      node.run_state[:ingredient_config_data] ||= {}
-      node.run_state[:ingredient_config_data][product] ||= ''
+      # FC001: Use strings in preference to symbols to access node attributes
+      # foodcritic thinks we are accessing a node attribute
+      node.run_state[:ingredient_config_data] ||= {}          # ~FC001
+      node.run_state[:ingredient_config_data][product] ||= '' # ~FC001
     end
 
     def fqdn_resolves?(fqdn)
@@ -226,7 +230,7 @@ module ChefIngredientCookbook
       # updates of chef, so we *MUST* stop the chef-client run when its version
       # changes. The gems versions that chef-client started with will not
       # necessarily exist after an upgrade.
-      ruby_block, 'stop chef run' do
+      ruby_block 'stop chef run' do
         action :nothing
         block do
           Chef::Application.fatal! 'Chef version has changed during the run. Stopping the current Chef run. Please run chef again.'

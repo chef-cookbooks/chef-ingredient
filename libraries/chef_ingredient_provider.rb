@@ -37,17 +37,16 @@ class Chef
         true
       end
 
-      def initialize
+      def initialize(name, run_context=nil)
+        super(name, run_context)
         @action_handler = case node['platform_family']
-        when 'debian'
-          ChefIngredient::DebianHandler.new
-        when 'rhel'
-          ChefIngredient::RhelHandler.new
-        else
-          ChefIngredient::OmnitruckHandler.new
-        end
-
-        super
+                          when 'debian'
+                            ::ChefIngredient::DebianHandler.new
+                          when 'rhel'
+                            ::ChefIngredient::RhelHandler.new
+                          else
+                            ::ChefIngredient::OmnitruckHandler.new
+                          end
       end
 
       action :install do
@@ -72,7 +71,11 @@ class Chef
         action_handler.uninstall
       end
 
-      alias_method :remove, :uninstall
+      action :uninstall do
+        install_mixlib_versioning
+
+        action_handler.uninstall
+      end
 
       action :reconfigure do
         install_mixlib_versioning

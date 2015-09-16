@@ -27,7 +27,7 @@ class Chef
 
       # Attributes for determining what version to install from which channel
       attribute :version, kind_of: [String, Symbol], default: :latest
-      attribute :channel, kind_of: Symbol, default: :stable, :equal_to => [:current, :stable]
+      attribute :channel, kind_of: Symbol, default: :stable, equal_to: [:current, :stable]
 
       # Attribute to install package from local file
       attribute :package_source, kind_of: String, default: nil

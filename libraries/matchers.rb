@@ -1,5 +1,5 @@
 if defined?(ChefSpec)
-  %i{chef_ingredient chef_server_ingredient omnibus_service ingredient_config}.each do |resource|
+  %i(chef_ingredient chef_server_ingredient omnibus_service ingredient_config).each do |resource|
     ChefSpec.define_matcher resource
   end
 

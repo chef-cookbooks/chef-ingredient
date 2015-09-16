@@ -32,6 +32,7 @@ module ChefIngredient
     end
 
     private
+
     def configure_package(action_name)
       if new_resource.package_source
         rpm_package new_resource.product_name do
@@ -55,9 +56,10 @@ module ChefIngredient
         # as an ephemeral attribute that is used during yum-chef recipe.
         node.set['yum-chef']['repo_name'] = "chef-#{new_resource.channel}"
         include_recipe 'yum-chef'
-        node.rm['yum-chef']['repo_name']
+        node.rm('yum-chef', 'repo_name')
 
-        package new_resource.product_name do
+        # Foodcritic doesn't like timeout attribute in package resource
+        package new_resource.product_name do # ~FC009
           action action_name
           package_name ingredient_package_name
           options new_resource.options

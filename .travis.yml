@@ -1,0 +1,6 @@
+language: ruby
+cache: bundler
+bundler_args: "--jobs 7 --without kitchen_common"
+
+rvm:
+  - 2.1.5

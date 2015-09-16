@@ -32,6 +32,7 @@ module ChefIngredient
     end
 
     private
+
     def configure_package(action_name)
       # This is to cleanup old cruft from chef-server-ingredient
       file '/etc/apt/sources.list.d/chef_stable_.list' do
@@ -55,7 +56,7 @@ module ChefIngredient
         # as an ephemeral attribute that is used during apt-chef recipe.
         node.set['apt-chef']['repo_name'] = "chef-#{new_resource.channel}"
         include_recipe 'apt-chef'
-        node.rm['apt-chef']['repo_name']
+        node.rm('apt-chef', 'repo_name')
 
         # Pin it so that product can only be installed from its own channel
         apt_preference ingredient_package_name do
@@ -63,16 +64,18 @@ module ChefIngredient
           pin_priority '900'
         end
 
-        package new_resource.product_name do
+        # Foodcritic doesn't like timeout attribute in package resource
+        package new_resource.product_name do # ~FC009
           action action_name
           package_name ingredient_package_name
           options new_resource.options
+          timeout new_resource.timeout
+
           # If the user specifies "0.0.0", :latest or "latest" as version,
           # we should not give any version to the package resource.
           if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
             version version_for_package_resource
           end
-          timeout new_resource.timeout
 
           if new_resource.product_name == 'chef'
             notifies :run, 'ruby_block[stop chef run]', :immediately

@@ -12,6 +12,7 @@
 /.bundle/
 /bundle/
 /vendor/gems/
+/vendor
 
 # Berkshelf
 /Berksfile.lock

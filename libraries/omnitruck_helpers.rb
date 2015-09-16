@@ -26,8 +26,8 @@ module ChefIngredientCookbook
     # TODO: This method should get product name as a parameter and find the
     # latest version for it.
     def current_version(product_name)
-      unless ['chef', 'chefdk'].include?(product_name)
-        raise "Unknown product #{product_name}"
+      unless %w(chef chefdk).include?(product_name)
+        fail "Unknown product #{product_name}"
       end
 
       JSON.parse("/opt/#{product_name}/version-manifest.json")['build_version']
@@ -35,15 +35,15 @@ module ChefIngredientCookbook
 
     # TODO: This method should get product name as a parameter and find the
     # latest version for it.
-    def latest_available_version(product_name)
+    def latest_available_version(_product_name)
       latest_metadata = omnitruck_get('/chef/metadata')
 
       # Extract the relative path from the response from metadata endpoint
-      relative_path = latest_metadata["relpath"]
+      relative_path = latest_metadata['relpath']
 
       # Extract the version from the relative path
       # TODO: support more than Mac OS X
-      relative_path.split('/').last[/^chef-(.*)\.dmg$/,1]
+      relative_path.split('/').last[/^chef-(.*)\.dmg$/, 1]
     end
 
     # TODO: This method should get product name as a parameter and find the
@@ -66,12 +66,10 @@ module ChefIngredientCookbook
           notifies :run, 'ruby_block[stop chef run]', :immediately
         end
       end
-
-
     end
 
     # TODO: Currently mixlib-install does not provide this functionality.
-    def uninstall_product(product_name)
+    def uninstall_product(_product_name)
       # Install mixlib-install
       chef_gem "#{new_resource.product_name}-mixlib-install" do # ~FC009 foodcritic needs an update
         package_name 'mixlib-install'
@@ -89,6 +87,7 @@ module ChefIngredientCookbook
     end
 
     private
+
     def omnitruck_get(path)
       parameters = platform_parameters.merge(channel_parameters(:current))
       endpoint = 'https://www.chef.io/'
