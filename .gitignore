@@ -12,6 +12,7 @@
 /.bundle/
 /bundle/
 /vendor/gems/
+/vendor
 
 # Berkshelf
 /Berksfile.lock
@@ -24,5 +25,8 @@
 # Test Kitchen
 /.kitchen/
 /.kitchen.local.yml
+
+# Policyfile
+/Policyfile.lock.json
 
 .DS_Store
