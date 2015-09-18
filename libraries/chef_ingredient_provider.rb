@@ -42,8 +42,9 @@ class Chef
           extend ::ChefIngredient::DebianHandler
         when 'rhel'
           extend ::ChefIngredient::RhelHandler
-        else
-          extend ::ChefIngredient::OmnitruckHandler
+          # TODO(serdar): Enable installations from Omnitruck
+          # else
+          #   extend ::ChefIngredient::OmnitruckHandler
         end
       end
 

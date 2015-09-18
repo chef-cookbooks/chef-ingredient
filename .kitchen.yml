@@ -72,3 +72,7 @@ suites:
   - name: ingredient_config
     run_list:
       - recipe[test::ingredient_config]
+
+  - name: different_channels
+    run_list:
+      - recipe[test::different_channels]

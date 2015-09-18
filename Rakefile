@@ -31,6 +31,6 @@ begin
   desc 'Alias for kitchen:all'
   task integration: 'kitchen:all'
   task test_all: [:test, :integration]
-rescue LoadError, Kitchen::ClientError
+rescue LoadError, Kitchen::ClientError, Kitchen::UserError
   puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
 end
