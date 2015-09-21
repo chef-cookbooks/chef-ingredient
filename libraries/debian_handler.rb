@@ -48,6 +48,7 @@ module ChefIngredient
           source new_resource.package_source
 
           if new_resource.product_name == 'chef'
+            # We define this resource in ChefIngredientProvider
             notifies :run, 'ruby_block[stop chef run]', :immediately
           end
         end
@@ -75,6 +76,7 @@ module ChefIngredient
           end
 
           if new_resource.product_name == 'chef'
+            # We define this resource in ChefIngredientProvider
             notifies :run, 'ruby_block[stop chef run]', :immediately
           end
         end

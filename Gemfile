@@ -26,7 +26,7 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-rubocop'
   gem 'mixlib-versioning'
-  gem 'mixlib-install', github: 'chef/mixlib-install'
+  gem 'mixlib-install', github: 'chef/mixlib-install', branch: 'v0.7.0'
 end
 
 # Run kitchen using Chef DK bundled set of gems.

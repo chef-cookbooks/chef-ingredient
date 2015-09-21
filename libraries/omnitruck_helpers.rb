@@ -30,6 +30,10 @@ module ChefIngredientCookbook
         fail "Unknown product #{product_name}"
       end
 
+      # TODO(serdar): This logic does not work for products other than
+      # chef & chefdk since version-manifest is created under the
+      # install directory which can be different than the product name (e.g.
+      # chef-server -> /opt/opscode)
       JSON.parse("/opt/#{product_name}/version-manifest.json")['build_version']
     end
 
@@ -63,6 +67,7 @@ module ChefIngredientCookbook
           installer.install_command
         }
         if new_resource.product_name == 'chef'
+          # We define this resource in ChefIngredientProvider
           notifies :run, 'ruby_block[stop chef run]', :immediately
         end
       end

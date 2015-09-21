@@ -42,6 +42,7 @@ module ChefIngredient
           source new_resource.package_source
 
           if new_resource.product_name == 'chef'
+            # We define this resource in ChefIngredientProvider
             notifies :run, 'ruby_block[stop chef run]', :immediately
           end
         end
@@ -49,7 +50,7 @@ module ChefIngredient
         # This is to cleanup old cruft from chef-server-ingredient
         file '/etc/yum.repos.d/chef_stable_.repo' do
           action :delete
-          only_if { ::File.exist?('/etc/apt/sources.list.d/chef_stable_.list') }
+          only_if { ::File.exist?('/etc/yum.repos.d/chef_stable_.repo') }
         end
 
         # Enable the required yum-repository.
@@ -68,6 +69,7 @@ module ChefIngredient
           timeout new_resource.timeout
 
           if new_resource.product_name == 'chef'
+            # We define this resource in ChefIngredientProvider
             notifies :run, 'ruby_block[stop chef run]', :immediately
           end
         end

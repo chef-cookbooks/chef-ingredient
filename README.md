@@ -126,7 +126,7 @@ chef_ingredient "chef" do
 end
 ```
 
-To install an addon of Chef Server from `:current` branch:
+To install an addon of Chef Server from `:current` channel:
 
 ```ruby
 chef_ingredient 'chef-server' do
