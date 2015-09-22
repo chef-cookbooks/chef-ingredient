@@ -16,58 +16,82 @@
 #
 
 require_relative './helpers'
+require_relative './debian_handler'
+require_relative './rhel_handler'
+require_relative './omnitruck_handler'
 
 class Chef
   class Provider
     class ChefIngredient < Chef::Provider::LWRPBase
       provides :chef_ingredient
-      # for include_recipe
+      use_inline_resources
+
+      # for using include_recipe
       require 'chef/dsl/include_recipe'
       include Chef::DSL::IncludeRecipe
-
-      # Methods for use in resources, found in helpers.rb
       include ChefIngredientCookbook::Helpers
-
-      use_inline_resources
 
       def whyrun_supported?
         true
       end
 
+      def initialize(name, run_context = nil)
+        super(name, run_context)
+        case node['platform_family']
+        when 'debian'
+          extend ::ChefIngredient::DebianHandler
+        when 'rhel'
+          extend ::ChefIngredient::RhelHandler
+          # TODO(serdar): Enable installations from Omnitruck
+          # else
+          #   extend ::ChefIngredient::OmnitruckHandler
+        end
+      end
+
       action :install do
         install_mixlib_versioning
-        create_repository
-        package_resource(:install)
         add_config(new_resource.product_name, new_resource.config)
+        declare_chef_run_stop_resource
+
+        handle_install
       end
 
       action :upgrade do
         install_mixlib_versioning
-        create_repository
-        package_resource(:upgrade)
         add_config(new_resource.product_name, new_resource.config)
+        declare_chef_run_stop_resource
+
+        handle_upgrade
       end
 
       action :uninstall do
         install_mixlib_versioning
-        package ingredient_package_name do
-          action :remove
-        end
+
+        handle_uninstall
       end
 
-      action :remove do
+      action :uninstall do
         install_mixlib_versioning
-        package ingredient_package_name do
-          action :remove
-        end
+
+        handle_uninstall
       end
 
       action :reconfigure do
         install_mixlib_versioning
         add_config(new_resource.product_name, new_resource.config)
 
-        execute "#{ingredient_package_name}-reconfigure" do
-          command "#{ctl_command} reconfigure"
+        if ctl_command.nil?
+          Chef::Log.warn "Product '#{new_resource.product_name}' does not support reconfigure."
+          Chef::Log.warn 'chef_ingredient is skipping :reconfigure.'
+        else
+          # Render the config incase it is not rendered yet
+          ingredient_config new_resource.package_name do
+            action :render
+          end
+
+          execute "#{ingredient_package_name}-reconfigure" do
+            command "#{ctl_command} reconfigure"
+          end
         end
       end
     end

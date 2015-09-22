@@ -3,7 +3,7 @@ require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 
 desc 'Run RuboCop style and lint checks'
-Rubocop::RakeTask.new(:rubocop)
+RuboCop::RakeTask.new(:rubocop)
 
 desc 'Run Foodcritic lint checks'
 FoodCritic::Rake::LintTask.new(:foodcritic) do |t|
@@ -31,6 +31,6 @@ begin
   desc 'Alias for kitchen:all'
   task integration: 'kitchen:all'
   task test_all: [:test, :integration]
-rescue LoadError
+rescue LoadError, Kitchen::ClientError, Kitchen::UserError
   puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
 end

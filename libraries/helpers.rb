@@ -34,25 +34,6 @@ module ChefIngredientCookbook
       product_lookup(new_resource.product_name, version_string(new_resource.version))['package-name']
     end
 
-    def local_package_resource
-      return :dpkg_package if node['platform_family'] == 'debian'
-      return :rpm_package  if node['platform_family'] == 'rhel'
-      :package # fallback if there's no platform match
-    end
-
-    def package_resource(ingredient_action)
-      presource = new_resource.package_source.nil? ? :package : local_package_resource
-
-      declare_resource presource, new_resource.product_name do
-        package_name ingredient_package_name
-        options new_resource.options
-        version install_version if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
-        source new_resource.package_source
-        timeout new_resource.timeout
-        action ingredient_action
-      end
-    end
-
     def install_mixlib_versioning
       # We need Mixlib::Versioning in the library helpers for
       # parsing the version string.
@@ -64,22 +45,12 @@ module ChefIngredientCookbook
       require 'mixlib/versioning'
     end
 
-    def create_repository
-      cleanup_old_repo_config if ::File.exist?(old_ingredient_repo_file)
-      include_recipe "#{package_repo_type}-chef" if new_resource.package_source.nil?
-    end
-
-    def package_repo_type
-      return 'apt' if node['platform_family'] == 'debian'
-      return 'yum' if node['platform_family'] == 'rhel'
-    end
-
     def rhel_major_version
       return node['platform_version'].to_i if node['platform_family'] == 'rhel'
       node['platform_version']
     end
 
-    def install_version
+    def version_for_package_resource
       require 'mixlib/versioning'
       v = Mixlib::Versioning.parse(version_string(new_resource.version))
       version = "#{v.major}.#{v.minor}.#{v.patch}"
@@ -95,26 +66,8 @@ module ChefIngredientCookbook
       ".el#{rhel_major_version}"
     end
 
-    def old_ingredient_repo_file
-      return '/etc/apt/sources.list.d/chef_stable_.list' if node['platform_family'] == 'debian'
-      return '/etc/yum.repos.d/chef_stable_.repo' if node['platform_family'] == 'rhel'
-    end
-
-    def cleanup_old_repo_config
-      file old_ingredient_repo_file do
-        action :delete
-      end
-    end
-
     def ctl_command
       new_resource.ctl_command || chef_ctl_command(new_resource.product_name)
-    end
-
-    def reconfigure
-      ctl_cmd = ctl_command
-      execute "#{new_resource.product_name}-reconfigure" do
-        command "#{ctl_cmd} reconfigure"
-      end
     end
 
     # When updating this, also update PRODUCT_MATRIX.md
@@ -246,14 +199,18 @@ module ChefIngredientCookbook
     def add_config(product, content)
       return if content.nil?
 
-      node.run_state[:ingredient_config_data] ||= {}
-      node.run_state[:ingredient_config_data][product] ||= ''
-      node.run_state[:ingredient_config_data][product] += content
+      # FC001: Use strings in preference to symbols to access node attributes
+      # foodcritic thinks we are accessing a node attribute
+      node.run_state[:ingredient_config_data] ||= {}              # ~FC001
+      node.run_state[:ingredient_config_data][product] ||= ''     # ~FC001
+      node.run_state[:ingredient_config_data][product] += content # ~FC001
     end
 
     def get_config(product)
-      node.run_state[:ingredient_config_data] ||= {}
-      node.run_state[:ingredient_config_data][product] ||= ''
+      # FC001: Use strings in preference to symbols to access node attributes
+      # foodcritic thinks we are accessing a node attribute
+      node.run_state[:ingredient_config_data] ||= {}          # ~FC001
+      node.run_state[:ingredient_config_data][product] ||= '' # ~FC001
     end
 
     def fqdn_resolves?(fqdn)
@@ -265,6 +222,21 @@ module ChefIngredientCookbook
     end
 
     module_function :fqdn_resolves?
+
+    def declare_chef_run_stop_resource
+      # We do not supply an option to turn off stopping the chef client run
+      # after a version change. As the gems shipped with omnitruck artifacts
+      # change, chef-client runs *WILL* occasionally break on minor version
+      # updates of chef, so we *MUST* stop the chef-client run when its version
+      # changes. The gems versions that chef-client started with will not
+      # necessarily exist after an upgrade.
+      ruby_block 'stop chef run' do
+        action :nothing
+        block do
+          Chef::Application.fatal! 'Chef version has changed during the run. Stopping the current Chef run. Please run chef again.'
+        end
+      end
+    end
   end
 end
 

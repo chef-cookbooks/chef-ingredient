@@ -30,3 +30,6 @@
 /Policyfile.lock.json
 
 .DS_Store
+
+# Chef
+Policyfile.lock.json

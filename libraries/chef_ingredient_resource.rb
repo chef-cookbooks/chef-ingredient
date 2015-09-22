@@ -21,22 +21,22 @@ class Chef
 
       actions :install, :uninstall, :remove, :reconfigure, :upgrade
       default_action :install
-      state_attrs :installed
 
       attribute :product_name, kind_of: String, name_attribute: true
-      attribute :installed, kind_of: [TrueClass, FalseClass, NilClass], default: false
-      attribute :reconfigure, kind_of: [TrueClass, FalseClass], default: false
       attribute :config, kind_of: String, default: nil
+
+      # Attributes for determining what version to install from which channel
+      attribute :version, kind_of: [String, Symbol], default: :latest
+      attribute :channel, kind_of: Symbol, default: :stable, equal_to: [:current, :stable]
 
       # Attribute to install package from local file
       attribute :package_source, kind_of: String, default: nil
 
-      # Attributes for reconfigure step
+      # Sets the *-ctl command to use when doing reconfigure
       attribute :ctl_command, kind_of: String
 
-      # Attributes for package
+      # Attributes for package resources used on rhel and debian platforms
       attribute :options, kind_of: String
-      attribute :version, kind_of: [String, Symbol], default: :latest
       attribute :timeout, kind_of: [Integer, String, NilClass], default: nil
     end
   end

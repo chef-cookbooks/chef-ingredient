@@ -1,0 +1,6 @@
+language: ruby
+cache: bundler
+bundler_args: "--jobs 7"
+
+rvm:
+  - 2.1.5

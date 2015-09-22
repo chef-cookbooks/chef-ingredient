@@ -16,10 +16,6 @@ group :unit do
   gem 'chef-dk', '~> 0.7.0'
 end
 
-group :kitchen_common do
-  gem 'test-kitchen', '~> 1.3'
-end
-
 group :development do
   gem 'ruby_gntp'
   gem 'growl'
@@ -30,4 +26,7 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-rubocop'
   gem 'mixlib-versioning'
+  gem 'mixlib-install', github: 'chef/mixlib-install', branch: 'v0.7.0'
 end
+
+# Run kitchen using Chef DK bundled set of gems.
