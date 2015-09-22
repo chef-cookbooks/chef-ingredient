@@ -60,7 +60,8 @@ module ChefIngredient
         package new_resource.product_name do # ~FC009
           action action_name
           package_name ingredient_package_name
-          options new_resource.options
+          # Ensure that we are installing from the correct repository
+          options "--disablerepo=* --enablerepo=chef-#{new_resource.channel} #{new_resource.options}"
           # If the user specifies 0.0.0, :latest or "latest" we should not
           # give any resource to the package resource
           if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
