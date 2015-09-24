@@ -19,39 +19,44 @@ require 'net/http'
 require 'json'
 
 module ChefIngredientCookbook
-  # The code in this module will eventually go into mixlib-install
+  ##############################################################################
+  # THE CODE IN THIS MODULE WILL EVENTUALLY BE MOVED TO mixlib-install
+  ##############################################################################
   module OmnitruckHelpers
     include Helpers
 
-    # TODO: This method should get product name as a parameter and find the
-    # latest version for it.
-    def current_version(product_name)
-      unless %w(chef chefdk).include?(product_name)
-        fail "Unknown product #{product_name}"
+    # Raises an exception if the given product name is not supported.
+    # Currently only chef and chefdk installation is supported via omnitruck.
+    def verify_supported_products!
+      unless %w(chef chefdk).include?(new_resource.product_name)
+        fail "Unknown product #{product_name}. chef_ingredient can only install chef & chefdk on this platform."
       end
-
-      # TODO(serdar): This logic does not work for products other than
-      # chef & chefdk since version-manifest is created under the
-      # install directory which can be different than the product name (e.g.
-      # chef-server -> /opt/opscode)
-      JSON.parse("/opt/#{product_name}/version-manifest.json")['build_version']
     end
 
-    # TODO: This method should get product name as a parameter and find the
-    # latest version for it.
-    def latest_available_version(_product_name)
-      latest_metadata = omnitruck_get('/chef/metadata')
+    def current_version(product_name)
+      # Note that this logic does not work for products other than
+      # chef & chefdk since version-manifest is created under the
+      # install directory which can be different than the product name. E.g.
+      # chef-server -> /opt/opscode
+      version_manifest_file = "/opt/#{product_name}/version-manifest.json"
+      if File.exist? version_manifest_file
+        JSON.parse(File.read(version_manifest_file))['build_version']
+      end
+    end
+
+    def latest_available_version(product_name, channel)
+      latest_metadata = omnitruck_metadata(channel, product_name)
 
       # Extract the relative path from the response from metadata endpoint
       relative_path = latest_metadata['relpath']
 
-      # Extract the version from the relative path
-      # TODO: support more than Mac OS X
-      relative_path.split('/').last[/^chef-(.*)\.dmg$/, 1]
+      # MIXLIB-INSTALL:
+      # Currently we support only Mac here. In the near future we will add
+      # version information to the metadata endpoint of omnitruck so we will
+      # not need to do these things.
+      relative_path.split('/').last[/^#{product_name}-(.*)\.dmg$/, 1]
     end
 
-    # TODO: This method should get product name as a parameter and find the
-    # latest version for it.
     def configure_version(version)
       # Install mixlib-install
       chef_gem "#{new_resource.product_name}-mixlib-install" do # ~FC009 foodcritic needs an update
@@ -59,11 +64,18 @@ module ChefIngredientCookbook
         compile_time true
       end
 
-      script "install-#{new_resource.product_name}-#{version}" do
+      bash "install-#{new_resource.product_name}-#{version}" do
         action :run
         code lazy {
           require 'mixlib/install'
-          installer = Mixlib::Install.new(project: new_resource.product_name, version: version)
+
+          installer = if new_resource.product_name == 'chefdk'
+                        Mixlib::Install.new(version, false, install_flags: '-p chefdk')
+                      else # chef
+                        Mixlib::Install.new(version)
+                      end
+
+          Chef::Log.info installer.install_command
           installer.install_command
         }
         if new_resource.product_name == 'chef'
@@ -73,35 +85,35 @@ module ChefIngredientCookbook
       end
     end
 
-    # TODO: Currently mixlib-install does not provide this functionality.
     def uninstall_product(_product_name)
+      # MIXLIB-INSTALL: Currently mixlib-install does not provide this functionality.
+      fail 'Uninstalling a product is currently not supported.'
       # Install mixlib-install
-      chef_gem "#{new_resource.product_name}-mixlib-install" do # ~FC009 foodcritic needs an update
-        package_name 'mixlib-install'
-        compile_time true
-      end
-
-      script "uninstall-#{new_resource.product_name}" do
-        action :run
-        code lazy {
-          require 'mixlib/install'
-          installer = Mixlib::Install.new(project: new_resource.product_name)
-          installer.uninstall_command
-        }
-      end
+      # chef_gem "#{new_resource.product_name}-mixlib-install" do # ~FC009 foodcritic needs an update
+      #   package_name 'mixlib-install'
+      #   compile_time true
+      # end
+      #
+      # script "uninstall-#{new_resource.product_name}" do
+      #   action :run
+      #   code lazy {
+      #     require 'mixlib/install'
+      #     installer = Mixlib::Install.new(project: new_resource.product_name)
+      #     installer.uninstall_command
+      #   }
+      # end
     end
 
     private
 
-    def omnitruck_get(path)
-      parameters = platform_parameters.merge(channel_parameters(:current))
-      endpoint = 'https://www.chef.io/'
+    def omnitruck_metadata(channel, product_name)
+      endpoint = 'https://omnitruck.chef.io/'
 
       uri = URI.parse(endpoint)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = (uri.scheme == 'https')
 
-      full_path = [path, URI.encode_www_form(parameters)].join('?')
+      full_path = ["/#{channel}/metadata-#{product_name}", URI.encode_www_form(platform_parameters)].join('?')
       request = Net::HTTP::Get.new(full_path)
       request['Accept'] = 'application/json'
       res = http.request(request)
@@ -112,28 +124,16 @@ module ChefIngredientCookbook
     end
 
     # Returns the platform parameters that omnitruck understands
+    # MIXLIB-INSTALL:
+    # Currently we only support Mac 10.10. In the near future we will add
+    # version information to the metadata endpoint of omnitruck and use
+    # mixlib-install to do this resolution.
     def platform_parameters
-      # TODO: Support things other than Mac OS X 10.10
       {
         p: 'mac_os_x',
         pv: '10.10',
         m: 'x86_64'
       }
-    end
-
-    # Returns the channel parameters that omnitruck understands
-    # TODO: This is not quite right. Currently omnitruck does not look at
-    # builds that are posted to s3://opscode-omnibus-packages-current
-    # so we need to change this.
-    def channel_parameters(channel)
-      if channel == :current
-        {
-          prerelease: true,
-          nightlies: true
-        }
-      else
-        {}
-      end
     end
   end
 end

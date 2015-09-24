@@ -17,6 +17,9 @@ platforms:
   # specifically for EL7, but we want to! And then we'll uncomment
   # this so we can test them in the kitchen.
   # - name: centos-7.1
+  - name: macosx-10.10
+    driver:
+      box: chef/macosx-10.10 # private
 
 suites:
   - name: default
@@ -54,6 +57,10 @@ suites:
       - recipe[test]
       - recipe[test::local]
     attributes:
+
+  - name: chef
+    run_list:
+      - recipe[test::chef]
 
   - name: chefdk
     run_list:
