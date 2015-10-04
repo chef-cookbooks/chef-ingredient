@@ -85,8 +85,9 @@ class Chef
           Chef::Log.warn 'chef_ingredient is skipping :reconfigure.'
         else
           # Render the config incase it is not rendered yet
-          ingredient_config new_resource.package_name do
+          ingredient_config new_resource.product_name do
             action :render
+            not_if { get_config(new_resource.product_name).empty? }
           end
 
           execute "#{ingredient_package_name}-reconfigure" do
