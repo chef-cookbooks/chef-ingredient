@@ -24,7 +24,7 @@ class Chef
       # Methods for use in resources, found in helpers.rb
       include ChefIngredientCookbook::Helpers
 
-      use_inline_resources
+      # use_inline_resources
 
       def whyrun_supported?
         true
