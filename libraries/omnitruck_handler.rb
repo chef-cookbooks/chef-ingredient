@@ -22,8 +22,10 @@ module ChefIngredient
     include ChefIngredientCookbook::OmnitruckHelpers
 
     def handle_install
+      verify_supported_products!
+
       current_version = current_version(new_resource.product_name)
-      latest_version = latest_available_version(new_resource.product_name)
+      latest_version = latest_available_version(new_resource.product_name, new_resource.channel)
 
       if new_resource.version == :latest
         # When we are installing :latest, we install only if there is no version right now
@@ -40,18 +42,22 @@ module ChefIngredient
     end
 
     def handle_upgrade
+      verify_supported_products!
+
       current_version = current_version(new_resource.product_name)
-      latest_version = latest_available_version(new_resource.product_name)
+      latest_version = latest_available_version(new_resource.product_name, new_resource.channel)
 
       candidate_version = new_resource.version == :latest ? latest_version : new_resource.version
 
-      # TODO: We need mixlib-versioning to be able to make this check correctly.
+      # MIXLIB-INSTALL: Use mixlib-install to do the > check on versions.
       if current_version.nil? || candidate_version > current_version
         configure_version(candidate_version)
       end
     end
 
     def handle_uninstall
+      verify_supported_products!
+
       uninstall_product(new_resource.product_name)
     end
   end

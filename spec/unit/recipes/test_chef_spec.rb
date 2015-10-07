@@ -20,7 +20,7 @@ describe 'test::chef' do
     end
 
     it 'installs chef' do
-      expect(ubuntu_1404).to install_package('chef')
+      expect(ubuntu_1404).to upgrade_package('chef')
     end
 
     it 'stops the run' do
