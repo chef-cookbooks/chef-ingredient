@@ -70,12 +70,6 @@ class Chef
         handle_uninstall
       end
 
-      action :uninstall do
-        install_mixlib_versioning
-
-        handle_uninstall
-      end
-
       action :reconfigure do
         install_mixlib_versioning
         add_config(new_resource.product_name, new_resource.config)
