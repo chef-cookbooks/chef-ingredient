@@ -24,7 +24,7 @@ class Chef
   class Provider
     class ChefIngredient < Chef::Provider::LWRPBase
       provides :chef_ingredient
-      use_inline_resources
+      # use_inline_resources
 
       # for using include_recipe
       require 'chef/dsl/include_recipe'
@@ -70,12 +70,6 @@ class Chef
         handle_uninstall
       end
 
-      action :uninstall do
-        install_mixlib_versioning
-
-        handle_uninstall
-      end
-
       action :reconfigure do
         install_mixlib_versioning
         add_config(new_resource.product_name, new_resource.config)
@@ -84,9 +78,10 @@ class Chef
           Chef::Log.warn "Product '#{new_resource.product_name}' does not support reconfigure."
           Chef::Log.warn 'chef_ingredient is skipping :reconfigure.'
         else
-          # Render the config incase it is not rendered yet
-          ingredient_config new_resource.package_name do
+          # Render the config in case it is not rendered yet
+          ingredient_config new_resource.product_name do
             action :render
+            not_if { get_config(new_resource.product_name).empty? }
           end
 
           execute "#{ingredient_package_name}-reconfigure" do

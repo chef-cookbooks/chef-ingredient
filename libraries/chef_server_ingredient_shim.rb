@@ -18,6 +18,9 @@
 # limitations under the License.
 #
 
+require_relative './chef_ingredient_resource'
+require_relative './chef_ingredient_provider'
+
 class Chef
   class Provider
     class ChefServerIngredient < Chef::Provider::ChefIngredient

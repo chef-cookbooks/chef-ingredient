@@ -70,85 +70,9 @@ module ChefIngredientCookbook
       new_resource.ctl_command || chef_ctl_command(new_resource.product_name)
     end
 
-    # When updating this, also update PRODUCT_MATRIX.md
+    # Return the Product Matric in JSON format
     def product_matrix
-      {
-        'analytics' => {
-          'package-name' => 'opscode-analytics',
-          'ctl-command'  => 'opscode-analytics-ctl',
-          'config-file'  => '/etc/opscode-analytics/opscode-analytics.rb'
-        },
-        'chef' => {
-          'package-name' => 'chef',
-          'ctl-command'  => nil,
-          'config-file'  => nil
-        },
-        'chef-ha' => {
-          'package-name' => 'chef-ha',
-          'ctl-command'  => nil,
-          'config-file'  => '/etc/opscode/chef-server.rb'
-        },
-        'chef-marketplace' => {
-          'package-name' => 'chef-marketplace',
-          'ctl-command'  => 'chef-marketplace-ctl',
-          'config-file'  => '/etc/chef-marketplace/marketplace.rb'
-        },
-        'chef-server' => {
-          'package-name' => 'chef-server-core',
-          'ctl-command'  => 'chef-server-ctl',
-          'config-file'  => '/etc/opscode/chef-server.rb'
-        },
-        'chef-sync' => {
-          'package-name' => 'chef-sync',
-          'ctl-command'  => 'chef-sync-ctl',
-          'config-file'  => '/etc/chef-sync/chef-sync.rb'
-        },
-        'chefdk' => {
-          'package-name' => 'chefdk',
-          'ctl-command'  => nil,
-          'config-file'  => nil
-        },
-        'delivery' => {
-          'package-name' => 'delivery',
-          'ctl-command'  => 'delivery-ctl',
-          'config-file'  => '/etc/delivery/delivery.rb'
-        },
-        'delivery-cli' => {
-          'package-name' => 'delivery-cli',
-          'ctl-command'  => nil,
-          'config-file'  => nil
-        },
-        'manage' => {
-          'package-name' => 'chef-manage',
-          'ctl-command'  => 'chef-manage-ctl',
-          'config-file'  => '/etc/opscode-manage/manage.rb'
-        },
-        'private-chef' => {
-          'package-name' => 'private-chef',
-          'ctl-command'  => 'private-chef-ctl',
-          'config-file'  => '/etc/opscode/private-chef.rb'
-        },
-        'push-client' => {
-          'package-name' => 'chef-push-client',
-          'ctl-command'  => nil,
-          'config-file'  => nil
-        },
-        'push-server' => {
-          'package-name' => 'chef-push-server',
-          'ctl-command'  => 'chef-push-ctl',
-          'config-file'  => '/etc/opscode-push-jobs-server/opscode-push-jobs-server.rb'
-        },
-        'reporting' => {
-          'package-name' => 'opscode-reporting',
-          'ctl-command'  => 'opscode-reporting-ctl',
-          'config-file'  => '/etc/opscode-reporting/opscode-reporting.rb'
-        },
-        'supermarket' => {
-          'package-name' => 'supermarket',
-          'ctl-command'  => 'supermarket-ctl',
-          'config-file'  => '/etc/supermarket/supermarket.json'
-        }
-      }
+      ChefIngredientCookbook::ProductMatrix.json
     end
 
     # Version has a default value of 0.0.0 so that it is a valid
@@ -236,6 +160,91 @@ module ChefIngredientCookbook
           Chef::Application.fatal! 'Chef version has changed during the run. Stopping the current Chef run. Please run chef again.'
         end
       end
+    end
+  end
+
+  module ProductMatrix
+    module_function
+
+    # When updating this, also update PRODUCT_MATRIX.md
+    def json
+      {
+        'analytics' => {
+          'package-name' => 'opscode-analytics',
+          'ctl-command'  => 'opscode-analytics-ctl',
+          'config-file'  => '/etc/opscode-analytics/opscode-analytics.rb'
+        },
+        'chef' => {
+          'package-name' => 'chef',
+          'ctl-command'  => nil,
+          'config-file'  => nil
+        },
+        'chef-ha' => {
+          'package-name' => 'chef-ha',
+          'ctl-command'  => nil,
+          'config-file'  => '/etc/opscode/chef-server.rb'
+        },
+        'chef-marketplace' => {
+          'package-name' => 'chef-marketplace',
+          'ctl-command'  => 'chef-marketplace-ctl',
+          'config-file'  => '/etc/chef-marketplace/marketplace.rb'
+        },
+        'chef-server' => {
+          'package-name' => 'chef-server-core',
+          'ctl-command'  => 'chef-server-ctl',
+          'config-file'  => '/etc/opscode/chef-server.rb'
+        },
+        'chef-sync' => {
+          'package-name' => 'chef-sync',
+          'ctl-command'  => 'chef-sync-ctl',
+          'config-file'  => '/etc/chef-sync/chef-sync.rb'
+        },
+        'chefdk' => {
+          'package-name' => 'chefdk',
+          'ctl-command'  => nil,
+          'config-file'  => nil
+        },
+        'delivery' => {
+          'package-name' => 'delivery',
+          'ctl-command'  => 'delivery-ctl',
+          'config-file'  => '/etc/delivery/delivery.rb'
+        },
+        'delivery-cli' => {
+          'package-name' => 'delivery-cli',
+          'ctl-command'  => nil,
+          'config-file'  => nil
+        },
+        'manage' => {
+          'package-name' => 'chef-manage',
+          'ctl-command'  => 'chef-manage-ctl',
+          'config-file'  => '/etc/opscode-manage/manage.rb'
+        },
+        'private-chef' => {
+          'package-name' => 'private-chef',
+          'ctl-command'  => 'private-chef-ctl',
+          'config-file'  => '/etc/opscode/private-chef.rb'
+        },
+        'push-client' => {
+          'package-name' => 'chef-push-client',
+          'ctl-command'  => nil,
+          'config-file'  => nil
+        },
+        'push-server' => {
+          'package-name' => 'chef-push-server',
+          'ctl-command'  => 'chef-push-ctl',
+          'config-file'  => '/etc/opscode-push-jobs-server/opscode-push-jobs-server.rb'
+        },
+        'reporting' => {
+          'package-name' => 'opscode-reporting',
+          'ctl-command'  => 'opscode-reporting-ctl',
+          'config-file'  => '/etc/opscode-reporting/opscode-reporting.rb'
+        },
+        'supermarket' => {
+          'package-name' => 'supermarket',
+          'ctl-command'  => 'supermarket-ctl',
+          'config-file'  => '/etc/supermarket/supermarket.json'
+        }
+      }
     end
   end
 end
