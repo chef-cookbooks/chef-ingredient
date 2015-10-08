@@ -46,9 +46,7 @@ module ChefIngredient
       candidate_version = new_resource.version == :latest ? latest_version : new_resource.version
 
       # TODO: We need mixlib-versioning to be able to make this check correctly.
-      if current_version.nil? || candidate_version > current_version
-        configure_version(candidate_version)
-      end
+      configure_version(candidate_version) if current_version.nil? || candidate_version > current_version
     end
 
     def handle_uninstall
