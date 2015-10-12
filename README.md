@@ -20,6 +20,8 @@ This cookbook is supported by Chef's engineering services team.
 
 Chef version 12.1.0 or higher, latest/current version is always recommended.
 
+For local development, you need ChefDK 0.9.0 or newer.
+
 ### Cookbooks
 
 - apt

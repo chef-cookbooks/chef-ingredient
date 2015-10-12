@@ -1,8 +1,11 @@
 require 'chefspec'
-require 'chefspec/berkshelf'
+require 'chefspec/policyfile'
 
-# Requires https://github.com/sethvargo/chefspec/commit/cd57e28fdbd59fc26962c0dd3b1809b8841312f3
-# require 'chefspec/policyfile'
+RSpec.configure do |config|
+  config.color = true
+  config.formatter = 'doc'
+  config.log_level = :error
+end
 
 TOPDIR = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 SUPPORT_DIR = File.join(TOPDIR, 'spec', 'support')
