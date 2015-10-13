@@ -1,3 +1,15 @@
+# v0.12.1
+
+- [#53](https://github.com/chef-cookbooks/chef-ingredient/pull/53) Relax version constraints
+
+# v0.12.0
+
+- Refactor `chef_ingredient` and prepare to handle install/upgrade from omnitruck
+- Add channel property to `chef_ingredient`
+- Removed installed state property
+- Use `product_name` instead of `package_name`
+- Add not if to skip `ingredient_config` render if `config` property isn't used
+
 # v0.11.3
 
 - Remove `resource_name` from Provider because `:facepalm:`
