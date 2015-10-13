@@ -6,17 +6,14 @@ driver:
     cpus: 2
 
 provisioner:
-  name: chef_zero
+  name: policyfile_zero
   data_bags_path: test/fixtures/data_bags
 
 platforms:
   - name: ubuntu-12.04
   - name: ubuntu-14.04
   - name: centos-6.6
-  # TODO: (jtimberman) We do not currently create packages
-  # specifically for EL7, but we want to! And then we'll uncomment
-  # this so we can test them in the kitchen.
-  # - name: centos-7.1
+  - name: centos-7.1
 
 suites:
   - name: default
