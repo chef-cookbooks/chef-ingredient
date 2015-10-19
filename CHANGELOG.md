@@ -1,3 +1,9 @@
+# v0.13.0
+
+- [#56](https://github.com/chef-cookbooks/chef-ingredient/pull/56) Uncomment `use_inline_resources`, this is required for the providers to work properly
+- [#55](https://github.com/chef-cookbooks/chef-ingredient/pull/55) Remove unit tests for specifically the custom resources
+- [#54](https://github.com/chef-cookbooks/chef-ingredient/pull/54) Clarify maintainer/support in the README
+
 # v0.12.1
 
 - [#53](https://github.com/chef-cookbooks/chef-ingredient/pull/53) Relax version constraints
