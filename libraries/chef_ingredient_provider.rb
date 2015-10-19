@@ -24,7 +24,7 @@ class Chef
   class Provider
     class ChefIngredient < Chef::Provider::LWRPBase
       provides :chef_ingredient
-      # use_inline_resources
+      use_inline_resources
 
       # for using include_recipe
       require 'chef/dsl/include_recipe'

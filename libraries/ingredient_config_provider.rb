@@ -22,7 +22,7 @@ class Chef
       provides :ingredient_config
       include ChefIngredientCookbook::Helpers
 
-      # use_inline_resources
+      use_inline_resources
 
       def whyrun_supported?
         true
