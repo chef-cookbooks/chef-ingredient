@@ -1,3 +1,7 @@
+# v0.13.1
+
+- [#57](https://github.com/chef-cookbooks/chef-ingredient/pull/57) Content accumulator guard
+
 # v0.13.0
 
 - [#56](https://github.com/chef-cookbooks/chef-ingredient/pull/56) Uncomment `use_inline_resources`, this is required for the providers to work properly
