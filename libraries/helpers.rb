@@ -127,7 +127,7 @@ module ChefIngredientCookbook
       # foodcritic thinks we are accessing a node attribute
       node.run_state[:ingredient_config_data] ||= {}              # ~FC001
       node.run_state[:ingredient_config_data][product] ||= ''     # ~FC001
-      node.run_state[:ingredient_config_data][product] += content # ~FC001
+      node.run_state[:ingredient_config_data][product] += content unless node.run_state[:ingredient_config_data][product].include?(content) # ~FC001
     end
 
     def get_config(product)
