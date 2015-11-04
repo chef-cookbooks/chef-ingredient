@@ -96,24 +96,24 @@ module ChefIngredientCookbook
       # implying latest, we need to additionally ensure that the
       # bottom version is something valid. If we don't have the check
       # in the elsif, it will say that 0.0.0 is not a valid version.
-      if (product == 'chef-server')
+      if product == 'chef-server'
         if (v < Mixlib::Versioning.parse('12.0.0')) && (v > Mixlib::Versioning.parse('11.0.0'))
           data['package-name'] = 'chef-server'
-        elsif (v < Mixlib::Versioning.parse('11.0.0')) && (v > Mixlib::Versioning.parse('1.0.0'))
+        elsif (v < Mixlib::Versioning.parse('11.0.0')) && (v > Mixlib::Versioning.parse('0.0.0'))
           Chef::Log.fatal("Invalid version specified, '#{version}' for #{product}!")
           fail
         end
-      elsif (product == 'manage') && (v < Mixlib::Versioning.parse('2.0.0'))
+      elsif (product == 'manage') && ((v < Mixlib::Versioning.parse('2.0.0')) && (v > Mixlib::Versioning.parse('0.0.0')))
         data['package-name'] = 'opscode-manage'
         data['ctl-command'] = 'opscode-manage-ctl'
       # TODO: When Chef Push server and client 2.0 are released, we
       # need to implement similar logic to chef-server, so that the
       # default "latest" version, 0.0.0 (no constraint) doesn't result
       # in the old package.
-      elsif (product == 'push-server') && (v < Mixlib::Versioning.parse('2.0.0'))
+      elsif (product == 'push-server') && ((v < Mixlib::Versioning.parse('2.0.0')) && (v > Mixlib::Versioning.parse('0.0.0')))
         data['package-name'] = 'opscode-push-jobs-server'
         data['ctl-command'] = 'opscode-push-jobs-server-ctl'
-      elsif (product == 'push-client') && (v < Mixlib::Versioning.parse('2.0.0'))
+      elsif (product == 'push-client') && ((v < Mixlib::Versioning.parse('1.3.0')) && (v > Mixlib::Versioning.parse('0.0.0')))
         data['package-name'] = 'opscode-push-jobs-client'
       end
 
@@ -230,13 +230,13 @@ module ChefIngredientCookbook
           'config-file'  => '/etc/opscode/private-chef.rb'
         },
         'push-client' => {
-          'package-name' => 'chef-push-client',
+          'package-name' => 'push-jobs-client',
           'ctl-command'  => nil,
           'config-file'  => nil
         },
         'push-server' => {
-          'package-name' => 'chef-push-server',
-          'ctl-command'  => 'chef-push-ctl',
+          'package-name' => 'opscode-push-jobs-server',
+          'ctl-command'  => 'opscode-push-jobs-server-ctl',
           'config-file'  => '/etc/opscode-push-jobs-server/opscode-push-jobs-server.rb'
         },
         'reporting' => {
