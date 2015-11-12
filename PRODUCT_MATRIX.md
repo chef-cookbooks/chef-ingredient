@@ -17,3 +17,4 @@ Update this in lockstep with `#product_matrix` in `libraries/helpers.rb`
 | Delivery | delivery | delivery |
 | Delivery CLI | delivery-cli | delivery-cli |
 | Supermarket | supermarket | supermarket |
+| Chef Compliance | compliance | chef-compliance |

@@ -204,6 +204,11 @@ module ChefIngredientCookbook
           'ctl-command'  => nil,
           'config-file'  => nil
         },
+        'compliance' => {
+          'package-name' => 'chef-compliance',
+          'ctl-command'  => 'chef-compliance-ctl',
+          'config-file'  => '/etc/chef-compliance/chef-compliance.rb'
+        },
         'delivery' => {
           'package-name' => 'delivery',
           'ctl-command'  => 'delivery-ctl',
