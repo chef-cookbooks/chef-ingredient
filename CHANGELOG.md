@@ -1,3 +1,8 @@
+# v0.14.0
+
+- [#58](https://github.com/chef-cookbooks/chef-ingredient/pull/58) Add Chef Compliance product
+
+
 # v0.13.1
 
 - [#57](https://github.com/chef-cookbooks/chef-ingredient/pull/57) Content accumulator guard
