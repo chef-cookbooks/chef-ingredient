@@ -34,6 +34,9 @@ module ChefIngredient
     private
 
     def configure_package(action_name)
+      byop = !node['chef-ingredient'].nil? && \
+             !node['chef-ingredient']['byop'].nil? && \
+             node['chef-ingredient']['byop'] == true
       # This is to cleanup old cruft from chef-server-ingredient
       file '/etc/apt/sources.list.d/chef_stable_.list' do
         action :delete
@@ -54,12 +57,13 @@ module ChefIngredient
         end
       else
         # Enable the required apt-repository.
-        include_recipe "apt-chef::#{new_resource.channel}"
+        include_recipe "apt-chef::#{new_resource.channel}" unless byop
 
         # Pin it so that product can only be installed from its own channel
         apt_preference ingredient_package_name do
           pin "release o=https://packagecloud.io/chef/#{new_resource.channel}"
           pin_priority '900'
+          not_if { byop }
         end
 
         # Foodcritic doesn't like timeout attribute in package resource
