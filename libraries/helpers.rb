@@ -113,7 +113,7 @@ module ChefIngredientCookbook
       elsif (product == 'push-server') && (v < Mixlib::Versioning.parse('2.0.0'))
         data['package-name'] = 'opscode-push-jobs-server'
         data['ctl-command'] = 'opscode-push-jobs-server-ctl'
-      elsif (product == 'push-client') && (v < Mixlib::Versioning.parse('1.3.4') && (v > Mixlib::Versioning.parse('0.0.0')))
+      elsif (product == 'push-client') && (v < Mixlib::Versioning.parse('1.3.3') && (v > Mixlib::Versioning.parse('0.0.0')))
         data['package-name'] = 'opscode-push-jobs-client'
       elsif (product == 'push-client') && (v < Mixlib::Versioning.parse('2.0.0'))
         data['package-name'] = 'push-jobs-client'
