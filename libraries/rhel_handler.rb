@@ -34,6 +34,10 @@ module ChefIngredient
     private
 
     def configure_package(action_name)
+      byop = !node['chef-ingredient'].nil? && \
+             !node['chef-ingredient']['byop'].nil? && \
+             node['chef-ingredient']['byop'] == true
+
       if new_resource.package_source
         rpm_package new_resource.product_name do
           action action_name
@@ -52,16 +56,15 @@ module ChefIngredient
           action :delete
           only_if { ::File.exist?('/etc/yum.repos.d/chef_stable_.repo') }
         end
-
         # Enable the required yum-repository.
-        include_recipe "yum-chef::#{new_resource.channel}"
+        include_recipe "yum-chef::#{new_resource.channel}" unless byop
 
         # Foodcritic doesn't like timeout attribute in package resource
         package new_resource.product_name do # ~FC009
           action action_name
           package_name ingredient_package_name
           # Ensure that we are installing from the correct repository
-          options "--disablerepo=* --enablerepo=chef-#{new_resource.channel} #{new_resource.options}"
+          options "--disablerepo=* --enablerepo=chef-#{new_resource.channel} #{new_resource.options}" unless byop
           # If the user specifies 0.0.0, :latest or "latest" we should not
           # give any resource to the package resource
           if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
