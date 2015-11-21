@@ -220,8 +220,8 @@ module ChefIngredientCookbook
           'config-file'  => nil
         },
         'manage' => {
-          'package-name' => 'chef-manage',
-          'ctl-command'  => 'chef-manage-ctl',
+          'package-name' => 'opscode-manage',
+          'ctl-command'  => 'opscode-manage-ctl',
           'config-file'  => '/etc/opscode-manage/manage.rb'
         },
         'private-chef' => {
