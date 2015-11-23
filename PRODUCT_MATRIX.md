@@ -12,7 +12,7 @@ Update this in lockstep with `#product_matrix` in `libraries/helpers.rb`
 | Chef Server Reporting addon | reporting | opscode-reporting |
 | Management Console | manage | opscode-manage (versions < 2.0.0) <br/> chef-manage (versions >= 2.0.0) |
 | Chef Push Server | push-server | opscode-push-jobs-server |
-| Chef Push Client | push-client | opscode-push-jobs-client (versions < 2.0.0) <br/> chef-push-client (versions >= 2.0.0)  |
+| Chef Push Client | push-client | opscode-push-jobs-client (versions < 1.3.0) <br/> push-jobs-client (versions >= 1.3.0)  |
 | Analytics Platform | analytics | opscode-analytics |
 | Delivery | delivery | delivery |
 | Delivery CLI | delivery-cli | delivery-cli |

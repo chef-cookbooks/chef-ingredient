@@ -39,6 +39,7 @@ Berksfile.lock
 .kitchen.local.yml
 vendor/
 .coverage/
+Policyfile.lock.json
 
 #vagrant stuff
 .vagrant/
