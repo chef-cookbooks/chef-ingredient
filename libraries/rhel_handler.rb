@@ -54,7 +54,7 @@ module ChefIngredient
         end
 
         # Enable the required yum-repository.
-        include_recipe "yum-chef::#{new_resource.channel}"
+        include_recipe "yum-chef::#{new_resource.channel == :custom ? :default : new_resource.channel}"
 
         # Foodcritic doesn't like timeout attribute in package resource
         package new_resource.product_name do # ~FC009

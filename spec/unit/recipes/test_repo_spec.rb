@@ -184,6 +184,22 @@ EOS
     end
   end
 
+  context 'custom is specified for the channel' do
+    cached(:centos_65) do
+      ChefSpec::SoloRunner.new(
+        platform: 'centos',
+        version: '6.5',
+        step_into: ['chef_ingredient']
+      ) do |node|
+        node.set['test']['chef-server-core']['channel'] = :custom
+      end.converge(described_recipe)
+    end
+
+    it 'installs yum_package[chef-server] from the custom channel' do
+      expect(centos_65).to include_recipe('yum-chef::default')
+    end
+  end
+
   context 'installs packages with apt on ubuntu' do
     cached(:ubuntu_1404) do
       ChefSpec::SoloRunner.new(
