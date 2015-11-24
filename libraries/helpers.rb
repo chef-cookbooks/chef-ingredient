@@ -45,6 +45,17 @@ module ChefIngredientCookbook
       require 'mixlib/versioning'
     end
 
+    def install_mixlib_install
+      # TODO: Change this code to install mixlib-install from rubygems before merge.
+      chef_gem "#{new_resource.product_name}-mixlib-install" do # ~FC009 foodcritic needs an update
+        package_name 'mixlib-install'
+        compile_time true
+        source '/home/vagrant/mixlib-install/pkg/mixlib-install-0.8.0.gem'
+      end
+
+      require 'mixlib/install'
+    end
+
     def rhel_major_version
       return node['platform_version'].to_i if node['platform_family'] == 'rhel'
       node['platform_version']

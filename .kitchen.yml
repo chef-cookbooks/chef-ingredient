@@ -4,9 +4,13 @@ driver:
   customize:
     memory: 2048
     cpus: 2
+  # Temporary workaround to be able to test with the latest version of mixlib install locally.
+  # Will be removed before merge.
+  synced_folders:
+    - ['/Users/serdar/chef/mixlib-install', '/home/vagrant/mixlib-install']
 
 provisioner:
-  name: policyfile_zero
+  name: chef_zero
   data_bags_path: test/fixtures/data_bags
 
 platforms:
@@ -14,6 +18,9 @@ platforms:
   - name: ubuntu-14.04
   - name: centos-6.6
   - name: centos-7.1
+  - name: macosx-10.10
+    driver:
+      box: chef/macosx-10.10 # private
 
 suites:
   - name: default
@@ -51,6 +58,10 @@ suites:
       - recipe[test]
       - recipe[test::local]
     attributes:
+
+  - name: chef
+    run_list:
+      - recipe[test::chef]
 
   - name: chefdk
     run_list:

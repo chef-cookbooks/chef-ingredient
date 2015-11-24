@@ -19,6 +19,8 @@ LineLength:
   Enabled: false
 MethodLength:
   Enabled: false
+ModuleLength:
+  Enabled: false
 Metrics/AbcSize:
   Enabled: false
 PerceivedComplexity:
