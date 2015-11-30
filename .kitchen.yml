@@ -24,21 +24,13 @@ platforms:
 
 suites:
   - name: default
+    excludes: [ 'macosx-10.10' ]
     run_list:
       - recipe[test]
       - recipe[test::repo]
-    attributes:
 
   - name: override_package_versions
-    run_list:
-      - recipe[test]
-      - recipe[test::repo]
-    attributes:
-      test:
-        chef-server-core:
-          version: 12.0.4
-
-  - name: override_package_versions_rc
+    excludes: [ 'macosx-10.10' ]
     run_list:
       - recipe[test]
       - recipe[test::repo]
@@ -54,33 +46,17 @@ suites:
           version: 12.1.0-rc.3
 
   - name: local_package_install
+    excludes: [ 'macosx-10.10' ]
     run_list:
       - recipe[test]
       - recipe[test::local]
-    attributes:
-
-  - name: chef
-    run_list:
-      - recipe[test::chef]
 
   - name: chefdk
     run_list:
       - recipe[test::chefdk]
 
-  - name: upgrade
-    run_list:
-      - recipe[test::upgrade]
-
   - name: push_client
     # we don't yet have push client packages for trusty, only precise
-    excludes: ['ubuntu-14.04']
+    excludes: [ 'ubuntu-14.04', 'macosx-10.10' ]
     run_list:
       - recipe[test::push]
-
-  - name: ingredient_config
-    run_list:
-      - recipe[test::ingredient_config]
-
-  - name: different_channels
-    run_list:
-      - recipe[test::different_channels]
