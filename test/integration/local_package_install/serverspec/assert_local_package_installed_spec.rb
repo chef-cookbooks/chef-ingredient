@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'chef-ingredient::default' do
-  describe package('chef-server') do
+  describe package('chef-server-core') do
     it { should be_installed }
   end
 

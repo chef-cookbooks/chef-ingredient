@@ -1,4 +1,4 @@
 source 'https://api.berkshelf.com'
+metadata
 
-cookbook 'chef-ingredient', path: '.'
 cookbook 'test', path: './test/fixtures/cookbooks/test'

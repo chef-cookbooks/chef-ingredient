@@ -18,7 +18,7 @@
 module ChefIngredient
   module OmnitruckHandler
     def handle_install
-      install_mixlib_install
+      ensure_mixlib_install_gem_installed!
 
       installer = Mixlib::Install.new(
         product_name: new_resource.product_name,
@@ -41,7 +41,7 @@ module ChefIngredient
     end
 
     def handle_upgrade
-      install_mixlib_install
+      ensure_mixlib_install_gem_installed!
 
       installer = Mixlib::Install.new(
         product_name: new_resource.product_name,

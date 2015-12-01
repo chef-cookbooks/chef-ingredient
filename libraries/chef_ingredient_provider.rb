@@ -48,7 +48,7 @@ class Chef
       end
 
       action :install do
-        install_mixlib_versioning
+        ensure_mixlib_versioning_gem_installed!
         add_config(new_resource.product_name, new_resource.config)
         declare_chef_run_stop_resource
 
@@ -56,7 +56,7 @@ class Chef
       end
 
       action :upgrade do
-        install_mixlib_versioning
+        ensure_mixlib_versioning_gem_installed!
         add_config(new_resource.product_name, new_resource.config)
         declare_chef_run_stop_resource
 
@@ -64,13 +64,13 @@ class Chef
       end
 
       action :uninstall do
-        install_mixlib_versioning
+        ensure_mixlib_versioning_gem_installed!
 
         handle_uninstall
       end
 
       action :reconfigure do
-        install_mixlib_versioning
+        ensure_mixlib_versioning_gem_installed!
         add_config(new_resource.product_name, new_resource.config)
 
         if ctl_command.nil?

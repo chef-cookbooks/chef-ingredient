@@ -4,12 +4,10 @@ driver:
   customize:
     memory: 2048
     cpus: 2
-  # Temporary workaround to be able to test with the latest version of mixlib install locally.
-  # Will be removed before merge.
-  synced_folders:
-    - ['/Users/serdar/chef/mixlib-install', '/home/vagrant/mixlib-install']
 
 provisioner:
+  # TODO: (engineering-services) Switch this back to policyfile_zero
+  # when kitchen supports named run lists for suites.
   name: chef_zero
   data_bags_path: test/fixtures/data_bags
 
@@ -28,22 +26,6 @@ suites:
     run_list:
       - recipe[test]
       - recipe[test::repo]
-
-  - name: override_package_versions
-    excludes: [ 'macosx-10.10' ]
-    run_list:
-      - recipe[test]
-      - recipe[test::repo]
-    attributes:
-      apt-chef:
-        repo-name: 'chef-current'
-        uri: 'https://packagecloud.io/chef/current/ubuntu/'
-      yum-chef:
-        repositoryid: 'chef-current'
-        baseurl: 'https://packagecloud.io/chef/current/el/6/$basearch'
-      test:
-        chef-server-core:
-          version: 12.1.0-rc.3
 
   - name: local_package_install
     excludes: [ 'macosx-10.10' ]

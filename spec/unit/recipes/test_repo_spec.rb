@@ -16,10 +16,6 @@ describe 'test::repo' do
         expect(chef_run).to install_chef_ingredient('chef-server')
       end
 
-      it 'installs the mixlib-versioning gem' do
-        expect(chef_run).to install_chef_gem('mixlib-versioning')
-      end
-
       it 'creates file[/tmp/chef-server-core.firstrun]' do
         expect(chef_run).to create_file('/tmp/chef-server-core.firstrun')
       end
