@@ -34,15 +34,29 @@ module ChefIngredientCookbook
       product_lookup(new_resource.product_name, version_string(new_resource.version))['package-name']
     end
 
-    def install_mixlib_versioning
-      # We need Mixlib::Versioning in the library helpers for
-      # parsing the version string.
-      chef_gem "#{new_resource.product_name}-mixlib-versioning" do # ~FC009 foodcritic needs an update
-        package_name 'mixlib-versioning'
-        compile_time true
-      end
+    def ensure_mixlib_versioning_gem_installed!
+      node.run_state[:mixlib_versioning_gem_installed] ||= begin # ~FC001
+        install_gem_from_rubygems('mixlib-versioning', '1.1.0')
 
-      require 'mixlib/versioning'
+        require 'mixlib/versioning'
+        true
+      end
+    end
+
+    def ensure_mixlib_install_gem_installed!
+      node.run_state[:mixlib_install_gem_installed] ||= begin # ~FC001
+        install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.0')
+
+        require 'mixlib/install'
+        true
+      end
+    end
+
+    def install_gem_from_rubygems(gem_name, gem_version)
+      Chef::Log.debug("Installing #{gem_name} v#{gem_version} from Rubygems.org")
+      chefgem = Chef::Resource::ChefGem.new(gem_name, run_context)
+      chefgem.version(gem_version)
+      chefgem.run_action(:install)
     end
 
     def rhel_major_version

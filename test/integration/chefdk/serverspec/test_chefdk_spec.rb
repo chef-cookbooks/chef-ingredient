@@ -1,11 +1,8 @@
 require 'spec_helper'
 
 describe 'test::chefdk' do
-  describe package('chefdk') do
-    it { should be_installed }
-  end
-
-  it 'chefdk should be upgraded' do
-    expect(package('chefdk').version).to eq('0.7.0-1')
+  it 'chefdk should be version 0.7.0' do
+    command = `/opt/chefdk/bin/chef --version`
+    expect(command).to include('Chef Development Kit Version: 0.7.0')
   end
 end
