@@ -1,5 +1,6 @@
 default['test']['push-client']['version'] = nil
 default['test']['chef-server-core']['version'] = nil
+default['test']['chef-server-core']['channel'] = nil
 default['test']['source_url'] = case node['platform_family']
                                 when 'debian'
                                   if node['platform_version'].to_f == 14.04

@@ -54,14 +54,21 @@ module ChefIngredient
         end
 
         # Enable the required yum-repository.
-        include_recipe "yum-chef::#{new_resource.channel}"
+        if new_resource.channel == :custom
+          recipe_name = :default
+          repo_id = node['yum-chef']['repositoryid']
+        else
+          recipe_name = new_resource.channel
+          repo_id = "chef-#{new_resource.channel}"
+        end
+        include_recipe "yum-chef::#{recipe_name}"
 
         # Foodcritic doesn't like timeout attribute in package resource
         package new_resource.product_name do # ~FC009
           action action_name
           package_name ingredient_package_name
           # Ensure that we are installing from the correct repository
-          options "--disablerepo=* --enablerepo=chef-#{new_resource.channel} #{new_resource.options}"
+          options "--disablerepo=* --enablerepo=#{repo_id} #{new_resource.options}"
           # If the user specifies 0.0.0, :latest or "latest" we should not
           # give any resource to the package resource
           if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
