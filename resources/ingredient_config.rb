@@ -28,7 +28,7 @@ property :sensitive, [TrueClass, FalseClass], default: false
 property :config, String, default: nil
 
 action :render do
-  target_config = product_matrix[product_name]['config-file']
+  target_config = ingredient_config_file
   return if target_config.nil?
 
   directory ::File.dirname(target_config) do
@@ -46,4 +46,3 @@ end
 action :add do
   add_config(product_name, config)
 end
-

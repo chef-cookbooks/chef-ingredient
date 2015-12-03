@@ -69,9 +69,9 @@ module ChefIngredient
           options new_resource.options
           timeout new_resource.timeout
 
-          # If the user specifies "0.0.0", :latest or "latest" as version,
-          # we should not give any version to the package resource.
-          if Mixlib::Versioning.parse(version_string(new_resource.version)) > '0.0.0'
+          # If the latest version is specified, we should not give any version
+          # to the package resource.
+          unless version_latest?(new_resource.version)
             version version_for_package_resource
           end
 

@@ -29,14 +29,28 @@ property :service_name, String, regex: %r{[\w-]+\/[\w-]+}, name_property: true
 
 %w(start stop restart hup int kill graceful-kill once).each do |sv_command|
   action sv_command.tr('-', '_').to_sym do
-    execute "#{omnibus_ctl_command} #{sv_command} #{omnibus_service_name.last}"
+    execute "#{omnibus_ctl_command} #{sv_command} #{raw_service_name}"
   end
 end
 
+#
+# Returns the ctl-command to be used when executing commands for the
+# service.
+#
 def omnibus_ctl_command
-  ctl_command || product_lookup(omnibus_service_name.first)['ctl-command']
+  ctl_command || ctl_command_for_product(product_key_for_service)
 end
 
-def omnibus_service_name
-  service_name.split('/')
+#
+# Returns the name of the product for which the service belongs to
+#
+def product_key_for_service
+  service_name.split('/').first
+end
+
+#
+# Returns the raw service name
+#
+def raw_service_name
+  service_name.split('/').last
 end
