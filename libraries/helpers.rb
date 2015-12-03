@@ -17,23 +17,55 @@
 
 module ChefIngredientCookbook
   module Helpers
-    def chef_ctl_command(product)
-      if new_resource.respond_to?(:version)
-        product_lookup(product, version_string(new_resource.version))['ctl-command']
-      else
-        product_lookup(product)['ctl-command']
-      end
+    ########################################################################
+    # Product details lookup helpers
+    ########################################################################
+
+    #
+    # Returns the ctl-command to be used for omnibus_service resource.
+    # Notice that we do not include version in our lookup since omnibus_service
+    # is not aware of it.
+    #
+    def ctl_command_for_product(product)
+      ensure_mixlib_install_gem_installed!
+
+      PRODUCT_MATRIX.lookup(product).ctl_command
     end
 
-    def version_string(vers)
-      return '0.0.0' if vers.to_sym == :latest
-      vers
-    end
-
+    #
+    # Returns the package name for a given product and version.
+    #
     def ingredient_package_name
-      product_lookup(new_resource.product_name, version_string(new_resource.version))['package-name']
+      ensure_mixlib_install_gem_installed!
+
+      PRODUCT_MATRIX.lookup(new_resource.product_name, new_resource.version).package_name
     end
 
+    #
+    # Returns the ctl-command for a chef_ingredient resource
+    #
+    def ingredient_ctl_command
+      ensure_mixlib_install_gem_installed!
+
+      new_resource.ctl_command || PRODUCT_MATRIX.lookup(new_resource.product_name, new_resource.version).ctl_command
+    end
+
+    #
+    # Returns the ctl-command for a chef_ingredient resource
+    #
+    def ingredient_config_file
+      ensure_mixlib_install_gem_installed!
+
+      PRODUCT_MATRIX.lookup(product_name).config_file
+    end
+
+    ########################################################################
+    # Helpers installing gem prerequisites.
+    ########################################################################
+
+    #
+    # Ensures mixlib-versioning gem is installed and loaded.
+    #
     def ensure_mixlib_versioning_gem_installed!
       node.run_state[:mixlib_versioning_gem_installed] ||= begin # ~FC001
         install_gem_from_rubygems('mixlib-versioning', '1.1.0')
@@ -43,15 +75,22 @@ module ChefIngredientCookbook
       end
     end
 
+    #
+    # Ensures mixlib-install gem is installed and loaded.
+    #
     def ensure_mixlib_install_gem_installed!
       node.run_state[:mixlib_install_gem_installed] ||= begin # ~FC001
-        install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.0')
+        install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.1')
 
         require 'mixlib/install'
+        require 'mixlib/install/product'
         true
       end
     end
 
+    #
+    # Helper method to install a gem from rubygems at compile time.
+    #
     def install_gem_from_rubygems(gem_name, gem_version)
       Chef::Log.debug("Installing #{gem_name} v#{gem_version} from Rubygems.org")
       chefgem = Chef::Resource::ChefGem.new(gem_name, run_context)
@@ -59,14 +98,30 @@ module ChefIngredientCookbook
       chefgem.run_action(:install)
     end
 
-    def rhel_major_version
-      return node['platform_version'].to_i if node['platform_family'] == 'rhel'
-      node['platform_version']
+    ########################################################################
+    # Version helpers
+    ########################################################################
+
+    #
+    # Returns if a given version is equivalent to :latest
+    #
+    def version_latest?(vers)
+      vers == :latest || vers == '0.0.0' || vers == 'latest'
     end
 
+    #
+    # Returns the version string to use in package resource for all platforms.
+    #
     def version_for_package_resource
-      require 'mixlib/versioning'
-      v = Mixlib::Versioning.parse(version_string(new_resource.version))
+      ensure_mixlib_versioning_gem_installed!
+
+      version_string = if version_latest?(new_resource.version)
+                         '0.0.0'
+                       else
+                         new_resource.version
+                       end
+
+      v = Mixlib::Versioning.parse(version_string)
       version = "#{v.major}.#{v.minor}.#{v.patch}"
       version << "~#{v.prerelease}" if v.prerelease? && !v.prerelease.match(/^\d$/)
       version << "+#{v.build}" if v.build?
@@ -76,64 +131,23 @@ module ChefIngredientCookbook
       version
     end
 
+    def rhel_major_version
+      return node['platform_version'].to_i if node['platform_family'] == 'rhel'
+      node['platform_version']
+    end
+
     def rhel_append_version
       ".el#{rhel_major_version}"
     end
 
-    def ctl_command
-      new_resource.ctl_command || chef_ctl_command(new_resource.product_name)
-    end
+    ########################################################################
+    # ingredient_config helpers
+    ########################################################################
 
-    # Return the Product Matric in JSON format
-    def product_matrix
-      ChefIngredientCookbook::ProductMatrix.json
-    end
-
-    # Version has a default value of 0.0.0 so that it is a valid
-    # string for the Mixlib::Versioning.parse method. This implies
-    # "latest", but "latest" is not a value that is valid for
-    # mixlib/versioning.
-    def product_lookup(product, version = '0.0.0')
-      unless product_matrix.key?(product)
-        Chef::Log.fatal("We don't have a product, '#{product}'. Please specify a valid product name:")
-        Chef::Log.fatal(product_matrix.keys.join(' '))
-        fail
-      end
-
-      require 'mixlib/versioning'
-      v = Mixlib::Versioning.parse(version_string(version))
-
-      data = product_matrix[product]
-
-      # We want to validate that we're getting a version that is valid
-      # for the Chef Server. However, since the default is 0.0.0,
-      # implying latest, we need to additionally ensure that the
-      # bottom version is something valid. If we don't have the check
-      # in the elsif, it will say that 0.0.0 is not a valid version.
-      if product == 'chef-server'
-        if (v < Mixlib::Versioning.parse('12.0.0')) && (v > Mixlib::Versioning.parse('11.0.0'))
-          data['package-name'] = 'chef-server'
-        elsif (v < Mixlib::Versioning.parse('11.0.0')) && (v > Mixlib::Versioning.parse('0.0.0'))
-          Chef::Log.fatal("Invalid version specified, '#{version}' for #{product}!")
-          fail
-        end
-      elsif (product == 'manage') && ((v < Mixlib::Versioning.parse('2.0.0')) && (v > Mixlib::Versioning.parse('0.0.0')))
-        data['package-name'] = 'opscode-manage'
-        data['ctl-command'] = 'opscode-manage-ctl'
-      # TODO: When Chef Push server and client 2.0 are released, we
-      # need to implement similar logic to chef-server, so that the
-      # default "latest" version, 0.0.0 (no constraint) doesn't result
-      # in the old package.
-      elsif (product == 'push-server') && ((v < Mixlib::Versioning.parse('2.0.0')) && (v > Mixlib::Versioning.parse('0.0.0')))
-        data['package-name'] = 'opscode-push-jobs-server'
-        data['ctl-command'] = 'opscode-push-jobs-server-ctl'
-      elsif (product == 'push-client') && ((v < Mixlib::Versioning.parse('1.3.0')) && (v > Mixlib::Versioning.parse('0.0.0')))
-        data['package-name'] = 'opscode-push-jobs-client'
-      end
-
-      data
-    end
-
+    #
+    # Adds given config information for the given product to the run_state so
+    # that it can be retrieved later.
+    #
     def add_config(product, content)
       return if content.nil?
 
@@ -144,6 +158,9 @@ module ChefIngredientCookbook
       node.run_state[:ingredient_config_data][product] += content unless node.run_state[:ingredient_config_data][product].include?(content) # ~FC001
     end
 
+    #
+    # Returns the collected config information for the given product.
+    #
     def get_config(product)
       # FC001: Use strings in preference to symbols to access node attributes
       # foodcritic thinks we are accessing a node attribute
@@ -151,6 +168,13 @@ module ChefIngredientCookbook
       node.run_state[:ingredient_config_data][product] ||= '' # ~FC001
     end
 
+    ########################################################################
+    # misc helpers
+    ########################################################################
+
+    #
+    # Returns true if a given fqdn resolves, false otherwise.
+    #
     def fqdn_resolves?(fqdn)
       require 'resolv'
       Resolv.getaddress(fqdn)
@@ -158,9 +182,11 @@ module ChefIngredientCookbook
     rescue Resolv::ResolvError, Resolv::ResolvTimeout
       false
     end
-
     module_function :fqdn_resolves?
 
+    #
+    # Declares a resource that will fail the chef run when signalled.
+    #
     def declare_chef_run_stop_resource
       # We do not supply an option to turn off stopping the chef client run
       # after a version change. As the gems shipped with omnitruck artifacts
@@ -175,102 +201,5 @@ module ChefIngredientCookbook
         end
       end
     end
-  end
-
-  module ProductMatrix
-    module_function
-
-    # When updating this, also update PRODUCT_MATRIX.md
-    def json
-      {
-        'analytics' => {
-          'package-name' => 'opscode-analytics',
-          'ctl-command'  => 'opscode-analytics-ctl',
-          'config-file'  => '/etc/opscode-analytics/opscode-analytics.rb'
-        },
-        'chef' => {
-          'package-name' => 'chef',
-          'ctl-command'  => nil,
-          'config-file'  => nil
-        },
-        'chef-ha' => {
-          'package-name' => 'chef-ha',
-          'ctl-command'  => nil,
-          'config-file'  => '/etc/opscode/chef-server.rb'
-        },
-        'chef-marketplace' => {
-          'package-name' => 'chef-marketplace',
-          'ctl-command'  => 'chef-marketplace-ctl',
-          'config-file'  => '/etc/chef-marketplace/marketplace.rb'
-        },
-        'chef-server' => {
-          'package-name' => 'chef-server-core',
-          'ctl-command'  => 'chef-server-ctl',
-          'config-file'  => '/etc/opscode/chef-server.rb'
-        },
-        'chef-sync' => {
-          'package-name' => 'chef-sync',
-          'ctl-command'  => 'chef-sync-ctl',
-          'config-file'  => '/etc/chef-sync/chef-sync.rb'
-        },
-        'chefdk' => {
-          'package-name' => 'chefdk',
-          'ctl-command'  => nil,
-          'config-file'  => nil
-        },
-        'compliance' => {
-          'package-name' => 'chef-compliance',
-          'ctl-command'  => 'chef-compliance-ctl',
-          'config-file'  => '/etc/chef-compliance/chef-compliance.rb'
-        },
-        'delivery' => {
-          'package-name' => 'delivery',
-          'ctl-command'  => 'delivery-ctl',
-          'config-file'  => '/etc/delivery/delivery.rb'
-        },
-        'delivery-cli' => {
-          'package-name' => 'delivery-cli',
-          'ctl-command'  => nil,
-          'config-file'  => nil
-        },
-        'manage' => {
-          'package-name' => 'opscode-manage',
-          'ctl-command'  => 'opscode-manage-ctl',
-          'config-file'  => '/etc/opscode-manage/manage.rb'
-        },
-        'private-chef' => {
-          'package-name' => 'private-chef',
-          'ctl-command'  => 'private-chef-ctl',
-          'config-file'  => '/etc/opscode/private-chef.rb'
-        },
-        'push-client' => {
-          'package-name' => 'push-jobs-client',
-          'ctl-command'  => nil,
-          'config-file'  => nil
-        },
-        'push-server' => {
-          'package-name' => 'opscode-push-jobs-server',
-          'ctl-command'  => 'opscode-push-jobs-server-ctl',
-          'config-file'  => '/etc/opscode-push-jobs-server/opscode-push-jobs-server.rb'
-        },
-        'reporting' => {
-          'package-name' => 'opscode-reporting',
-          'ctl-command'  => 'opscode-reporting-ctl',
-          'config-file'  => '/etc/opscode-reporting/opscode-reporting.rb'
-        },
-        'supermarket' => {
-          'package-name' => 'supermarket',
-          'ctl-command'  => 'supermarket-ctl',
-          'config-file'  => '/etc/supermarket/supermarket.json'
-        }
-      }
-    end
-  end
-end
-
-module ChefServerIngredientsCookbook
-  module Helpers
-    include ChefIngredientCookbook::Helpers
-    alias_method :chef_server_ctl_command, :chef_ctl_command
   end
 end

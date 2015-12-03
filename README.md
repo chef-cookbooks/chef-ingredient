@@ -10,8 +10,6 @@ This cookbook provides primitives - helpers and resources - to manage Chef Softw
 
 It will perform component installation and configuration. It provides no recipes. Instead, wrapper cookbooks should be created using the resources that this cookbook provides.
 
-For a product to package matrix, see [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md)
-
 ## Maintainers and Support
 
 This cookbook is maintained and supported by Chef's engineering services team. This cookbook runs through our internal Chef Delivery system, and changes must be approved by a member of engineering services.
@@ -50,7 +48,7 @@ A "chef ingredient" is the core package itself, or products or add-on components
 - `reconfigure` - Performs the `ctl reconfigure` command for the package.
 
 #### Properties
-- `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
+- `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef/mixlib-install/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
 - `config`: String content that will be added to the configuration file of the given product.
 - `ctl_command`: The "ctl" command, e.g., `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
 - `options`: Options passed to the `package` resource used for installation.
@@ -82,7 +80,7 @@ Makes it easy to create update configuration files of each Chef product. It uses
 - `add` - Adds the `config` attribute contents to the data collection.  Must run `:render` action to generate the file.
 
 #### Properties
-- `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef-cookbooks/chef-ingredient/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
+- `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef/mixlib-install/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
 - `sensitive`: (default `false`) Set to mask the config contents in logs. Use when you config contains information like passwords or secrets.
 - `config`: String content that will be added to the configuration file of the given product.
 
