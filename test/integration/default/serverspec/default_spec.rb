@@ -9,11 +9,11 @@ describe 'chef-ingredient::default' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe package('opscode-manage') do
+  describe package('chef-manage') do
     it { should be_installed }
   end
 
-  describe command('opscode-manage-ctl test') do
+  describe command('chef-manage-ctl test') do
     its(:exit_status) { should eq 0 }
   end
 end

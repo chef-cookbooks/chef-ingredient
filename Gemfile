@@ -9,9 +9,7 @@ end
 
 group :unit do
   gem 'mixlib-versioning'
-  # gem 'mixlib-install'
-  # TODO: Remove local gem installation
-  gem 'mixlib-install', path: '../../mixlib-install'
+  gem 'mixlib-install', '~> 0.8.0.alpha'
   gem 'chef-sugar'
   gem 'chefspec'
   gem 'chef-dk'
