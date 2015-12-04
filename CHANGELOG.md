@@ -1,3 +1,10 @@
+# v0.15.0
+
+- [#66](https://github.com/chef-cookbooks/chef-ingredient/pull/66) Fix push job client and server naming
+- [#68](https://github.com/chef-cookbooks/chef-ingredient/pull/68) Use mixlib-install while installing / upgrading packages from omnitruck
+- [#71](https://github.com/chef-cookbooks/chef-ingredient/pull/71) Convert `omnibus_service` and `ingredient_config` to "12.5 [custom resources](https://docs.chef.io/custom_resources.html)"
+- [#73](https://github.com/chef-cookbooks/chef-ingredient/pull/73) Use PRODUCT_MATRIX from mixlib-install
+
 # v0.14.0
 
 - [#58](https://github.com/chef-cookbooks/chef-ingredient/pull/58) Add Chef Compliance product

@@ -16,7 +16,7 @@ This cookbook is maintained and supported by Chef's engineering services team. T
 
 ## Requirements
 
-Chef version 12.1.0 or higher, latest/current version is always recommended.
+Chef version 12.5.0 or higher, latest/current version is always recommended.
 
 For local development, you need ChefDK 0.9.0 or newer.
 
@@ -35,6 +35,8 @@ For local development, you need ChefDK 0.9.0 or newer.
 ### chef_server_ingredient
 
 This is a backwards compatibility shim for the `chef_ingredient` resource.
+
+This may be removed in a future version.
 
 ### chef_ingredient
 
