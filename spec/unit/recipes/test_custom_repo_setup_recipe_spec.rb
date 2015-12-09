@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'test::custom_repo_setup_recipe' do
-
   context 'on centos' do
     cached(:centos_65) do
       ChefSpec::SoloRunner.new(
@@ -23,7 +22,7 @@ describe 'test::custom_repo_setup_recipe' do
     end
 
     it 'includes the custom_repo_setup_recipe' do
-      expect(centos_65).to include_recipe 'my_awesome::repo_recipe'
+      expect(centos_65).to include_recipe 'custom_repo::awesome_custom_setup'
     end
   end
 
@@ -42,7 +41,7 @@ describe 'test::custom_repo_setup_recipe' do
 
     it 'does not pins future installs of chef to current repository' do
       expect(ubuntu_1404).to_not add_apt_preference('chef').with(pin: 'release o=https://packagecloud.io/chef/current',
-                                                             pin_priority: '900')
+                                                                 pin_priority: '900')
     end
 
     it 'installs chef' do
@@ -50,7 +49,7 @@ describe 'test::custom_repo_setup_recipe' do
     end
 
     it 'includes the custom_repo_setup_recipe' do
-      expect(ubuntu_1404).to include_recipe 'my_awesome::repo_recipe'
+      expect(ubuntu_1404).to include_recipe 'custom_repo::awesome_custom_setup'
     end
   end
 end
