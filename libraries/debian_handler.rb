@@ -53,9 +53,9 @@ module ChefIngredient
           end
         end
       else
-        if custom_repo_setup_recipe
-          # Use the custom repository setup.
-          include_recipe custom_repo_setup_recipe
+        if use_custom_repo_recipe?
+          # Use the custom repository recipe.
+          include_recipe custom_repo_recipe
         else
           # Enable the required apt-repository.
           include_recipe "apt-chef::#{new_resource.channel}"

@@ -110,14 +110,21 @@ module ChefIngredientCookbook
     end
 
     #
-    # Returns the custom setup recipe
+    # Returns true if the custom repo recipe was specified
+    #
+    def use_custom_repo_recipe?
+      node['chef-ingredient'].attribute?('custom-repo-recipe')
+    end
+
+    #
+    # Returns the custom setup recipe name
     #
     # When the user specifies this attribute chef-ingredient will not configure
     # our default packagecloud Chef repositories and instead it will include the
     # custom recipe. This will eliminate the hard dependency to the internet.
     #
-    def custom_repo_setup_recipe
-      node['chef-ingredient']['custom_repo_setup_recipe'] if node['chef-ingredient']
+    def custom_repo_recipe
+      node['chef-ingredient']['custom-repo-recipe']
     end
 
     #

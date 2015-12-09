@@ -15,10 +15,13 @@
 # limitations under the License.
 #
 
-# Custom repository setup recipe
+default['chef-ingredient'] = {}
+
+# Set `custom-repo-recipe` to a string "cookbook::recipe" to specify
+# a custom recipe that sets up your own yum/apt repository where you have
+# mirrored the ingredient packages you want to use.
 #
-# When the user specifies this attribute chef-ingredient will not configure
-# our default packagecloud Chef repositories and instead it will include the
-# custom recipe. This will eliminate the hard dependency to the internet.
+# Do this elsewhere in your cookbook where you use chef_ingredient, in a
+# policyfile, environment, role, etc.
 #
-default['chef-ingredient']['custom_repo_setup_recipe'] = nil
+# default['chef-ingredient']['custom-repo-recipe'] = 'custom_repo::awesome_custom_setup'

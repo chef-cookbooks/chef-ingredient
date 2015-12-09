@@ -53,9 +53,9 @@ module ChefIngredient
           only_if { ::File.exist?('/etc/yum.repos.d/chef_stable_.repo') }
         end
 
-        if custom_repo_setup_recipe
-          # Use the custom repository setup.
-          include_recipe custom_repo_setup_recipe
+        if use_custom_repo_recipe?
+          # Use the custom repository recipe.
+          include_recipe custom_repo_recipe
         else
           # Enable the required yum-repository.
           include_recipe "yum-chef::#{new_resource.channel}"
@@ -65,7 +65,7 @@ module ChefIngredient
         package new_resource.product_name do # ~FC009
           action action_name
           package_name ingredient_package_name
-          if custom_repo_setup_recipe
+          if use_custom_repo_recipe?
             # Respect the options that the user has specified
             options new_resource.options
           else
