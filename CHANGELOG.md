@@ -1,3 +1,7 @@
+# v0.15.1
+
+- [#62](https://github.com/chef-cookbooks/chef-ingredient/issues/62) Do not assume connection to the interwebs
+
 # v0.15.0
 
 - [#66](https://github.com/chef-cookbooks/chef-ingredient/pull/66) Fix push job client and server naming

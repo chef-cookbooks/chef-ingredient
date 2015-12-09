@@ -53,15 +53,25 @@ module ChefIngredient
           only_if { ::File.exist?('/etc/yum.repos.d/chef_stable_.repo') }
         end
 
-        # Enable the required yum-repository.
-        include_recipe "yum-chef::#{new_resource.channel}"
+        if custom_repo_setup_recipe
+          # Use the custom repository setup.
+          include_recipe custom_repo_setup_recipe
+        else
+          # Enable the required yum-repository.
+          include_recipe "yum-chef::#{new_resource.channel}"
+        end
 
         # Foodcritic doesn't like timeout attribute in package resource
         package new_resource.product_name do # ~FC009
           action action_name
           package_name ingredient_package_name
-          # Ensure that we are installing from the correct repository
-          options "--disablerepo=* --enablerepo=chef-#{new_resource.channel} #{new_resource.options}"
+          if custom_repo_setup_recipe
+            # Respect the options that the user has specified
+            options new_resource.options
+          else
+            # Ensure that we are installing from the correct repository
+            options "--disablerepo=* --enablerepo=chef-#{new_resource.channel} #{new_resource.options}"
+          end
 
           # If the latest version is specified, we should not give any version
           # to the package resource.

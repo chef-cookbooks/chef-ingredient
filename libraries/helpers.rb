@@ -110,6 +110,13 @@ module ChefIngredientCookbook
     end
 
     #
+    # Returns the custom recipe that will setup the repository where we
+    #
+    def custom_repo_setup_recipe
+      node['chef-ingredient']['custom_repo_setup_recipe'] if node['chef-ingredient']
+    end
+
+    #
     # Returns the version string to use in package resource for all platforms.
     #
     def version_for_package_resource
