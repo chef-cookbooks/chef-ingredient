@@ -19,16 +19,21 @@ platforms:
   - name: macosx-10.10
     driver:
       box: chef/macosx-10.10 # private
+  - name: windows-server-2012r2-standard
+    driver:
+      box: chef/windows-server-2012r2-standard # private
+      customize:
+        cpus: 4
 
 suites:
   - name: default
-    excludes: [ 'macosx-10.10' ]
+    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
     run_list:
       - recipe[test]
       - recipe[test::repo]
 
   - name: local_package_install
-    excludes: [ 'macosx-10.10' ]
+    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
     run_list:
       - recipe[test]
       - recipe[test::local]
@@ -39,6 +44,6 @@ suites:
 
   - name: push_client
     # we don't yet have push client packages for trusty, only precise
-    excludes: [ 'ubuntu-14.04', 'macosx-10.10' ]
+    excludes: [ 'ubuntu-14.04', 'macosx-10.10', 'windows-server-2012r2-standard' ]
     run_list:
       - recipe[test::push]

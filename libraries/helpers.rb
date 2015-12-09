@@ -201,5 +201,9 @@ module ChefIngredientCookbook
         end
       end
     end
+
+    def windows?
+      node['platform_family'] == 'windows'
+    end
   end
 end
