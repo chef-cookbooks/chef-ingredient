@@ -1,6 +1,7 @@
-# v0.15.1
+# v0.16.0
 
-- [#62](https://github.com/chef-cookbooks/chef-ingredient/issues/62) Do not assume connection to the interwebs
+- [#62](https://github.com/chef-cookbooks/chef-ingredient/issues/62) Do not assume connection to the internet, allow custom recipe for a local repository
+- [#75](https://github.com/chef-cookbooks/chef-ingredient/pull/75) omnitruck handler windows implementation
 
 # v0.15.0
 

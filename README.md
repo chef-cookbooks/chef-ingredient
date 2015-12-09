@@ -42,6 +42,8 @@ This may be removed in a future version.
 
 A "chef ingredient" is the core package itself, or products or add-on components published by Chef Software, Inc. This resource manages the installation, configuration, and running the `ctl reconfigure` of individual packages.
 
+By default, `chef_ingredient` will install using Chef's public package repositories with the `yum-chef` and `apt-chef` cookbooks depending on the platform. However, it can be configured to use a custom repository by setting the `node['chef-ingredient']['custom-repo-recipe']` attribute (nil by default).
+
 #### Actions
 
 - `install` - (default) Configures the package repository and installs the specified package.
@@ -50,6 +52,7 @@ A "chef ingredient" is the core package itself, or products or add-on components
 - `reconfigure` - Performs the `ctl reconfigure` command for the package.
 
 #### Properties
+
 - `product_name`: (name attribute) The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef/mixlib-install/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
 - `config`: String content that will be added to the configuration file of the given product.
 - `ctl_command`: The "ctl" command, e.g., `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
