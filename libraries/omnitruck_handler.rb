@@ -18,14 +18,6 @@
 module ChefIngredient
   module OmnitruckHandler
     def handle_install
-      ensure_mixlib_install_gem_installed!
-
-      installer = Mixlib::Install.new(
-        product_name: new_resource.product_name,
-        channel: new_resource.channel,
-        product_version: new_resource.version
-      )
-
       current_version = installer.current_version
 
       if new_resource.version == :latest
@@ -41,14 +33,6 @@ module ChefIngredient
     end
 
     def handle_upgrade
-      ensure_mixlib_install_gem_installed!
-
-      installer = Mixlib::Install.new(
-        product_name: new_resource.product_name,
-        channel: new_resource.channel,
-        product_version: new_resource.version
-      )
-
       configure_version(installer) if installer.upgrade_available?
     end
 
@@ -57,12 +41,27 @@ module ChefIngredient
     end
 
     def configure_version(installer)
-      installer_script_path = File.join(Chef::Config[:file_cache_path], 'installer.sh')
       install_command_resource = "install-#{new_resource.product_name}-#{new_resource.version}"
 
       file installer_script_path do
         content installer.install_command
-        notifies :run, "execute[#{install_command_resource}]", :immediately
+        if windows?
+          notifies :run, "powershell_script[#{install_command_resource}]", :immediately
+        else
+          notifies :run, "execute[#{install_command_resource}]", :immediately
+        end
+      end
+
+      powershell_script install_command_resource do
+        # We pass the install code directly, but still depend upon the file to
+        # change before executing the install
+        code installer.install_command
+        action :nothing
+
+        if new_resource.product_name == 'chef'
+          # We define this resource in ChefIngredientProvider
+          notifies :run, 'ruby_block[stop chef run]', :immediately
+        end
       end
 
       execute install_command_resource do
@@ -73,6 +72,29 @@ module ChefIngredient
           # We define this resource in ChefIngredientProvider
           notifies :run, 'ruby_block[stop chef run]', :immediately
         end
+      end
+    end
+
+    def installer
+      @installer ||= begin
+        ensure_mixlib_install_gem_installed!
+
+        options = {
+          product_name: new_resource.product_name,
+          channel: new_resource.channel,
+          product_version: new_resource.version
+        }.tap do |opt|
+          opt[:shell_type] = :ps1 if windows?
+        end
+
+        Mixlib::Install.new(options)
+      end
+    end
+
+    def installer_script_path
+      @installer_script_path ||= begin
+        installer_file = windows? ? 'installer.ps1' : 'installer.sh'
+        File.join(Chef::Config[:file_cache_path], installer_file)
       end
     end
   end
