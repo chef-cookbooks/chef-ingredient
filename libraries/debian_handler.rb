@@ -53,13 +53,18 @@ module ChefIngredient
           end
         end
       else
-        # Enable the required apt-repository.
-        include_recipe "apt-chef::#{new_resource.channel}"
+        if use_custom_repo_recipe?
+          # Use the custom repository recipe.
+          include_recipe custom_repo_recipe
+        else
+          # Enable the required apt-repository.
+          include_recipe "apt-chef::#{new_resource.channel}"
 
-        # Pin it so that product can only be installed from its own channel
-        apt_preference ingredient_package_name do
-          pin "release o=https://packagecloud.io/chef/#{new_resource.channel}"
-          pin_priority '900'
+          # Pin it so that product can only be installed from its own channel
+          apt_preference ingredient_package_name do
+            pin "release o=https://packagecloud.io/chef/#{new_resource.channel}"
+            pin_priority '900'
+          end
         end
 
         # Foodcritic doesn't like timeout attribute in package resource
