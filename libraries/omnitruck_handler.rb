@@ -37,7 +37,7 @@ module ChefIngredient
     end
 
     def handle_uninstall
-      fail 'Uninstalling a product is currently not supported.'
+      raise 'Uninstalling a product is currently not supported.'
     end
 
     def configure_version(installer)
@@ -75,22 +75,6 @@ module ChefIngredient
             notifies :run, 'ruby_block[stop chef run]', :immediately
           end
         end
-      end
-    end
-
-    def installer
-      @installer ||= begin
-        ensure_mixlib_install_gem_installed!
-
-        options = {
-          product_name: new_resource.product_name,
-          channel: new_resource.channel,
-          product_version: new_resource.version
-        }.tap do |opt|
-          opt[:shell_type] = :ps1 if windows?
-        end
-
-        Mixlib::Install.new(options)
       end
     end
 

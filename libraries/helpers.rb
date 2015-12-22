@@ -80,7 +80,12 @@ module ChefIngredientCookbook
     #
     def ensure_mixlib_install_gem_installed!
       node.run_state[:mixlib_install_gem_installed] ||= begin # ~FC001
-        install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.6')
+        # TESTING: Uncomment for local mixlib-install testing
+        # r = chef_gem 'mixlib-install' do
+        #   source '/pkg/mixlib-install-0.8.0.alpha.7.gem'
+        # end
+        # r.run_action(:install)
+        install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.7')
 
         require 'mixlib/install'
         require 'mixlib/install/product'
@@ -222,6 +227,48 @@ module ChefIngredientCookbook
 
     def windows?
       node['platform_family'] == 'windows'
+    end
+
+    #
+    # Creates a Mixlib::Install instance using the common attributes of
+    # chef_ingredient resource that can be used for querying builds or
+    # generating install scripts.
+    #
+    def installer
+      @installer ||= begin
+        ensure_mixlib_install_gem_installed!
+
+        options = {
+          product_name: new_resource.product_name,
+          channel: new_resource.channel,
+          product_version: new_resource.version
+        }.tap do |opt|
+          opt[:shell_type] = :ps1 if windows?
+        end
+
+        Mixlib::Install.new(options)
+      end
+    end
+
+    #
+    # Returns package installer options with any required
+    # options based on platform
+    #
+    def package_options
+      options = new_resource.options
+
+      # Ubuntu 10.10 and Debian 6 require the `--force-yes` option
+      # for package installs
+      if (platform?('ubuntu') && node['platform_version'] == '10.04') ||
+         (platform?('debian') && node['platform_version'].start_with?('6'))
+        if options.nil?
+          options = '--force-yes'
+        else
+          options << ' --force-yes'
+        end
+      end
+
+      options
     end
   end
 end

@@ -40,30 +40,10 @@ module ChefIngredient
         only_if { ::File.exist?('/etc/apt/sources.list.d/chef_stable_.list') }
       end
 
-      # we're all sad about this, but ubuntu 10.04 and debian 6 will fail with
-      # a message about using this option if we don't do it here.
-      package_options = new_resource.options
-      if (platform?('ubuntu') && node['platform_version'] == '10.04') ||
-         (platform?('debian') && node['platform_version'].start_with?('6'))
-        if package_options.nil?
-          package_options = '--force-yes'
-        else
-          package_options << ' --force-yes'
-        end
-      end
-
       if new_resource.package_source
-        dpkg_package new_resource.product_name do
-          action action_name
-          package_name ingredient_package_name
-          options package_options
-          source new_resource.package_source
-
-          if new_resource.product_name == 'chef'
-            # We define this resource in ChefIngredientProvider
-            notifies :run, 'ruby_block[stop chef run]', :immediately
-          end
-        end
+        configure_from_source_package(action_name)
+      elsif new_resource.channel == :unstable
+        configure_from_unstable_channel(action_name)
       else
         if use_custom_repo_recipe?
           # Use the custom repository recipe.
@@ -83,25 +63,65 @@ module ChefIngredient
           end
         end
 
-        # Foodcritic doesn't like timeout attribute in package resource
-        package new_resource.product_name do # ~FC009
-          action action_name
-          package_name ingredient_package_name
-          options package_options
-          timeout new_resource.timeout
+        configure_from_repo(action_name)
+      end
+    end
 
-          # If the latest version is specified, we should not give any version
-          # to the package resource.
-          unless version_latest?(new_resource.version)
-            version version_for_package_resource
-          end
+    def configure_from_source_package(action_name, local_path = nil)
+      dpkg_package new_resource.product_name do
+        action action_name
+        package_name ingredient_package_name
+        options package_options
+        source local_path || new_resource.package_source
 
-          if new_resource.product_name == 'chef'
-            # We define this resource in ChefIngredientProvider
-            notifies :run, 'ruby_block[stop chef run]', :immediately
-          end
+        if new_resource.product_name == 'chef'
+          # We define this resource in ChefIngredientProvider
+          notifies :run, 'ruby_block[stop chef run]', :immediately
         end
       end
+    end
+
+    def configure_from_repo(action_name)
+      # Foodcritic doesn't like timeout attribute in package resource
+      package new_resource.product_name do # ~FC009
+        action action_name
+        package_name ingredient_package_name
+        options package_options
+        timeout new_resource.timeout
+
+        # If the latest version is specified, we should not give any version
+        # to the package resource.
+        unless version_latest?(new_resource.version)
+          version version_for_package_resource
+        end
+
+        if new_resource.product_name == 'chef'
+          # We define this resource in ChefIngredientProvider
+          notifies :run, 'ruby_block[stop chef run]', :immediately
+        end
+      end
+    end
+
+    def configure_from_unstable_channel(action_name)
+      ensure_mixlib_install_gem_installed!
+
+      installer_options = {
+        product_name: new_resource.product_name,
+        channel: new_resource.channel,
+        product_version: new_resource.version
+      }
+      installer = Mixlib::Install.new(installer_options).detect_platform
+
+      cache_path = Chef::Config[:file_cache_path]
+      remote_artifact_path = installer.artifact_info.url
+      local_artifact_path = File.join(cache_path, ::File.basename(remote_artifact_path))
+
+      remote_file local_artifact_path do
+        source remote_artifact_path
+        mode '0644'
+      end
+
+      configure_from_source_package(action_name, local_artifact_path)
     end
   end
 end
