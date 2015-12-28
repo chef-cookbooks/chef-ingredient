@@ -58,7 +58,7 @@ By default, `chef_ingredient` will install using Chef's public package repositor
 - `ctl_command`: The "ctl" command, e.g., `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
 - `options`: Options passed to the `package` resource used for installation.
 - `version`: Package version to install. Can be specified in various semver-alike ways: `12.0.4`, `12.0.3-rc.3`, and also `:latest`/`'latest'`. Do not use this property when specifying `package_source`. Default is `:latest`, which will install the latest package from the repository.
-- `channel`: Channel to install the products from. It can be `:stable` (default) or `:current`.
+- `channel`: Channel to install the products from. It can be `:stable` (default), `:current` or `:unstable`.
 - `package_source`: Full path to a location where the package is located. If present, this file is used for installing the package. Default `nil`.
 - `timeout`: The amount of time (in seconds) to wait to fetch the installer before timing out. Default: default timeout of the Chef package resource - `900` seconds.
 
