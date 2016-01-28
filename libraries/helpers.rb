@@ -143,7 +143,7 @@ module ChefIngredientCookbook
       version = "#{v.major}.#{v.minor}.#{v.patch}"
       version << "~#{v.prerelease}" if v.prerelease? && !v.prerelease.match(/^\d$/)
       version << "+#{v.build}" if v.build?
-      version << '-1' unless version.match(/-1$/)
+      version << '-1' unless version =~ /-1$/
       version << rhel_append_version if node['platform_family'] == 'rhel' &&
                                         !version.match(/#{rhel_append_version}$/)
       version
