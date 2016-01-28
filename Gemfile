@@ -14,8 +14,8 @@ group :unit do
   gem 'chefspec'
   gem 'chef-dk'
 
-  # Pin nokogiri to 1.6.7 until the new version can install in travis.
-  gem 'nokogiri', '= 1.6.7'
+  # Pin nokogiri to 1.6.7.2 until the new version can install in travis.
+  gem 'nokogiri', '= 1.6.7.2'
 end
 
 group :development do

@@ -80,7 +80,7 @@ module ChefIngredientCookbook
     #
     def ensure_mixlib_install_gem_installed!
       node.run_state[:mixlib_install_gem_installed] ||= begin # ~FC001
-        install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.3')
+        install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.4')
 
         require 'mixlib/install'
         require 'mixlib/install/product'
@@ -143,7 +143,7 @@ module ChefIngredientCookbook
       version = "#{v.major}.#{v.minor}.#{v.patch}"
       version << "~#{v.prerelease}" if v.prerelease? && !v.prerelease.match(/^\d$/)
       version << "+#{v.build}" if v.build?
-      version << '-1' unless version.match(/-1$/)
+      version << '-1' unless version =~ /-1$/
       version << rhel_append_version if node['platform_family'] == 'rhel' &&
                                         !version.match(/#{rhel_append_version}$/)
       version

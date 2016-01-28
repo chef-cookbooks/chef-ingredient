@@ -47,11 +47,11 @@ EOS
       end
 
       it 'creates config directory for manage' do
-        expect(chef_run).to create_directory('/etc/opscode-manage')
+        expect(chef_run).to create_directory('/etc/chef-manage')
       end
 
       it 'creates config file for manage with sensitive set' do
-        expect(chef_run).to create_file('/etc/opscode-manage/manage.rb').with sensitive: true, content: <<-EOS
+        expect(chef_run).to create_file('/etc/chef-manage/manage.rb').with sensitive: true, content: <<-EOS
 disable_sign_up true
 support_email_address "admin@chef.io"
 EOS
