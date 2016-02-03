@@ -43,16 +43,12 @@ module ChefIngredient
     def configure_version(installer)
       install_command_resource = "install-#{new_resource.product_name}-#{new_resource.version}"
 
-      file installer_script_path do
-        content installer.install_command
-        if windows?
-          notifies :run, "powershell_script[#{install_command_resource}]", :immediately
-        else
-          notifies :run, "execute[#{install_command_resource}]", :immediately
-        end
-      end
-
       if windows?
+        file installer_script_path do
+          content installer.install_command
+          notifies :run, "powershell_script[#{install_command_resource}]", :immediately
+        end
+
         powershell_script install_command_resource do
           # We pass the install code directly, but still depend upon the file to
           # change before executing the install
@@ -65,6 +61,11 @@ module ChefIngredient
           end
         end
       else
+        file installer_script_path do
+          content installer.install_command
+          notifies :run, "execute[#{install_command_resource}]", :immediately
+        end
+
         execute install_command_resource do
           command "sudo /bin/sh #{installer_script_path}"
           action :nothing
