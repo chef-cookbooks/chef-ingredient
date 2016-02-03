@@ -43,34 +43,37 @@ module ChefIngredient
     def configure_version(installer)
       install_command_resource = "install-#{new_resource.product_name}-#{new_resource.version}"
 
-      file installer_script_path do
-        content installer.install_command
-        if windows?
+      if windows?
+        file installer_script_path do
+          content installer.install_command
           notifies :run, "powershell_script[#{install_command_resource}]", :immediately
-        else
+        end
+
+        powershell_script install_command_resource do
+          # We pass the install code directly, but still depend upon the file to
+          # change before executing the install
+          code installer.install_command
+          action :nothing
+
+          if new_resource.product_name == 'chef'
+            # We define this resource in ChefIngredientProvider
+            notifies :run, 'ruby_block[stop chef run]', :immediately
+          end
+        end
+      else
+        file installer_script_path do
+          content installer.install_command
           notifies :run, "execute[#{install_command_resource}]", :immediately
         end
-      end
 
-      powershell_script install_command_resource do
-        # We pass the install code directly, but still depend upon the file to
-        # change before executing the install
-        code installer.install_command
-        action :nothing
+        execute install_command_resource do
+          command "sudo /bin/sh #{installer_script_path}"
+          action :nothing
 
-        if new_resource.product_name == 'chef'
-          # We define this resource in ChefIngredientProvider
-          notifies :run, 'ruby_block[stop chef run]', :immediately
-        end
-      end
-
-      execute install_command_resource do
-        command "sudo /bin/sh #{installer_script_path}"
-        action :nothing
-
-        if new_resource.product_name == 'chef'
-          # We define this resource in ChefIngredientProvider
-          notifies :run, 'ruby_block[stop chef run]', :immediately
+          if new_resource.product_name == 'chef'
+            # We define this resource in ChefIngredientProvider
+            notifies :run, 'ruby_block[stop chef run]', :immediately
+          end
         end
       end
     end

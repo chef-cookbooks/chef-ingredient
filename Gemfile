@@ -11,7 +11,7 @@ group :unit do
   gem 'mixlib-versioning'
   gem 'mixlib-install', '~> 0.8.0.alpha'
   gem 'chef-sugar'
-  gem 'chefspec'
+  gem 'chefspec', github: 'sersut/chefspec', branch: 'sersut/export-repo-compat'
   gem 'chef-dk'
 
   # Pin nokogiri to 1.6.7.2 until the new version can install in travis.
