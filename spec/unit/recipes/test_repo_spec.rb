@@ -206,6 +206,25 @@ EOS
     end
   end
 
+  context 'installs packages with apt options on ubuntu 10.04' do
+    cached(:ubuntu_1004) do
+      ChefSpec::SoloRunner.new(
+        platform: 'ubuntu',
+        version: '10.04',
+        step_into: %w(chef_ingredient chef_server_ingredient)
+      ) do |node|
+        node.set['chef-server-core']['version'] = nil
+      end.converge(described_recipe)
+    end
+
+    it 'installs apt_package[chef-server-core]' do
+      pkgres = ubuntu_1004.find_resource('package', 'chef-server')
+      expect(pkgres).to_not be_nil
+      expect(pkgres).to be_a(Chef::Resource::AptPackage)
+      expect(ubuntu_1004).to install_package('chef-server').with(options: '--force-yes')
+    end
+  end
+
   context 'release version specified 12.0.4' do
     cached(:ubuntu_1404) do
       ChefSpec::SoloRunner.new(

@@ -40,11 +40,22 @@ module ChefIngredient
         only_if { ::File.exist?('/etc/apt/sources.list.d/chef_stable_.list') }
       end
 
+      # we're all sad about this, but ubuntu 10.04 will fail with a message
+      # about using this option if we don't do it here.
+      package_options = new_resource.options
+      if platform?('ubuntu') && node['platform_version'] == '10.04'
+        if package_options.nil?
+          package_options = '--force-yes'
+        else
+          package_options << ' --force-yes'
+        end
+      end
+
       if new_resource.package_source
         dpkg_package new_resource.product_name do
           action action_name
           package_name ingredient_package_name
-          options new_resource.options
+          options package_options
           source new_resource.package_source
 
           if new_resource.product_name == 'chef'
@@ -61,9 +72,13 @@ module ChefIngredient
           include_recipe "apt-chef::#{new_resource.channel}"
 
           # Pin it so that product can only be installed from its own channel
+          # On Ubuntu 10.04, this causes it not to be found for some strange
+          # reason... Since we don't officially support 10.04, this should
+          # not affect anyone.
           apt_preference ingredient_package_name do
             pin "release o=https://packagecloud.io/chef/#{new_resource.channel}"
             pin_priority '900'
+            not_if { platform?('ubuntu') && node['platform_version'] == '10.04' }
           end
         end
 
@@ -71,7 +86,7 @@ module ChefIngredient
         package new_resource.product_name do # ~FC009
           action action_name
           package_name ingredient_package_name
-          options new_resource.options
+          options package_options
           timeout new_resource.timeout
 
           # If the latest version is specified, we should not give any version
