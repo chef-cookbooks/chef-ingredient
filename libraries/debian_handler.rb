@@ -40,10 +40,11 @@ module ChefIngredient
         only_if { ::File.exist?('/etc/apt/sources.list.d/chef_stable_.list') }
       end
 
-      # we're all sad about this, but ubuntu 10.04 will fail with a message
-      # about using this option if we don't do it here.
+      # we're all sad about this, but ubuntu 10.04 and debian 6 will fail with
+      # a message about using this option if we don't do it here.
       package_options = new_resource.options
-      if platform?('ubuntu') && node['platform_version'] == '10.04'
+      if (platform?('ubuntu') && node['platform_version'] == '10.04') ||
+         (platform?('debian') && node['platform_version'].start_with?('6'))
         if package_options.nil?
           package_options = '--force-yes'
         else

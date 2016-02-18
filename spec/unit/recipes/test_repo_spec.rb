@@ -225,6 +225,25 @@ EOS
     end
   end
 
+  context 'installs packages with apt options on debian 6' do
+    cached(:debian_605) do
+      ChefSpec::SoloRunner.new(
+        platform: 'debian',
+        version: '6.0.5',
+        step_into: %w(chef_ingredient chef_server_ingredient)
+      ) do |node|
+        node.set['chef-server-core']['version'] = nil
+      end.converge(described_recipe)
+    end
+
+    it 'installs apt_package[chef-server-core]' do
+      pkgres = debian_605.find_resource('package', 'chef-server')
+      expect(pkgres).to_not be_nil
+      expect(pkgres).to be_a(Chef::Resource::AptPackage)
+      expect(debian_605).to install_package('chef-server').with(options: '--force-yes')
+    end
+  end
+
   context 'release version specified 12.0.4' do
     cached(:ubuntu_1404) do
       ChefSpec::SoloRunner.new(
