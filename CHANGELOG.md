@@ -1,3 +1,8 @@
+# v0.17.0
+
+- [#77](https://github.com/chef-cookbooks/chef-ingredient/pull/77) Enable installation of chef and chefdk from unstable
+- [#82](https://github.com/chef-cookbooks/chef-ingredient/pull/82) Set `--force-yes` for older Debian/Ubuntu
+
 # v0.16.0
 
 - [#62](https://github.com/chef-cookbooks/chef-ingredient/issues/62) Do not assume connection to the internet, allow custom recipe for a local repository
