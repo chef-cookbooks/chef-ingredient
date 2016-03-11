@@ -107,6 +107,9 @@ module ChefIngredient
         channel: new_resource.channel,
         product_version: new_resource.version
       }
+
+      ENV['ARTIFACTORY_USERNAME'] = new_resource.artifactory_username
+      ENV['ARTIFACTORY_PASSWORD'] = new_resource.artifactory_password
       installer = Mixlib::Install.new(installer_options).detect_platform
 
       cache_path = Chef::Config[:file_cache_path]
