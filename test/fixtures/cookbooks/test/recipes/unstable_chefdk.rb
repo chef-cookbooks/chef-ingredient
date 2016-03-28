@@ -7,11 +7,14 @@
 # tests to work correctly.
 #
 
-ENV['ARTIFACTORY_USERNAME'] = node['artifactory']['username']
-ENV['ARTIFACTORY_PASSWORD'] = node['artifactory']['password']
+include_recipe 'apt'
+include_recipe 'yum'
+include_recipe 'git'
 
 chef_ingredient 'chefdk' do
   action :upgrade
   channel :unstable
   version :latest
+  artifactory_username node['artifactory']['username']
+  artifactory_password node['artifactory']['password']
 end

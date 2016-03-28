@@ -4,9 +4,6 @@ driver:
   customize:
     memory: 2048
     cpus: 2
-  # TESTING: Uncomment synced_folders to test local mixlib-install builds
-  # synced_folders:
-  #   - ["/Users/patrickwright/github/mixlib-install/pkg", "/pkg"]
 
 provisioner:
   # TODO: (engineering-services) Switch this back to policyfile_zero
@@ -60,6 +57,10 @@ suites:
       artifactory:
         username: <%= ENV['ARTIFACTORY_USERNAME'] %>
         password: <%= ENV['ARTIFACTORY_PASSWORD'] %>
+      chef-ingredient:
+        mixlib-install:
+          # Set to install mixlib-install from source
+          git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
 
   - name: unstable_chef_server
     excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
@@ -69,6 +70,10 @@ suites:
       artifactory:
         username: <%= ENV['ARTIFACTORY_USERNAME'] %>
         password: <%= ENV['ARTIFACTORY_PASSWORD'] %>
+      chef-ingredient:
+        mixlib-install:
+          # Set to install mixlib-install from source
+          git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
   <% end %>
 
   - name: push_client

@@ -17,6 +17,12 @@
 
 default['chef-ingredient'] = {}
 
+#
+# Optionally install the mixlib-install gem from source. This ref can be
+# a revision, branch or tag.
+#
+default['chef-ingredient']['mixlib-install']['git_ref'] = nil
+
 # Set `custom-repo-recipe` to a string "cookbook::recipe" to specify
 # a custom recipe that sets up your own yum/apt repository where you have
 # mirrored the ingredient packages you want to use.

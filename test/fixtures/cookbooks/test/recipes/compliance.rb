@@ -7,15 +7,17 @@
 # tests to work correctly.
 #
 
-env 'ARTIFACTORY_USERNAME' do
-  value 'username@chef.io'
+include_recipe 'apt'
+include_recipe 'yum'
+include_recipe 'git'
+
+chef_ingredient 'compliance' do
+  action :install
+  channel :stable
+  version :latest
 end
 
-env 'ARTIFACTORY_PASSWORD' do
-  value 'XXXXXXXXXXXXX'
-end
-
-chef_ingredient 'chef' do
+chef_ingredient 'compliance' do
   action :upgrade
   channel :unstable
   version :latest

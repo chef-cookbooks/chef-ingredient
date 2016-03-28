@@ -80,12 +80,15 @@ module ChefIngredientCookbook
     #
     def ensure_mixlib_install_gem_installed!
       node.run_state[:mixlib_install_gem_installed] ||= begin # ~FC001
-        # TESTING: Uncomment for local mixlib-install testing
-        # r = chef_gem 'mixlib-install' do
-        #   source '/pkg/mixlib-install-0.8.0.alpha.7.gem'
-        # end
-        # r.run_action(:install)
-        install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.7')
+        if node['chef-ingredient']['mixlib-install']['git_ref']
+          install_gem_from_source(
+            'https://github.com/chef/mixlib-install.git',
+            node['chef-ingredient']['mixlib-install']['git_ref'],
+            'mixlib-install'
+          )
+        else
+          install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.7')
+        end
 
         require 'mixlib/install'
         require 'mixlib/install/product'
@@ -101,6 +104,40 @@ module ChefIngredientCookbook
       chefgem = Chef::Resource::ChefGem.new(gem_name, run_context)
       chefgem.version(gem_version)
       chefgem.run_action(:install)
+    end
+
+    #
+    # Helper method to install a gem from source at compile time.
+    #
+    def install_gem_from_source(repo_url, git_ref, gem_name = nil)
+      uri = URI.parse(repo_url)
+      repo_basename = ::File.basename(uri.path)
+      repo_name = repo_basename.match(/(?<name>.*)\.git/)[:name]
+      gem_name ||= repo_name
+
+      Chef::Log.debug("Building #{gem_name} gem from source")
+
+      gem_clone_path = ::File.join(Chef::Config[:file_cache_path], repo_name)
+      gem_file_path  = ::File.join(gem_clone_path, "#{gem_name}-*.gem")
+
+      checkout_gem = Chef::Resource::Git.new(gem_clone_path, run_context)
+      checkout_gem.repository(repo_url)
+      checkout_gem.revision(git_ref)
+      checkout_gem.run_action(:sync)
+
+      build_gem = Chef::Resource::Execute.new("build-#{gem_name}-gem", run_context)
+      build_gem.cwd(gem_clone_path)
+      build_gem.command(
+        <<-EOH
+    rm #{gem_file_path}
+    #{::File.join(RbConfig::CONFIG['bindir'], 'gem')} build #{gem_name}.gemspec
+        EOH
+      )
+      build_gem.run_action(:run) if checkout_gem.updated?
+
+      install_gem = Chef::Resource::ChefGem.new(gem_name, run_context)
+      install_gem.source(Dir.glob(gem_file_path).first)
+      install_gem.run_action(:install) if build_gem.updated?
     end
 
     ########################################################################
