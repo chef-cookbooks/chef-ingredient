@@ -42,28 +42,12 @@ module ChefIngredient
 
       if new_resource.package_source
         configure_from_source_package(action_name)
-      elsif new_resource.channel == :unstable
-        configure_from_unstable_channel(action_name)
-      else
-        if use_custom_repo_recipe?
-          # Use the custom repository recipe.
-          include_recipe custom_repo_recipe
-        else
-          # Enable the required apt-repository.
-          include_recipe "apt-chef::#{new_resource.channel}"
-
-          # Pin it so that product can only be installed from its own channel
-          # On Ubuntu 10.04, this causes it not to be found for some strange
-          # reason... Since we don't officially support 10.04, this should
-          # not affect anyone.
-          apt_preference ingredient_package_name do
-            pin "release o=https://packagecloud.io/chef/#{new_resource.channel}"
-            pin_priority '900'
-            not_if { platform?('ubuntu') && node['platform_version'] == '10.04' }
-          end
-        end
-
+      elsif use_custom_repo_recipe?
+        # Use the custom repository recipe.
+        include_recipe custom_repo_recipe
         configure_from_repo(action_name)
+      else
+        configure_from_channel(action_name)
       end
     end
 
@@ -102,26 +86,16 @@ module ChefIngredient
       end
     end
 
-    def configure_from_unstable_channel(action_name)
-      ensure_mixlib_install_gem_installed!
-
-      installer_options = {
-        product_name: new_resource.product_name,
-        channel: new_resource.channel,
-        product_version: new_resource.version
-      }
-
-      ENV['ARTIFACTORY_USERNAME'] = new_resource.artifactory_username
-      ENV['ARTIFACTORY_PASSWORD'] = new_resource.artifactory_password
-      installer = Mixlib::Install.new(installer_options).detect_platform
-
+    def configure_from_channel(action_name)
       cache_path = Chef::Config[:file_cache_path]
       remote_artifact_path = installer.artifact_info.url
       local_artifact_path = File.join(cache_path, ::File.basename(remote_artifact_path))
 
-      remote_file local_artifact_path do
-        source remote_artifact_path
-        mode '0644'
+      converge_by "Download #{new_resource.product_name} package from #{remote_artifact_path}" do
+        remote_file local_artifact_path do
+          source remote_artifact_path
+          mode '0644'
+        end
       end
 
       configure_from_source_package(action_name, local_artifact_path)

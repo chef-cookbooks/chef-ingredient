@@ -26,10 +26,26 @@ platforms:
       customize:
         cpus: 4
 
+default: &default
+  attributes:
+    chef-ingredient:
+      artifactory:
+        username: <%= ENV['ARTIFACTORY_USERNAME'] %>
+        password: <%= ENV['ARTIFACTORY_PASSWORD'] %>
+      mixlib-install:
+        # Set to install mixlib-install from source
+        git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
+      omnitruck:
+        endpoint: <%= ENV['OMNITRUCK_ENDPOINT'] %>
+
 suites:
   - name: default
+    <<: *default
     excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
     run_list:
+      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
+      - recipe[test::install_git]
+      <% end %>
       - recipe[test]
       - recipe[test::repo]
 
@@ -40,40 +56,36 @@ suites:
       - recipe[test::local]
 
   - name: chefdk
+    <<: *default
     run_list:
+      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
+      - recipe[test::install_git]
+      <% end %>
       - recipe[test::chefdk]
 
   # Tests that require access to Chef's internal network
   <% if ENV['ARTIFACTORY_USERNAME'] %>
   - name: unstable_chefdk
+    <<: *default
     provisioner:
       product_name: chefdk
       product_version: latest
       channel: stable
     excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
     run_list:
+      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
+      - recipe[test::install_git]
+      <% end %>
       - recipe[test::unstable_chefdk]
-    attributes:
-      artifactory:
-        username: <%= ENV['ARTIFACTORY_USERNAME'] %>
-        password: <%= ENV['ARTIFACTORY_PASSWORD'] %>
-      chef-ingredient:
-        mixlib-install:
-          # Set to install mixlib-install from source
-          git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
 
   - name: unstable_chef_server
+    <<: *default
     excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
     run_list:
+      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
+      - recipe[test::install_git]
+      <% end %>
       - recipe[test::unstable_chef_server]
-    attributes:
-      artifactory:
-        username: <%= ENV['ARTIFACTORY_USERNAME'] %>
-        password: <%= ENV['ARTIFACTORY_PASSWORD'] %>
-      chef-ingredient:
-        mixlib-install:
-          # Set to install mixlib-install from source
-          git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
   <% end %>
 
   - name: push_client
