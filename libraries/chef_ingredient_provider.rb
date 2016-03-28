@@ -22,7 +22,7 @@ require_relative './omnitruck_handler'
 
 class Chef
   class Provider
-    class ChefIngredient < Chef::Provider::LWRPBase
+    class ChefIngredient < Chef::Provider::LWRPBase # ~FC058
       provides :chef_ingredient
       use_inline_resources
 

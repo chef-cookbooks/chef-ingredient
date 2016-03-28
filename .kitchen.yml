@@ -43,11 +43,37 @@ suites:
     run_list:
       - recipe[test::chefdk]
 
-  # This test requires access to Chef's internal network
+  # Tests that require access to Chef's internal network
   <% if ENV['ARTIFACTORY_USERNAME'] %>
-  - name: chef_unstable
+  - name: unstable_chefdk
+    provisioner:
+      product_name: chefdk
+      product_version: latest
+      channel: stable
+    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
     run_list:
-      - recipe[test::unstable]
+      - recipe[test::unstable_chefdk]
+    attributes:
+      artifactory:
+        username: <%= ENV['ARTIFACTORY_USERNAME'] %>
+        password: <%= ENV['ARTIFACTORY_PASSWORD'] %>
+      chef-ingredient:
+        mixlib-install:
+          # Set to install mixlib-install from source
+          git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
+
+  - name: unstable_chef_server
+    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
+    run_list:
+      - recipe[test::unstable_chef_server]
+    attributes:
+      artifactory:
+        username: <%= ENV['ARTIFACTORY_USERNAME'] %>
+        password: <%= ENV['ARTIFACTORY_PASSWORD'] %>
+      chef-ingredient:
+        mixlib-install:
+          # Set to install mixlib-install from source
+          git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
   <% end %>
 
   - name: push_client
