@@ -32,10 +32,10 @@ describe 'test::push' do
     end
 
     it 'upgrades yum_package[push-client]' do
-      pkgres = centos_65.find_resource('package', 'push-client')
+      pkgres = centos_65.find_resource('package', 'push-jobs-client')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::YumPackage)
-      expect(centos_65).to install_package('push-client')
+      expect(centos_65).to install_package('push-jobs-client')
     end
   end
 
@@ -55,10 +55,10 @@ describe 'test::push' do
     end
 
     it 'upgrades apt_package[push-client]' do
-      pkgres = ubuntu_1404.find_resource('package', 'push-client')
+      pkgres = ubuntu_1404.find_resource('package', 'push-jobs-client')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::AptPackage)
-      expect(ubuntu_1404).to install_package('push-client')
+      expect(ubuntu_1404).to install_package('push-jobs-client')
     end
   end
 end
