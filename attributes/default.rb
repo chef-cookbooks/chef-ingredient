@@ -42,8 +42,3 @@ default['chef-ingredient']['artifactory']['password'] = nil
 # a revision, branch or tag.
 #
 default['chef-ingredient']['mixlib-install']['git_ref'] = nil
-
-#
-# Optionally override the omnitruck endpoint
-#
-default['chef-ingredient']['omnitruck']['endoint'] = nil

@@ -9,7 +9,7 @@ end
 
 group :unit do
   gem 'mixlib-versioning'
-  gem 'mixlib-install', '~> 0.8.0.alpha'
+  gem 'mixlib-install', '~> 1.0'
   gem 'chef-sugar'
   gem 'chefspec', github: 'sersut/chefspec', branch: 'sersut/export-repo-compat'
   gem 'chef-dk'

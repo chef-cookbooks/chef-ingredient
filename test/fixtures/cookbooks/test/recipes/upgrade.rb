@@ -1,3 +1,6 @@
+chef_ingredient 'chef-server'
+
 chef_ingredient 'chef-server' do
-  action [:install, :upgrade]
+  action :upgrade
+  channel :current
 end

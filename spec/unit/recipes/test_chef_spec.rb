@@ -10,15 +10,6 @@ describe 'test::chef' do
       ).converge(described_recipe)
     end
 
-    it 'sets up current apt repository' do
-      expect(ubuntu_1404).to add_apt_repository('chef-current')
-    end
-
-    it 'pins future installs of chef to current repository' do
-      expect(ubuntu_1404).to add_apt_preference('chef').with(pin: 'release o=https://packagecloud.io/chef/current',
-                                                             pin_priority: '900')
-    end
-
     it 'installs chef' do
       expect(ubuntu_1404).to upgrade_package('chef')
     end

@@ -35,8 +35,6 @@ default: &default
       mixlib-install:
         # Set to install mixlib-install from source
         git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
-      omnitruck:
-        endpoint: <%= ENV['OMNITRUCK_ENDPOINT'] %>
 
 suites:
   - name: default
@@ -57,6 +55,7 @@ suites:
 
   - name: chefdk
     <<: *default
+    excludes: [ 'ubuntu-10.04' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -71,7 +70,7 @@ suites:
       product_name: chefdk
       product_version: latest
       channel: stable
-    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
+    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard', 'ubuntu-10.04' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]

@@ -87,7 +87,7 @@ module ChefIngredientCookbook
             'mixlib-install'
           )
         else
-          install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.8')
+          install_gem_from_rubygems('mixlib-install', '1.0.2')
         end
 
         require 'mixlib/install'
@@ -126,6 +126,7 @@ module ChefIngredientCookbook
       checkout_gem.run_action(:sync)
 
       ::FileUtils.rm_rf gem_file_path
+
       build_gem = Chef::Resource::Execute.new("build-#{gem_name}-gem", run_context)
       build_gem.cwd(gem_clone_path)
       build_gem.command(
@@ -136,7 +137,12 @@ module ChefIngredientCookbook
       build_gem.run_action(:run) if checkout_gem.updated?
 
       install_gem = Chef::Resource::ChefGem.new(gem_name, run_context)
-      install_gem.source(Dir.glob(gem_file_path).first)
+      install_gem_file_path = if windows?
+                                Dir.glob(gem_file_path.tr('\\', '/')).first
+                              else
+                                Dir.glob(gem_file_path).first
+                              end
+      install_gem.source(install_gem_file_path)
       install_gem.run_action(:install) if build_gem.updated?
     end
 
@@ -278,16 +284,11 @@ module ChefIngredientCookbook
         # Set Artifactory creds when using unstable channel
         if new_resource.channel == :unstable
           ENV['ARTIFACTORY_USERNAME'] ||= node['chef-ingredient']['artifactory']['username']
-          raise 'Must set ARTIFACTORY_USERNAME and ARTIFACTORY_PASSWORD' unless ENV['ARTIFACTORY_USERNAME']
           ENV['ARTIFACTORY_PASSWORD'] ||= node['chef-ingredient']['artifactory']['password']
 
-          Chef::Log.info "Use Artifactory username: #{ENV['ARTIFACTORY_USERNAME']}"
-        end
+          raise 'Must set Artifactory credentials to use unstable channel.' unless ENV['ARTIFACTORY_USERNAME']
 
-        # Override default omnitruck endpoint
-        ENV['OMNITRUCK_ENDPOINT'] ||= node['chef-ingredient']['omnitruck']['endpoint']
-        if ENV['OMNITRUCK_ENDPOINT'] && new_resource.channel != :unstable
-          Chef::Log.info "Use omnitruck endpoint: #{ENV['OMNITRUCK_ENDPOINT']}"
+          Chef::Log.info "Use Artifactory username: #{ENV['ARTIFACTORY_USERNAME']}"
         end
 
         options = {
@@ -306,7 +307,7 @@ module ChefIngredientCookbook
     # Returns package installer options with any required
     # options based on platform
     #
-    def package_options
+    def package_options_with_force
       options = new_resource.options
 
       # Ubuntu 10.10 and Debian 6 require the `--force-yes` option

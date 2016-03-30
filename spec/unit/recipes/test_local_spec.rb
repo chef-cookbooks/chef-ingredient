@@ -12,9 +12,8 @@ describe 'test::local' do
       end.converge(described_recipe)
     end
 
-    it 'uses the rpm_package provider instead of yum_package' do
-      expect(centos_65).to install_rpm_package('chef-server-core')
-      expect(centos_65).to_not install_yum_package('chef-server-core')
+    it 'uses the rpm package provider' do
+      expect(centos_65).to install_package('chef-server-core').with(provider: Chef::Provider::Package::Rpm)
     end
   end
 
@@ -29,9 +28,8 @@ describe 'test::local' do
       end.converge(described_recipe)
     end
 
-    it 'uses the dpkg_package provider instead of apt_package' do
-      expect(ubuntu_1404).to install_dpkg_package('chef-server-core')
-      expect(ubuntu_1404).to_not install_apt_package('chef-server-core')
+    it 'uses the dpkg package provider' do
+      expect(ubuntu_1404).to install_package('chef-server-core').with(provider: Chef::Provider::Package::Dpkg)
     end
   end
 end

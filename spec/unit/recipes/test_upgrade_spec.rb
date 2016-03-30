@@ -39,20 +39,19 @@ describe 'test::upgrade' do
     end
   end
 
-  context 'upgrade packages with apt on ubuntu' do
+  context 'upgrade packages on ubuntu' do
     cached(:ubuntu_1404) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
         version: '14.04',
+        architecture: 'x86_64',
         step_into: %w(chef_ingredient)
       ) do |node|
         node.set['chef-server-core']['version'] = :latest
       end.converge(described_recipe)
     end
 
-    it 'upgrades apt_package[chef-server]' do
-      # Since we have two resources with same name and identity we can't use
-      # the upgrade_package & install_package matchers directly.
+    it 'upgrades package[chef-server]' do
       chef_server_resources = ubuntu_1404.find_resources(:package)
       expect(chef_server_resources.length).to eq(2)
       expect(chef_server_resources[0].action.first).to eq(:install)

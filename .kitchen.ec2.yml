@@ -1,0 +1,66 @@
+<%
+def file_if_exists(path)
+  path = File.expand_path(path)
+  File.exist?(path) ? path : nil
+end
+%>
+
+driver:
+  name: ec2
+  tags:
+    X-Project: chef-ci-acceptance
+  aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] || ENV['USER'] || ENV['USERNAME'] %>
+  # test-specific stuff
+  region: us-west-2
+  availability_zone: a
+  subnet_id: subnet-19ac017c
+  security_group_ids: ["sg-e401eb83", "sg-96274af3"]
+  instance_type: m3.medium
+
+transport:
+  ssh_key: <%= file_if_exists("~/.ssh/#{ENV['AWS_SSH_KEY_ID'] || ENV['USER'] || ENV['USERNAME']}.pem") ||
+               file_if_exists("~/.ssh/#{ENV['AWS_SSH_KEY_ID'] || ENV['USER'] || ENV['USERNAME']}") ||
+               file_if_exists("~/.ssh/id_rsa") %>
+
+platforms:
+  - name: ubuntu-10.04
+    driver:
+      image_id: ami-012a1c31
+  - name: ubuntu-12.04
+    driver:
+      image_id: ami-f3635fc3
+  - name: ubuntu-14.04
+    driver:
+      image_id: ami-7f675e4f
+  - name: centos-6.6
+    driver:
+      image_id: ami-7df0bd4d # rhel-6
+    transport:
+      username: ec2-user
+  - name: centos-7.1
+    driver:
+      image_id: ami-4dbf9e7d # rhel-7
+    transport:
+      username: ec2-user
+  - name: windows-server-2012r2-standard
+    driver:
+      image_id: ami-af03eccf
+      user_data: |
+              <powershell>
+              $logfile="C:\\Program Files\\Amazon\\Ec2ConfigService\\Logs\\kitchen-ec2.log"
+              #PS Remoting and & winrm.cmd basic config
+              Enable-PSRemoting -Force -SkipNetworkProfileCheck
+              & winrm.cmd set winrm/config '@{MaxTimeoutms="1800000"}' >> $logfile
+              & winrm.cmd set winrm/config/winrs '@{MaxMemoryPerShellMB="1024"}' >> $logfile
+              & winrm.cmd set winrm/config/winrs '@{MaxShellsPerUser="50"}' >> $logfile
+              #Server settings - support username/password login
+              & winrm.cmd set winrm/config/service/auth '@{Basic="true"}' >> $logfile
+              & winrm.cmd set winrm/config/service '@{AllowUnencrypted="true"}' >> $logfile
+              & winrm.cmd set winrm/config/winrs '@{MaxMemoryPerShellMB="1024"}' >> $logfile
+              #Firewall Config
+              & netsh advfirewall firewall set rule name="Windows Remote Management (HTTP-In)" profile=public protocol=tcp localport=5985 remoteip=localsubnet new remoteip=any  >> $logfile
+              #Set script execution to unrestricted
+              & Set-ExecutionPolicy Unrestricted -Force
+              </powershell>
+    transport:
+      username: administrator

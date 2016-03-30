@@ -16,8 +16,7 @@
 #
 
 require_relative './helpers'
-require_relative './debian_handler'
-require_relative './rhel_handler'
+require_relative './default_handler'
 require_relative './omnitruck_handler'
 
 class Chef
@@ -38,11 +37,11 @@ class Chef
       def initialize(name, run_context = nil)
         super(name, run_context)
         case node['platform_family']
-        when 'debian'
-          extend ::ChefIngredient::DebianHandler
-        when 'rhel'
-          extend ::ChefIngredient::RhelHandler
+        when 'debian', 'rhel', 'windows'
+          extend ::ChefIngredient::DefaultHandler
         else
+          # OmnitruckHandler is used for Solaris, AIX, FreeBSD, etc.
+          # Eventually, we would like to support all platforms with the DefaultHandler
           extend ::ChefIngredient::OmnitruckHandler
         end
       end
