@@ -40,4 +40,4 @@ script:
   - /opt/chefdk/embedded/bin/rubocop
   - /opt/chefdk/embedded/bin/foodcritic --version
   - /opt/chefdk/embedded/bin/foodcritic . --exclude spec
-  - bundle exec rspec spec
+  - bundle exec rake
