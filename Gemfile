@@ -1,10 +1,14 @@
 source 'https://rubygems.org'
 
-group :lint do
-  gem 'foodcritic', '~> 5.0'
-  gem 'rubocop', '~> 0.18'
-  gem 'rainbow', '< 2.0'
+group :rake do
   gem 'rake'
+  gem 'tomlrb'
+end
+
+group :lint do
+  gem 'foodcritic', '~> 6.0'
+  gem 'rubocop', '~> 0.38'
+  gem 'rainbow', '< 2.0'
 end
 
 group :unit do
