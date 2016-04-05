@@ -87,7 +87,7 @@ module ChefIngredientCookbook
             'mixlib-install'
           )
         else
-          install_gem_from_rubygems('mixlib-install', '0.8.0.alpha.8')
+          install_gem_from_rubygems('mixlib-install', '1.0.2')
         end
 
         require 'mixlib/install'
@@ -125,18 +125,24 @@ module ChefIngredientCookbook
       checkout_gem.revision(git_ref)
       checkout_gem.run_action(:sync)
 
+      ::FileUtils.rm_rf gem_file_path
+
       build_gem = Chef::Resource::Execute.new("build-#{gem_name}-gem", run_context)
       build_gem.cwd(gem_clone_path)
       build_gem.command(
         <<-EOH
-    rm #{gem_file_path}
-    #{::File.join(RbConfig::CONFIG['bindir'], 'gem')} build #{gem_name}.gemspec
+#{::File.join(RbConfig::CONFIG['bindir'], 'gem')} build #{gem_name}.gemspec
         EOH
       )
       build_gem.run_action(:run) if checkout_gem.updated?
 
       install_gem = Chef::Resource::ChefGem.new(gem_name, run_context)
-      install_gem.source(Dir.glob(gem_file_path).first)
+      install_gem_file_path = if windows?
+                                Dir.glob(gem_file_path.tr('\\', '/')).first
+                              else
+                                Dir.glob(gem_file_path).first
+                              end
+      install_gem.source(install_gem_file_path)
       install_gem.run_action(:install) if build_gem.updated?
     end
 
@@ -275,6 +281,16 @@ module ChefIngredientCookbook
       @installer ||= begin
         ensure_mixlib_install_gem_installed!
 
+        # Set Artifactory creds when using unstable channel
+        if new_resource.channel == :unstable
+          ENV['ARTIFACTORY_USERNAME'] ||= node['chef-ingredient']['artifactory']['username']
+          ENV['ARTIFACTORY_PASSWORD'] ||= node['chef-ingredient']['artifactory']['password']
+
+          raise 'Must set Artifactory credentials to use unstable channel.' unless ENV['ARTIFACTORY_USERNAME']
+
+          Chef::Log.info "Use Artifactory username: #{ENV['ARTIFACTORY_USERNAME']}"
+        end
+
         options = {
           product_name: new_resource.product_name,
           channel: new_resource.channel,
@@ -283,7 +299,7 @@ module ChefIngredientCookbook
           opt[:shell_type] = :ps1 if windows?
         end
 
-        Mixlib::Install.new(options)
+        Mixlib::Install.new(options).detect_platform
       end
     end
 
@@ -291,7 +307,7 @@ module ChefIngredientCookbook
     # Returns package installer options with any required
     # options based on platform
     #
-    def package_options
+    def package_options_with_force
       options = new_resource.options
 
       # Ubuntu 10.10 and Debian 6 require the `--force-yes` option

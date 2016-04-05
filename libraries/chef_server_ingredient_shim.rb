@@ -35,8 +35,7 @@ class Chef
       resource_name :chef_server_ingredient
 
       # Adding this for compatibility, it won't do anything since the
-      # provider doesn't implement it, and uses the yum-chef or
-      # apt-chef attributes.
+      # provider doesn't implement it
       attribute :repository, kind_of: String, default: ''
       # More compatibility for older versions of chef-server-ingredient
       attribute :master_token, kind_of: String

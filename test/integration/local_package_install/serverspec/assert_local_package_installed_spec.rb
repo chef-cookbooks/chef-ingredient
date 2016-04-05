@@ -5,7 +5,7 @@ describe 'chef-ingredient::default' do
     it { should be_installed }
   end
 
-  describe command('chef-server-ctl test') do
+  describe command('sudo chef-server-ctl test') do
     its(:exit_status) { should eq 0 }
   end
 end

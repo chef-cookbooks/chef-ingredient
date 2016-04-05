@@ -27,19 +27,15 @@ describe 'test::push' do
       end.converge(described_recipe)
     end
 
-    it 'creates the yum repository' do
-      expect(centos_65).to create_yum_repository('chef-stable')
-    end
-
-    it 'upgrades yum_package[push-client]' do
+    it 'upgrades package[push-client]' do
       pkgres = centos_65.find_resource('package', 'push-jobs-client')
       expect(pkgres).to_not be_nil
-      expect(pkgres).to be_a(Chef::Resource::YumPackage)
+      expect(pkgres).to be_a(Chef::Resource::Package)
       expect(centos_65).to install_package('push-jobs-client')
     end
   end
 
-  context 'install packages with apt on ubuntu' do
+  context 'install packages on ubuntu' do
     cached(:ubuntu_1404) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
@@ -50,14 +46,10 @@ describe 'test::push' do
       end.converge(described_recipe)
     end
 
-    it 'creates the apt repository' do
-      expect(ubuntu_1404).to add_apt_repository('chef-stable')
-    end
-
-    it 'upgrades apt_package[push-client]' do
+    it 'upgrades package[push-client]' do
       pkgres = ubuntu_1404.find_resource('package', 'push-jobs-client')
       expect(pkgres).to_not be_nil
-      expect(pkgres).to be_a(Chef::Resource::AptPackage)
+      expect(pkgres).to be_a(Chef::Resource::Package)
       expect(ubuntu_1404).to install_package('push-jobs-client')
     end
   end

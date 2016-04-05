@@ -38,10 +38,6 @@ class Chef
       # Attributes for package resources used on rhel and debian platforms
       attribute :options, kind_of: String
       attribute :timeout, kind_of: [Integer, String, NilClass], default: nil
-
-      # Attributes for authenticating to artifactory to download unstable packages
-      attribute :artifactory_username, kind_of: String
-      attribute :artifactory_password, kind_of: String
     end
   end
 end

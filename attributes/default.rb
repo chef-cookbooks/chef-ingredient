@@ -18,10 +18,14 @@
 default['chef-ingredient'] = {}
 
 #
-# Optionally install the mixlib-install gem from source. This ref can be
-# a revision, branch or tag.
+# Artifactory username for unstable channel authentication
 #
-default['chef-ingredient']['mixlib-install']['git_ref'] = nil
+default['chef-ingredient']['artifactory']['username'] = nil
+
+#
+# Artifactory password for unstable channel authentication
+#
+default['chef-ingredient']['artifactory']['password'] = nil
 
 # Set `custom-repo-recipe` to a string "cookbook::recipe" to specify
 # a custom recipe that sets up your own yum/apt repository where you have
@@ -31,3 +35,10 @@ default['chef-ingredient']['mixlib-install']['git_ref'] = nil
 # policyfile, environment, role, etc.
 #
 # default['chef-ingredient']['custom-repo-recipe'] = 'custom_repo::awesome_custom_setup'
+
+# Testing Attributes #
+#
+# Optionally install the mixlib-install gem from source. This ref can be
+# a revision, branch or tag.
+#
+default['chef-ingredient']['mixlib-install']['git_ref'] = nil
