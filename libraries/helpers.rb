@@ -87,7 +87,7 @@ module ChefIngredientCookbook
             'mixlib-install'
           )
         else
-          install_gem_from_rubygems('mixlib-install', '1.0.2')
+          install_gem_from_rubygems('mixlib-install', '1.0.3')
         end
 
         require 'mixlib/install'
@@ -280,16 +280,6 @@ module ChefIngredientCookbook
     def installer
       @installer ||= begin
         ensure_mixlib_install_gem_installed!
-
-        # Set Artifactory creds when using unstable channel
-        if new_resource.channel == :unstable
-          ENV['ARTIFACTORY_USERNAME'] ||= node['chef-ingredient']['artifactory']['username']
-          ENV['ARTIFACTORY_PASSWORD'] ||= node['chef-ingredient']['artifactory']['password']
-
-          raise 'Must set Artifactory credentials to use unstable channel.' unless ENV['ARTIFACTORY_USERNAME']
-
-          Chef::Log.info "Use Artifactory username: #{ENV['ARTIFACTORY_USERNAME']}"
-        end
 
         options = {
           product_name: new_resource.product_name,

@@ -29,9 +29,6 @@ platforms:
 default: &default
   attributes:
     chef-ingredient:
-      artifactory:
-        username: <%= ENV['ARTIFACTORY_USERNAME'] %>
-        password: <%= ENV['ARTIFACTORY_PASSWORD'] %>
       mixlib-install:
         # Set to install mixlib-install from source
         git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
@@ -63,7 +60,6 @@ suites:
       - recipe[test::chefdk]
 
   # Tests that require access to Chef's internal network
-  <% if ENV['ARTIFACTORY_USERNAME'] %>
   - name: unstable_chefdk
     <<: *default
     provisioner:
@@ -85,7 +81,6 @@ suites:
       - recipe[test::install_git]
       <% end %>
       - recipe[test::unstable_chef_server]
-  <% end %>
 
   - name: push_client
     # we don't yet have push client packages for trusty, only precise

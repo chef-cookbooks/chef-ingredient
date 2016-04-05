@@ -100,7 +100,7 @@ Check that the package exists.
       remote_artifact_path = artifact_info.url
       local_artifact_path = File.join(cache_path, ::File.basename(remote_artifact_path))
 
-      converge_by "Download #{new_resource.product_name} package from #{remote_artifact_path}" do
+      converge_by "Download #{new_resource.product_name} package from #{remote_artifact_path}\n" do
         remote_file local_artifact_path do
           source remote_artifact_path
           mode '0644'
