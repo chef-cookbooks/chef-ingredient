@@ -1,3 +1,6 @@
+language: ruby
+cache: bundler
+
 # Use Travis's cointainer based infrastructure
 sudo: false
 addons:
@@ -16,6 +19,14 @@ install:
 branches:
   only:
     - master
+
+# make sure we have the latest version of bunder required by ohai which
+# fauxhai depends on which chefspec depends on
+before_install:
+  - gem update --system
+  - gem install bundler
+  - bundle --version
+  - gem --version
 
 # Ensure we make ChefDK's Ruby the default
 before_script:
