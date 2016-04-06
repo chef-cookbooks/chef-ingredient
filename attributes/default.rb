@@ -17,16 +17,6 @@
 
 default['chef-ingredient'] = {}
 
-#
-# Artifactory username for unstable channel authentication
-#
-default['chef-ingredient']['artifactory']['username'] = nil
-
-#
-# Artifactory password for unstable channel authentication
-#
-default['chef-ingredient']['artifactory']['password'] = nil
-
 # Set `custom-repo-recipe` to a string "cookbook::recipe" to specify
 # a custom recipe that sets up your own yum/apt repository where you have
 # mirrored the ingredient packages you want to use.
