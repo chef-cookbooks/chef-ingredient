@@ -1,3 +1,9 @@
+# v0.18.0
+
+- [#85](https://github.com/chef-cookbooks/chef-ingredient/pull/85) Ability to support unstable channel for all products / platforms.
+- [#90](https://github.com/chef-cookbooks/chef-ingredient/pull/90) Use packages from packages.chef.io instead of package cloud & remove packagecloud repository setup.
+- [#91](https://github.com/chef-cookbooks/chef-ingredient/pull/91) Deprecate chef-ha, chef-marketplace, chef-sync, push-client, push-server in favor of ha, marketplace, sync, push-jobs-client, push-jobs-server.
+
 # v0.17.0
 
 - [#77](https://github.com/chef-cookbooks/chef-ingredient/pull/77) Enable installation of chef and chefdk from unstable
