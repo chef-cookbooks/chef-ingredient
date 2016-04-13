@@ -1,3 +1,7 @@
+# v0.18.1
+
+- Bump mixlib-install version to 1.0.6 so unstable channel artifacts won't include metadata.json files.
+
 # v0.18.0
 
 - [#85](https://github.com/chef-cookbooks/chef-ingredient/pull/85) Ability to support unstable channel for all products / platforms.
