@@ -87,7 +87,7 @@ module ChefIngredientCookbook
             'mixlib-install'
           )
         else
-          install_gem_from_rubygems('mixlib-install', '1.0.5')
+          install_gem_from_rubygems('mixlib-install', '1.0.6')
         end
 
         require 'mixlib/install'
