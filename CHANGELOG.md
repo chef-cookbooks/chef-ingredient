@@ -1,3 +1,7 @@
+# v0.18.2
+
+- Set version constraint to ~> 1.0 for installing mixlib-install from Rubygems
+
 # v0.18.1
 
 - Bump mixlib-install version to 1.0.6 so unstable channel artifacts won't include metadata.json files.
