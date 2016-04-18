@@ -113,7 +113,14 @@ module ChefIngredient
       installer = Mixlib::Install.new(installer_options).detect_platform
 
       cache_path = Chef::Config[:file_cache_path]
-      remote_artifact_path = installer.artifact_info.url
+      iai = installer.artifact_info
+      if iai.is_a?(Array)
+        # remove metadata.json artifacts
+        iai.select!{ |a| a.url !~ /metadata\.json$/ }
+        remote_artifact_path = iai.first.url
+      else
+        remote_artifact_path = iai.url
+      end
       local_artifact_path = File.join(cache_path, ::File.basename(remote_artifact_path))
 
       remote_file local_artifact_path do
