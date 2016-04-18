@@ -59,6 +59,15 @@ suites:
       <% end %>
       - recipe[test::chefdk]
 
+  - name: compliance
+    <<: *default
+    excludes: [ 'ubuntu-10.04' ]
+    run_list:
+      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
+      - recipe[test::install_git]
+      <% end %>
+      - recipe[test::compliance]
+
   # Tests that require access to Chef's internal network
   - name: unstable_chefdk
     <<: *default
