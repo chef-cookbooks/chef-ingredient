@@ -12,5 +12,6 @@ end
 
 # Management Console - using the compat shim resource
 chef_server_ingredient 'manage' do
+  accept_license true
   action :reconfigure
 end

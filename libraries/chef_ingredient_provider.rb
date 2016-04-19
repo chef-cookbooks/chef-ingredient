@@ -81,6 +81,21 @@ class Chef
             not_if { get_config(new_resource.product_name).empty? }
           end
 
+          # If accept_license is set, drop .license.accepted file so that
+          # reconfigure does not prompt for license acceptance. This is
+          # the backwards compatible way of accepting a Chef license.
+          if new_resource.accept_license && %w(analytics manage reporting compliance).include?(new_resource.product_name)
+            # The way we construct the data directory for a product, that looks
+            # like /var/opt/<product_name> is to get the config file path that
+            # looks like /etc/<product_name>/<product_name>.rb and do path
+            # manipulation.
+            product_data_dir = ::File.basename(::File.dirname(ingredient_config_file(new_resource.product_name)))
+
+            file ::File.join('/var/opt', product_data_dir, '.license.accepted') do
+              action :touch
+            end
+          end
+
           execute "#{ingredient_package_name}-reconfigure" do
             command "#{ingredient_ctl_command} reconfigure"
           end

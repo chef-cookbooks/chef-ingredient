@@ -38,6 +38,9 @@ class Chef
       # Attributes for package resources used on rhel and debian platforms
       attribute :options, kind_of: String
       attribute :timeout, kind_of: [Integer, String, NilClass], default: nil
+
+      # Attribute to accept the license when applicable
+      attribute :accept_license, kind_of: [TrueClass, FalseClass], default: false
     end
   end
 end

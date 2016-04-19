@@ -57,6 +57,7 @@ By default, `chef_ingredient` will install using the `packages.chef.io` stable r
 - `channel`: Channel to install the products from. It can be `:stable` (default), `:current` or `:unstable`.
 - `package_source`: Full path to a location where the package is located. If present, this file is used for installing the package. Default `nil`.
 - `timeout`: The amount of time (in seconds) to wait to fetch the installer before timing out. Default: default timeout of the Chef package resource - `900` seconds.
+- `accept_license`: A boolean value that specifies if license should be accepted if it is asked for during `reconfigure`action. This option is applicable to only these products: manage, analytics, reporting and compliance. Default: `false`.
 
 ### omnibus_service
 

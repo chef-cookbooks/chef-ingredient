@@ -53,7 +53,7 @@ module ChefIngredientCookbook
     #
     # Returns the ctl-command for a chef_ingredient resource
     #
-    def ingredient_config_file
+    def ingredient_config_file(product_name)
       ensure_mixlib_install_gem_installed!
 
       PRODUCT_MATRIX.lookup(product_name).config_file
