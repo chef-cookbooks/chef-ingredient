@@ -37,6 +37,10 @@ EOS
         expect(chef_run).to reconfigure_chef_server_ingredient('manage')
       end
 
+      it 'creates the directory for the license acceptance file' do
+        expect(chef_run).to create_directory('/var/opt/chef-manage').with(recursive: true)
+      end
+
       it 'creates the license acceptance file' do
         expect(chef_run).to touch_file('/var/opt/chef-manage/.license.accepted')
       end

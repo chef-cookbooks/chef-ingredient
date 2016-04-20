@@ -89,9 +89,15 @@ class Chef
             # like /var/opt/<product_name> is to get the config file path that
             # looks like /etc/<product_name>/<product_name>.rb and do path
             # manipulation.
-            product_data_dir = ::File.basename(::File.dirname(ingredient_config_file(new_resource.product_name)))
+            product_data_dir_name = ::File.basename(::File.dirname(ingredient_config_file(new_resource.product_name)))
+            product_data_dir = ::File.join('/var/opt', product_data_dir_name)
 
-            file ::File.join('/var/opt', product_data_dir, '.license.accepted') do
+            directory product_data_dir do
+              recursive true
+              action :create
+            end
+
+            file ::File.join(product_data_dir, '.license.accepted') do
               action :touch
             end
           end
