@@ -1,5 +1,9 @@
 # v0.18.2
 
+- Add `accept_license` property to `chef_ingredient` which can accept license for Chef products when applicable.
+
+# v0.18.2
+
 - Set version constraint to ~> 1.0 for installing mixlib-install from Rubygems
 
 # v0.18.1
