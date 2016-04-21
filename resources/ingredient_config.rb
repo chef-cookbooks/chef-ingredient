@@ -28,7 +28,7 @@ property :sensitive, [TrueClass, FalseClass], default: false
 property :config, String, default: nil
 
 action :render do
-  target_config = ingredient_config_file
+  target_config = ingredient_config_file(product_name)
   return if target_config.nil?
 
   directory ::File.dirname(target_config) do
