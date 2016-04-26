@@ -1,7 +1,4 @@
 language: ruby
-# listen gem requires Ruby version ~> 2.2
-rvm:
-  - 2.2
 cache: bundler
 
 # Use Travis's cointainer based infrastructure

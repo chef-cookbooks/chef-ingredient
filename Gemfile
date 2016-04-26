@@ -31,6 +31,11 @@ group :development do
   gem 'guard-foodcritic'
   gem 'guard-rspec'
   gem 'guard-rubocop'
+
+  # listen gem which is required by guard requires ruby 2.2 in versions 3.1.X
+  # Chef DK ships with ruby 2.1 and we are using it in our testing so we
+  # need to pin listen gem to 3.0.X until we update Chef DK with ruby 2.2
+  gem 'listen', '~> 3.0.0'
 end
 
 # Run kitchen using Chef DK bundled set of gems.
