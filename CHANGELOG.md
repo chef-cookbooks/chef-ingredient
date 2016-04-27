@@ -1,4 +1,8 @@
-# v0.18.2
+# v0.18.4
+
+- Add `platform_version_compatibility_mode` property to `chef_ingredient` which makes chef-ingredient select packages built for earlier version of a platform during install when a package does not exist for the current platform version.
+
+# v0.18.3
 
 - Add `accept_license` property to `chef_ingredient` which can accept license for Chef products when applicable.
 
