@@ -284,7 +284,8 @@ module ChefIngredientCookbook
         options = {
           product_name: new_resource.product_name,
           channel: new_resource.channel,
-          product_version: new_resource.version
+          product_version: new_resource.version,
+          platform_version_compatibility_mode: new_resource.platform_version_compatibility_mode
         }.tap do |opt|
           opt[:shell_type] = :ps1 if windows?
         end

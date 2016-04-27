@@ -41,6 +41,10 @@ class Chef
 
       # Attribute to accept the license when applicable
       attribute :accept_license, kind_of: [TrueClass, FalseClass], default: false
+
+      # Attribute to enable selecting packages built for earlier versions in
+      # platforms that are not yet officially added to Chef support matrix
+      attribute :platform_version_compatibility_mode, kind_of: [TrueClass, FalseClass], default: false
     end
   end
 end
