@@ -25,7 +25,7 @@ default_action :render
 
 property :product_name, String, name_property: true
 property :sensitive, [TrueClass, FalseClass], default: false
-property :config, [String, NilClass], default: nil
+property :config, [String, NilClass]
 
 action :render do
   target_config = ingredient_config_file(product_name)

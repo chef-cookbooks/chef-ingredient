@@ -23,21 +23,21 @@ class Chef
       default_action :install
 
       attribute :product_name, kind_of: String, name_attribute: true
-      attribute :config, kind_of: String, default: nil
+      attribute :config, kind_of: String
 
       # Attributes for determining what version to install from which channel
       attribute :version, kind_of: [String, Symbol], default: :latest
       attribute :channel, kind_of: Symbol, default: :stable, equal_to: [:current, :stable, :unstable]
 
       # Attribute to install package from local file
-      attribute :package_source, kind_of: String, default: nil
+      attribute :package_source, kind_of: String
 
       # Sets the *-ctl command to use when doing reconfigure
       attribute :ctl_command, kind_of: String
 
       # Attributes for package resources used on rhel and debian platforms
       attribute :options, kind_of: String
-      attribute :timeout, kind_of: [Integer, String, NilClass], default: nil
+      attribute :timeout, kind_of: [Integer, String, NilClass]
 
       # Attribute to accept the license when applicable
       attribute :accept_license, kind_of: [TrueClass, FalseClass], default: false

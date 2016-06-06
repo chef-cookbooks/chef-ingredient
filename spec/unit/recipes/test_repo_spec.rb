@@ -196,7 +196,7 @@ EOS
       installer = instance_double('installer', artifact_info: [])
       allow_any_instance_of(Chef::Provider::ChefIngredient).to receive(:installer).and_return(installer)
 
-      expect { ubuntu_1404 }.to raise_error
+      expect { ubuntu_1404 }.to raise_error RuntimeError, /No package found for 'chef-server' with version 'latest' for current platform in 'stable' channel/
     end
   end
 end
