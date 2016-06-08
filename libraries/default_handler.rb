@@ -105,6 +105,7 @@ Check that the package exists.
           source remote_artifact_path
           mode '0644'
           checksum installer.artifact_info.sha256
+          backup 1
         end
       end
 
