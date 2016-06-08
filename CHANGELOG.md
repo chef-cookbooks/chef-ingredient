@@ -1,3 +1,8 @@
+# v0.18.5
+
+- [#106](https://github.com/chef-cookbooks/chef-ingredient/pull/106) Limit `remote_file` backups to 1
+- [#110](https://github.com/chef-cookbooks/chef-ingredient/pull/110) Get rid of default: nil warnings
+
 # v0.18.4
 
 - Add `platform_version_compatibility_mode` property to `chef_ingredient` which makes chef-ingredient select packages built for earlier version of a platform during install when a package does not exist for the current platform version.
