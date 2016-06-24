@@ -13,13 +13,10 @@ end
 
 group :unit do
   gem 'mixlib-versioning'
-  gem 'mixlib-install', '~> 1.0'
+  gem 'mixlib-install', '~> 1.1'
   gem 'chef-sugar'
-  gem 'chefspec', github: 'sersut/chefspec', branch: 'sersut/export-repo-compat'
+  gem 'chefspec'
   gem 'chef-dk'
-
-  # Pin nokogiri to 1.6.7.2 until the new version can install in travis.
-  gem 'nokogiri', '= 1.6.7.2'
 end
 
 group :development do
