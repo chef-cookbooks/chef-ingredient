@@ -15,7 +15,7 @@ group :unit do
   gem 'mixlib-versioning'
   gem 'mixlib-install', '~> 1.1'
   gem 'chef-sugar'
-  gem 'chefspec', github: 'sersut/chefspec', branch: 'sersut/export-repo-compat'
+  gem 'chefspec'
   gem 'chef-dk'
 end
 
