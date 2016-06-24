@@ -1,3 +1,8 @@
+# v0.19.0
+
+- Remove delivery-cli examples and tests (we now shipit with ChefDK)
+- Set version constraint to ~> 1.1 for installing mixlib-install from Rubygems
+
 # v0.18.5
 
 - [#106](https://github.com/chef-cookbooks/chef-ingredient/pull/106) Limit `remote_file` backups to 1
