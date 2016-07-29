@@ -6,8 +6,6 @@ driver:
     cpus: 2
 
 provisioner:
-  # TODO: (engineering-services) Switch this back to policyfile_zero
-  # when kitchen supports named run lists for suites.
   name: chef_zero
   data_bags_path: test/fixtures/data_bags
 

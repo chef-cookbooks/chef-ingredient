@@ -1,5 +1,5 @@
 require 'chefspec'
-require 'chefspec/policyfile'
+require 'chefspec/berkshelf'
 
 require_relative '../libraries/chef_ingredient_provider'
 
