@@ -3,11 +3,12 @@ source 'https://rubygems.org'
 group :rake do
   gem 'rake'
   gem 'tomlrb'
+  gem 'stove'
 end
 
 group :lint do
-  gem 'foodcritic', '~> 6.0'
-  gem 'rubocop', '~> 0.38'
+  gem 'foodcritic', '~> 7.0'
+  gem 'cookstyle'
   gem 'rainbow', '< 2.0'
 end
 
