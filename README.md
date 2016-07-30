@@ -17,14 +17,19 @@ This cookbook is maintained and supported by Chef's engineering services team. T
 
 ## Requirements
 
-Chef version 12.5.0 or higher, latest/current version is always recommended.
+### Platforms
 
-For local development, you need ChefDK 0.9.0 or newer.
-
-### Platform
-
-- Ubuntu 12.04, 14.04
+- Ubuntu 12.04, 14.04, 16.04
 - CentOS 6, 7
+
+### Chef
+
+- Chef 12.1+
+
+### Cookbooks
+
+- compat_resource
+
 
 ## Resources
 
