@@ -90,12 +90,3 @@ suites:
       - recipe[test::install_git]
       <% end %>
       - recipe[test::push]
-
-  - name: delivery_cli_yolo
-    <<: *default
-    includes: [ 'ubuntu-15.04' ]
-    run_list:
-      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
-      - recipe[test::install_git]
-      <% end %>
-      - recipe[test::delivery_cli]
