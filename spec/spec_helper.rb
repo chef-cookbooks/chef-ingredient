@@ -16,5 +16,3 @@ RSpec.configure do |config|
     allow_any_instance_of(Chef::Provider::ChefIngredient).to receive(:installer).and_return(installer)
   end
 end
-
-at_exit { ChefSpec::Coverage.report! }

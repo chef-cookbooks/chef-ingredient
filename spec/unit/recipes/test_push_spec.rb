@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'test::push' do
   [{ platform: 'ubuntu', version: '14.04' },
-   { platform: 'centos', version: '6.5' }].each do |platform|
+   { platform: 'centos', version: '6.7' }].each do |platform|
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
@@ -10,17 +10,17 @@ describe 'test::push' do
         ).converge(described_recipe)
       end
 
-      it 'installs the chef_ingredient[push-client]' do
-        expect(chef_run).to install_chef_ingredient('push-client')
+      it 'installs the chef_ingredient[push-jobs-client]' do
+        expect(chef_run).to install_chef_ingredient('push-jobs-client')
       end
     end
   end
 
   context 'installs packages with yum on centos' do
-    cached(:centos_65) do
+    cached(:centos_67) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.5',
+        version: '6.7',
         step_into: %w(chef_ingredient)
       ) do |node|
         node.set['test']['push-client']['version'] = :latest
@@ -28,10 +28,10 @@ describe 'test::push' do
     end
 
     it 'upgrades package[push-client]' do
-      pkgres = centos_65.find_resource('package', 'push-jobs-client')
+      pkgres = centos_67.find_resource('package', 'push-jobs-client')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::Package)
-      expect(centos_65).to install_package('push-jobs-client')
+      expect(centos_67).to install_package('push-jobs-client')
     end
   end
 
