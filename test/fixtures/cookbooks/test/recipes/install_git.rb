@@ -1,8 +1,3 @@
-case node['platform_family']
-when 'debian'
-  include_recipe 'apt'
-when 'rhel'
-  include_recipe 'yum'
-end
+apt_update 'update' if node['platform_family'] == 'debian'
 
 include_recipe 'git'

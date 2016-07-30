@@ -8,5 +8,4 @@ cookbook 'custom_repo', path: './test/fixtures/cookbooks/custom_repo'
 group :integration do
   cookbook 'git'
   cookbook 'apt'
-  cookbook 'yum'
 end
