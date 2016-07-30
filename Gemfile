@@ -26,7 +26,7 @@ group :development do
   gem 'rb-fsevent'
   gem 'guard', '~> 2.4'
   gem 'guard-kitchen'
-  gem 'guard-foodcritic'
+  # gem 'guard-foodcritic' # not yet compatible with foodcritic 7.0
   gem 'guard-rspec'
   gem 'guard-rubocop'
 
