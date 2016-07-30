@@ -1,6 +1,6 @@
 #
 # Author:: Joshua Timberman <joshua@chef.io
-# Copyright (c) 2015, Chef Software, Inc. <legal@chef.io>
+# Copyright (c) 2015-2016, Chef Software, Inc. <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,10 +18,7 @@
 require_relative '../libraries/helpers'
 include ChefIngredientCookbook::Helpers
 
-resource_name :ingredient_config
-
-actions :render, :add
-default_action :render
+provides :ingredient_config
 
 property :product_name, String, name_property: true
 property :sensitive, [TrueClass, FalseClass], default: false

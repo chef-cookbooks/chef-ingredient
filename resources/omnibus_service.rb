@@ -1,6 +1,6 @@
 #
 # Author:: Joshua Timberman <joshua@chef.io
-# Copyright (c) 2015, Chef Software, Inc. <legal@chef.io>
+# Copyright (c) 2015-2016, Chef Software, Inc. <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,9 +18,7 @@
 require_relative '../libraries/helpers'
 include ChefIngredientCookbook::Helpers
 
-resource_name :omnibus_service
-
-actions %i(start stop restart hup int kill gracefull_kill once)
+provides :omnibus_service
 
 default_action :nothing
 
