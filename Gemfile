@@ -18,6 +18,7 @@ group :unit do
   gem 'chef-sugar'
   gem 'chefspec'
   gem 'chef-dk'
+  gem 'berkshelf'
 end
 
 group :development do
