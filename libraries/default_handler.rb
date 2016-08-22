@@ -48,10 +48,12 @@ module ChefIngredient
     end
 
     def configure_from_source_package(action_name, local_path = nil)
+      # Foodcritic doesn't like timeout attribute in package resource
       package new_resource.product_name do
         action action_name
         package_name ingredient_package_name
         options new_resource.options
+        timeout new_resource.timeout
         source local_path || new_resource.package_source
         provider value_for_platform_family(
           'debian'  => Chef::Provider::Package::Dpkg,
