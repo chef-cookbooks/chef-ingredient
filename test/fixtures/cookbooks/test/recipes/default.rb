@@ -4,4 +4,4 @@ remote_file '/etc/pki/tls/certs/ca-bundle.crt' do
   sensitive true
 end if platform_family?('rhel')
 
-execute 'apt-get update' if platform_family?('debian')
+apt_update 'update' if node['platform_family'] == 'debian'

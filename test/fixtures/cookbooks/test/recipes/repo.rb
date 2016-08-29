@@ -26,6 +26,7 @@ disable_sign_up true
 support_email_address "#{node['chef_admin']}"
 EOS
   action :install
+  accept_license true
 end
 
 file '/tmp/opscode-manage.firstrun' do

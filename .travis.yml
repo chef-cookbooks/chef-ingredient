@@ -1,6 +1,4 @@
 language: ruby
-cache: bundler
-
 # Use Travis's cointainer based infrastructure
 sudo: false
 addons:
@@ -10,23 +8,12 @@ addons:
     packages:
       - chefdk
 
-# We are still doing bundle install since we want to use the
-# master of mixlib-install until it gets a full release.
-install:
-  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - bundle install
+# Don't `bundle install`
+install: echo "skip bundle install"
 
 branches:
   only:
     - master
-
-# make sure we have the latest version of bunder required by ohai which
-# fauxhai depends on which chefspec depends on
-before_install:
-  - gem update --system
-  - gem install bundler
-  - bundle --version
-  - gem --version
 
 # Ensure we make ChefDK's Ruby the default
 before_script:
@@ -36,8 +23,6 @@ before_script:
   - /opt/chefdk/embedded/bin/chef gem install mixlib-install --pre
 script:
   - /opt/chefdk/embedded/bin/chef --version
-  - /opt/chefdk/embedded/bin/rubocop --version
-  - /opt/chefdk/embedded/bin/rubocop
+  - /opt/chefdk/embedded/bin/cookstyle --version
   - /opt/chefdk/embedded/bin/foodcritic --version
-  - /opt/chefdk/embedded/bin/foodcritic . --exclude spec
-  - bundle exec rake
+  - /opt/chefdk/bin/chef exec rake
