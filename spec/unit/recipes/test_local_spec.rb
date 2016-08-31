@@ -8,7 +8,7 @@ describe 'test::local' do
         version: '6.7',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
-        node.set['chef-server-core']['version'] = nil
+        node.normal['chef-server-core']['version'] = nil
       end.converge(described_recipe)
     end
 
@@ -24,7 +24,7 @@ describe 'test::local' do
         version: '14.04',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
-        node.set['chef-server-core']['version'] = nil
+        node.normal['chef-server-core']['version'] = nil
       end.converge(described_recipe)
     end
 

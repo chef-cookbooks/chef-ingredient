@@ -23,7 +23,7 @@ describe 'test::push' do
         version: '6.7',
         step_into: %w(chef_ingredient)
       ) do |node|
-        node.set['test']['push-client']['version'] = :latest
+        node.normal['test']['push-client']['version'] = :latest
       end.converge(described_recipe)
     end
 
@@ -42,7 +42,7 @@ describe 'test::push' do
         version: '14.04',
         step_into: %w(chef_ingredient)
       ) do |node|
-        node.set['test']['push-client']['version'] = :latest
+        node.normal['test']['push-client']['version'] = :latest
       end.converge(described_recipe)
     end
 
