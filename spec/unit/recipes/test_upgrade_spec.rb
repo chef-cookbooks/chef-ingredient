@@ -23,7 +23,7 @@ describe 'test::upgrade' do
         version: '6.7',
         step_into: %w(chef_ingredient)
       ) do |node|
-        node.set['chef-server-core']['version'] = :latest
+        node.normal['chef-server-core']['version'] = :latest
       end.converge(described_recipe)
     end
 
@@ -47,7 +47,7 @@ describe 'test::upgrade' do
         architecture: 'x86_64',
         step_into: %w(chef_ingredient)
       ) do |node|
-        node.set['chef-server-core']['version'] = :latest
+        node.normal['chef-server-core']['version'] = :latest
       end.converge(described_recipe)
     end
 

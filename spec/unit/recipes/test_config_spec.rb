@@ -8,7 +8,7 @@ describe 'test::config' do
         ChefSpec::SoloRunner.new(
           platform.merge(step_into: %w(chef_ingredient chef_server_ingredient ingredient_config))
         ) do |node|
-          node.set['chef_admin'] = 'admin@chef.io'
+          node.normal['chef_admin'] = 'admin@chef.io'
         end.converge(described_recipe)
       end
 

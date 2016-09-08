@@ -60,7 +60,7 @@ describe 'test::custom_repo_setup_recipe' do
         version: '10.04',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
-        node.set['chef-server-core']['version'] = nil
+        node.normal['chef-server-core']['version'] = nil
       end.converge(described_recipe)
     end
 
@@ -79,7 +79,7 @@ describe 'test::custom_repo_setup_recipe' do
         version: '6.0.5',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
-        node.set['chef-server-core']['version'] = nil
+        node.normal['chef-server-core']['version'] = nil
       end.converge(described_recipe)
     end
 

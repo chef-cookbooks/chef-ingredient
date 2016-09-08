@@ -8,7 +8,7 @@ describe 'test::repo' do
         ChefSpec::SoloRunner.new(
           platform.merge(step_into: %w(chef_ingredient chef_server_ingredient ingredient_config))
         ) do |node|
-          node.set['chef_admin'] = 'admin@chef.io'
+          node.normal['chef_admin'] = 'admin@chef.io'
         end.converge(described_recipe)
       end
 
@@ -71,7 +71,7 @@ EOS
         version: '6.7',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
-        node.set['chef-server-core']['version'] = nil
+        node.normal['chef-server-core']['version'] = nil
       end.converge(described_recipe)
     end
 
@@ -97,7 +97,7 @@ EOS
         version: '6.7',
         step_into: ['chef_ingredient']
       ) do |node|
-        node.set['test']['chef-server-core']['version'] = :latest
+        node.normal['test']['chef-server-core']['version'] = :latest
       end.converge(described_recipe)
     end
 
@@ -113,7 +113,7 @@ EOS
         version: '6.7',
         step_into: ['chef_ingredient']
       ) do |node|
-        node.set['test']['chef-server-core']['version'] = 'latest'
+        node.normal['test']['chef-server-core']['version'] = 'latest'
       end.converge(described_recipe)
     end
 
@@ -129,7 +129,7 @@ EOS
         version: '14.04',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
-        node.set['chef-server-core']['version'] = nil
+        node.normal['chef-server-core']['version'] = nil
       end.converge(described_recipe)
     end
 
@@ -155,7 +155,7 @@ EOS
         version: '14.04',
         step_into: ['chef_ingredient']
       ) do |node|
-        node.set['test']['chef-server-core']['version'] = :latest
+        node.normal['test']['chef-server-core']['version'] = :latest
       end.converge(described_recipe)
     end
 
@@ -171,7 +171,7 @@ EOS
         version: '14.04',
         step_into: ['chef_ingredient']
       ) do |node|
-        node.set['test']['chef-server-core']['version'] = 'latest'
+        node.normal['test']['chef-server-core']['version'] = 'latest'
       end.converge(described_recipe)
     end
 
@@ -187,7 +187,7 @@ EOS
         version: '14.04',
         step_into: ['chef_ingredient']
       ) do |node|
-        node.set['test']['chef-server-core']['version'] = 'latest'
+        node.normal['test']['chef-server-core']['version'] = 'latest'
       end.converge(described_recipe)
     end
 
