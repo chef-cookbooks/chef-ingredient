@@ -1,3 +1,15 @@
+# chef-ingredient Cookbook CHANGELOG
+This file is used to list changes made in each version of the chef-ingredient cookbook.
+
+## 0.20.0 (2016-09-08)
+- Remove extraneous converge_by that caused downloads to show as converged on every run
+- Use compat_resource cookbook to add support for Chef 12.1-12.4
+- Use apt_update resource vs. the apt cookbook in the test cookbook
+- Update Travis CI testing to use our standard Rakefile and cookstyle for ruby linting.
+- Fix chefspec / foodcritic / test kitchen failures
+- Swap the Policyfile for a Berksfile
+- Remove unnecessary action and default_action properties from the custom resources
+
 # v0.19.0
 
 - Remove delivery-cli examples and tests (we now shipit with ChefDK)
