@@ -14,5 +14,4 @@
 # limitations under the License.
 #
 
-# This recipe is included to make our tests happy.
-# By intention, it does not contain anything.
+Chef::Log.warn('The default chef-ingredient recipe does nothing. See the readme for information on using the chef-ingredient resource')
