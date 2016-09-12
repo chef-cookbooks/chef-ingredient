@@ -1,5 +1,5 @@
 name 'chef-ingredient'
-version '0.19.0'
+version '0.20.0'
 maintainer 'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
 license 'Apache 2.0'
@@ -10,4 +10,4 @@ depends 'compat_resource', '>= 12.10'
 source_url 'https://github.com/chef-cookbooks/chef-ingredient'
 issues_url 'https://github.com/chef-cookbooks/chef-ingredient/issues'
 
-chef_version '>= 12.1' if respond_to?(:chef_version)
+chef_version '>= 12.1'
