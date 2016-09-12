@@ -4,9 +4,9 @@ require 'chefspec/berkshelf'
 require_relative '../libraries/chef_ingredient_provider'
 
 RSpec.configure do |config|
-  config.color = true
-  config.formatter = 'doc'
-  config.log_level = :error
+  config.color = true               # Use color in STDOUT
+  config.formatter = :documentation # Use the specified formatter
+  config.log_level = :error         # Avoid deprecation notice SPAM
 
   config.before(:each) do
     artifact_info = instance_double('artifact info',
