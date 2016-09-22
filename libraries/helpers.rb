@@ -68,7 +68,7 @@ module ChefIngredientCookbook
     #
     def ensure_mixlib_versioning_gem_installed!
       node.run_state[:mixlib_versioning_gem_installed] ||= begin # ~FC001
-        install_gem_from_rubygems('mixlib-versioning', '1.1.0')
+        install_gem_from_rubygems('mixlib-versioning', '~> 1.1')
 
         require 'mixlib/versioning'
         true
@@ -87,7 +87,7 @@ module ChefIngredientCookbook
             'mixlib-install'
           )
         else
-          install_gem_from_rubygems('mixlib-install', '~> 1.1')
+          install_gem_from_rubygems('mixlib-install', '~> 2.0')
         end
 
         require 'mixlib/install'
