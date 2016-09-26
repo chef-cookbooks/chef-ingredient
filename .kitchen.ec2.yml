@@ -8,7 +8,10 @@ end
 driver:
   name: ec2
   tags:
-    X-Project: chef-ci-acceptance
+    X-Project: chef-ingredient-acceptance
+    X-Dept: EngServ
+    X-Contact: wrightp
+    X-Production: false
   aws_ssh_key_id: <%= ENV['AWS_SSH_KEY_ID'] || ENV['USER'] || ENV['USERNAME'] %>
   # test-specific stuff
   region: us-west-2

@@ -1,19 +1,14 @@
 language: ruby
-# Use Travis's cointainer based infrastructure
 sudo: false
 addons:
   apt:
     sources:
-      - chef-current-precise
+      - chef-stable-precise
     packages:
       - chefdk
 
 # Don't `bundle install`
 install: echo "skip bundle install"
-
-branches:
-  only:
-    - master
 
 # Ensure we make ChefDK's Ruby the default
 before_script:
