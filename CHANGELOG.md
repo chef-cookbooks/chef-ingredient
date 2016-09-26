@@ -1,6 +1,9 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 0.21.0 (2016-09-26)
+- Update mixlib-install to version 2.0 (PackageRouter support)
+
 ## 0.20.0 (2016-09-08)
 - Remove extraneous converge_by that caused downloads to show as converged on every run
 - Use compat_resource cookbook to add support for Chef 12.1-12.4
