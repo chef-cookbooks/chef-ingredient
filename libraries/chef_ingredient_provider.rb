@@ -37,7 +37,7 @@ class Chef
       def initialize(name, run_context = nil)
         super(name, run_context)
         case node['platform_family']
-        when 'debian', 'rhel', 'windows'
+        when 'debian', 'rhel', 'suse', 'windows'
           extend ::ChefIngredient::DefaultHandler
         else
           # OmnitruckHandler is used for Solaris, AIX, FreeBSD, etc.
