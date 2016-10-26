@@ -1,6 +1,9 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 0.21.2 (2016-10-26)
+- Fix issue when failed package installs using OmnitruckHandler would not raise a converge error on subsequent runs
+
 ## 0.21.1 (2016-10-25)
 - Update SUSE platform to use DefaultHandler
 
