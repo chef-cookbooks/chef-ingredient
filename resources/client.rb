@@ -36,6 +36,8 @@ property :validation_client_name, String
 property :tags, [String, Array], default: ''
 property :interval, Integer, default: 1800
 property :splay, Integer, default: 1800
+property :data_collector_token, String, default: '93a49a4f2482c64126f7b6015e6b0f30284287ee4054ff8807fb63d9cbd1c506'
+property :data_collector_url, String
 
 load_current_value do
   version Chef::VERSION
@@ -83,7 +85,9 @@ action :configure do
               log_location: new_resource.log_location,
               log_level: new_resource.log_level,
               validation_client_name: new_resource.validation_client_name,
-              json_attribs: ::File.join(prefix, 'dna.json')
+              json_attribs: ::File.join(prefix, 'dna.json'),
+              data_collector_url: new_resource.data_collector_url,
+              data_collector_token: new_resource.data_collector_token
   end
 
   rl = {}
@@ -96,9 +100,9 @@ action :configure do
 
   file 'custom.rb' do
     path ::File.join(prefix, 'config.d', 'custom.rb')
-    content config
+    content new_resource.config
     mode '0640'
-    only_if { config }
+    only_if { new_resource.config }
   end
 end
 

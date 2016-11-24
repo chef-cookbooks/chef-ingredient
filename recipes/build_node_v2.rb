@@ -17,22 +17,11 @@
 # limitations under the License.
 # rubocop:disable LineLength
 
-chef_client node['fqdn'] do
-  action [:install, :configure, :register]
-  version '12.15.19'
-  chef_server_url 'https://chef.local/organizations/infrastructure'
-  run_list ['recipe[chef::build_node2]']
-  environment '_default'
-  validation_client_name 'infrastructure-validator'
-  validation_pem 'file:///tmp/config/validation.pem'
-  ssl_verify true
-  interval 1800
-  splay 1800
-end
+include_recipe 'chef::client'
 
 workflow_builder node['fqdn'] do
-  version '1.0.3'
-  pj_version '2.1.3'
+  version :latest
+  pj_version :latest
   accept_license true
   chef_user 'workflow'
   chef_user_pem 'file:///tmp/config/workflow.pem'
@@ -40,7 +29,7 @@ workflow_builder node['fqdn'] do
   chef_fqdn 'chef.local'
   automate_fqdn 'automate.local'
   supermarket_fqdn 'supermarket.local'
-  job_dispatch_version 'v1'
+  job_dispatch_version 'v2'
   automate_user 'admin'
   automate_password ::File.read('/tmp/config/chef.creds')[/Admin password: (?<pw>.*)$/, 'pw']
   not_if { node['tags'].include?('kitchen') }

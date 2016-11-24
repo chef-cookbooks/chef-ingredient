@@ -19,7 +19,7 @@
 
 chef_client node['fqdn'] do
   action [:install, :configure]
-  version '12.15.19'
+  version :latest
   chef_server_url 'https://chef-centos-72/organizations/infrastructure'
   run_list ['recipe[chef::server]']
   environment '_default'
@@ -28,10 +28,11 @@ chef_client node['fqdn'] do
   ssl_verify false
   interval 1800
   splay 1800
+  data_collector_url 'https://automate.local/data-collector/v0/'
 end
 
 chef_server node['fqdn'] do
-  version '12.9.1'
+  version :latest
   config <<-EOS
 topology 'standalone'
 ip_version 'ipv4'
@@ -43,6 +44,7 @@ EOS
   addons manage: { version: '2.4.3', config: '' },
          :"push-jobs-server" => { version: '2.1.0', config: '' }
   accept_license true
+  data_collector_url 'https://automate.local/data-collector/v0/'
 end
 
 %w(/etc/opscode/users /etc/opscode/orgs).each do |dir|

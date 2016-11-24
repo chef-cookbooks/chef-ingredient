@@ -26,6 +26,8 @@ property :version, String, default: ':latest'
 property :config, String, required: true
 property :accept_license, [TrueClass, FalseClass], default: false
 property :addons, Hash
+property :data_collector_token, String, default: '93a49a4f2482c64126f7b6015e6b0f30284287ee4054ff8807fb63d9cbd1c506'
+property :data_collector_url, String
 
 load_current_value do
   # node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -33,6 +35,10 @@ load_current_value do
 end
 
 action :create do
+  if new_resource.data_collector_url
+    new_resource.config << "\ndata_collector['root_url'] = '#{new_resource.data_collector_url}'"
+    new_resource.config << "\ndata_collector['token'] = '#{new_resource.data_collector_token}'"
+  end
   chef_ingredient 'chef-server' do
     action :upgrade
     channel new_resource.channel

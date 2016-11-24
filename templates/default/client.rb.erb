@@ -27,6 +27,11 @@ client_key "<%= @client_key %>"
 json_attribs "<%= @json_attribs %>"
 <%- end %>
 
+<%- if @data_collector_url %>
+data_collector.server_url = '<%= @data_collector_url %>'
+data_collector.token = '<%= @data_collector_token %>'
+<%- end %>
+
 trusted_certs_dir "<%= @trusted_certs_dir || '/etc/chef/trusted_certs' %>"
 
 # Do not crash if a handler is missing / not installed yet

@@ -17,21 +17,10 @@
 # limitations under the License.
 # rubocop:disable LineLength
 
-chef_client node['fqdn'] do
-  action [:install, :configure, :register]
-  version '12.15.19'
-  chef_server_url 'https://chef.local/organizations/infrastructure'
-  run_list ['recipe[chef::automate]']
-  environment '_default'
-  validation_client_name 'infrastructure-validator'
-  validation_pem 'file:///tmp/config/validation.pem'
-  ssl_verify true
-  interval 1800
-  splay 1800
-end
+include_recipe 'chef::client'
 
 chef_automate node['fqdn'] do
-  version '0.6.6'
+  version :latest
   config <<-EOF
     delivery_fqdn "automate.local"
     delivery['chef_server'] = 'https://chef.local/organizations/infrastructure'

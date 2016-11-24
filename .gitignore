@@ -15,4 +15,4 @@ bin/*
 .kitchen/
 .kitchen.local.yml
 
-test/fixtures/config/*
+test/fixtures/config/*.*

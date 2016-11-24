@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: chef
-# Recipe:: supermarket
+# Recipe:: build_node
 #
 # Copyright 2016 Chef Software Inc
 #
@@ -15,15 +15,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# rubocop:disable LineLength
 
 include_recipe 'chef::client'
 
-supermarket_ocid = JSON.parse(::File.read('/tmp/config/supermarket.json'))
-chef_supermarket node['fqdn'] do
+workflow_builder node['fqdn'] do
   version :latest
-  chef_oauth2_app_id supermarket_ocid['uid']
-  chef_oauth2_secret supermarket_ocid['secret']
-  chef_oauth2_verify_ssl false
+  pj_version :latest
   accept_license true
+  chef_user 'workflow'
+  chef_user_pem 'file:///tmp/config/workflow.pem'
+  builder_pem 'file:///tmp/config/builder.pem'
+  chef_fqdn 'chef.local'
+  automate_fqdn 'automate.local'
+  supermarket_fqdn 'supermarket.local'
+  job_dispatch_version 'v1'
+  automate_user 'admin'
+  automate_password ::File.read('/tmp/config/chef.creds')[/Admin password: (?<pw>.*)$/, 'pw']
   not_if { node['tags'].include?('kitchen') }
 end

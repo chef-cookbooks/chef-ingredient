@@ -30,6 +30,10 @@ hosts.insert_line_if_no_match(/supermarket.local/, '192.168.254.30 supermarket.l
 hosts.insert_line_if_no_match(/compliance.local/, '192.168.254.31 compliance.local compliance compliance-centos-72')
 hosts.write_file
 
+# execute 'upload cookbooks' do
+#   command 'knife cookbook upload --cookbook-path ../ --freeze chef'
+# end
+
 log 'run chef-client for kitchen' do
   notifies :run, "chef_client[#{node['fqdn']}]", :delayed
 end

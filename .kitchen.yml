@@ -36,7 +36,7 @@ suites:
   - name: build01
     run_list:
       - recipe[chef::_kitchen]
-      - recipe[chef::build_node]
+      - recipe[chef::build_node_v2]
     attributes:
     driver:
       network:
@@ -44,7 +44,7 @@ suites:
   - name: build02
     run_list:
       - recipe[chef::_kitchen]
-      - recipe[chef::build_node2]
+      - recipe[chef::build_node_v1]
     attributes:
     driver:
       network:
