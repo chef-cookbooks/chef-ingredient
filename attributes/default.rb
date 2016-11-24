@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: chef
-# Recipe:: default
+# Attributes:: default
 #
 # Copyright 2016 Chef Software Inc
 #

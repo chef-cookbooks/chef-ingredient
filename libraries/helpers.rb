@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: chef
-# Recipe:: default
+# Library:: helpers
 #
 # Copyright 2016 Chef Software Inc
 #
@@ -15,3 +15,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+def prefix
+  (platform_family?('windows') ? 'C:/Chef/' : '/etc/chef/')
+end
