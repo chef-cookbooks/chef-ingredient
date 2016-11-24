@@ -155,7 +155,7 @@ action :create do
   when 'v1'
     execute 'tag node as legacy build-node' do
       command "knife tag create #{node['fqdn']} automate-build-node -c /etc/chef/client.rb -u #{node['fqdn']}"
-      not_if { node['tags'].include?('automate-build-node') }
+      not_if { node['tags'].include?('delivery-build-node') }
     end
 
     directory '/var/log/push-jobs-client' do

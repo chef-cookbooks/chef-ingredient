@@ -47,7 +47,7 @@ action :create do
   new_resource.config << "\ndelivery['chef_private_key'] = '/etc/delivery/#{new_resource.chef_user}.pem'"
 
   # Hardcode v1 runner search to automate-build-node
-  new_resource.config << "\ndelivery['default_search'] = 'tags:automate-build-node'"
+  new_resource.config << "\ndelivery['default_search'] = 'tags:delivery-build-node'"
 
   chef_ingredient 'automate' do
     action :upgrade
