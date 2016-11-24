@@ -43,4 +43,5 @@ workflow_builder node['fqdn'] do
   job_dispatch_version 'v1'
   automate_user 'admin'
   automate_password ::File.read('/tmp/config/chef.creds')[/Admin password: (?<pw>.*)$/, 'pw']
+  not_if { node['tags'].include?('kitchen') }
 end

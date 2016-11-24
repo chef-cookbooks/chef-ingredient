@@ -44,6 +44,7 @@ chef_automate node['fqdn'] do
   chef_user_pem 'file:///tmp/config/workflow.pem'
   validation_pem 'file:///tmp/config/validation.pem'
   builder_pem 'file:///tmp/config/builder.pem'
+  not_if { node['tags'].include?('kitchen') }
 end
 
 file '/tmp/config/chef.creds' do

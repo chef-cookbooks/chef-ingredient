@@ -56,10 +56,3 @@ suites:
     driver:
       network:
         - ['private_network', {ip: '192.168.254.30'}]
-  - name: compliance
-    run_list:
-      - recipe[chef::_kitchen]
-      - recipe[chef::compliance]
-    driver:
-      network:
-        - ['private_network', {ip: '192.168.254.31'}]

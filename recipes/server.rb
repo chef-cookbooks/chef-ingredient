@@ -63,7 +63,7 @@ end
 
 file '/etc/opscode/users/builder.pem' do
   content OpenSSL::PKey::RSA.new(2048).to_pem
-  not_if ::File.exist?('/etc/opscode/users/builder.pem')
+  not_if { ::File.exist?('/etc/opscode/users/builder.pem') }
 end
 
 chef_user 'workflow' do
@@ -102,6 +102,10 @@ if tagged?('kitchen')
 
   file '/tmp/config/builder.pem' do
     content lazy { ::File.read('/etc/opscode/users/builder.pem') }
+  end
+
+  file '/tmp/config/supermarket.json' do
+    content lazy { ::File.read('/etc/opscode/oc-id-applications/supermarket.json') }
   end
 end
 
