@@ -18,7 +18,6 @@
 # rubocop:disable LineLength
 
 chef_client node['fqdn'] do
-  action [:install, :configure]
   version :latest
   chef_server_url 'https://chef-centos-72/organizations/infrastructure'
   run_list ['recipe[chef::server]']

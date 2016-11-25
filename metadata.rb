@@ -4,6 +4,6 @@ maintainer_email 'success@chef.io'
 license 'apachev2'
 description 'Installs/Configures chef'
 long_description 'Installs/Configures chef'
-version '0.4.5'
+version '0.4.6'
 
 depends 'chef-ingredient'

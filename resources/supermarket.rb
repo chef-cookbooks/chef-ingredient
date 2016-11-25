@@ -22,7 +22,7 @@ default_action :create
 
 property :name, String, name_property: true
 property :channel, Symbol, default: :stable
-property :version, String, default: ':latest'
+property :version, [String, Symbol], default: :latest
 property :config, String, default: {}
 property :chef_server_url, String, default: Chef::Config['chef_server_url']
 property :chef_oauth2_app_id, String, required: true

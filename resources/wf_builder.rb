@@ -22,8 +22,8 @@ default_action :create
 
 property :name, String, name_property: true
 property :channel, Symbol, default: :stable
-property :version, String, default: ':latest'
-property :pj_version, String, default: ':latest'
+property :version, [String, Symbol], default: :latest
+property :pj_version, [String, Symbol], default: :latest
 property :accept_license, [TrueClass, FalseClass], default: false
 property :chef_user, String, default: 'workflow'
 property :chef_user_pem, String, required: true

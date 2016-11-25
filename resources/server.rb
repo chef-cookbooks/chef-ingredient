@@ -22,7 +22,7 @@ default_action :create
 
 property :name, String, name_property: true
 property :channel, Symbol, default: :stable
-property :version, String, default: ':latest'
+property :version, [String, Symbol], default: :latest
 property :config, String, required: true
 property :accept_license, [TrueClass, FalseClass], default: false
 property :addons, Hash

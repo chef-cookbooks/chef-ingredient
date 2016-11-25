@@ -18,7 +18,7 @@
 # rubocop:disable LineLength
 
 chef_client node['fqdn'] do
-  action [:install, :configure, :register]
+  action [:install, :register]
   version :latest
   chef_server_url 'https://chef.local/organizations/infrastructure'
   run_list node['expanded_run_list'].reject { |item| item.eql?('chef::_kitchen') }

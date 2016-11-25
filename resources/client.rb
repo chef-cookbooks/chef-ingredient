@@ -67,9 +67,7 @@ action :install do
     version new_resource.version
     only_if { new_resource.chefdk }
   end
-end
 
-action :configure do
   directory ::File.join(prefix, 'config.d') do
     mode '0755'
     recursive true
