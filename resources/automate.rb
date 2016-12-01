@@ -85,16 +85,16 @@ action :create do
     mode '0644'
   end
 
+  ingredient_config 'automate' do
+    notifies :reconfigure, 'chef_ingredient[automate]', :immediately
+  end
+
   file '/var/opt/delivery/nginx/etc/addon.d/99-installer_internal.conf' do
     content <<-EOF
       location /installer {
         alias /opt/delivery/embedded/service/omnibus-ctl/installer;
       }
       EOF
-  end
-
-  ingredient_config 'automate' do
-    notifies :reconfigure, 'chef_ingredient[automate]', :immediately
   end
 
   if new_resource.enterprise.is_a?(String)

@@ -24,6 +24,15 @@ suites:
         memory: 1024
       network:
         - ['private_network', {ip: '192.168.254.10'}]
+  # - name: chefbe
+  #   run_list:
+  #     - recipe[chef::_kitchen]
+  #     - recipe[chef::backend]
+  #   driver:
+  #     customize:
+  #       memory: 1024
+  #     network:
+  #       - ['private_network', {ip: '192.168.254.11'}]
   - name: automate
     run_list:
       - recipe[chef::_kitchen]
@@ -33,18 +42,18 @@ suites:
         memory: 1024
       network:
         - ['private_network', {ip: '192.168.254.20'}]
-  - name: build01
+  - name: buildv1
     run_list:
       - recipe[chef::_kitchen]
-      - recipe[chef::build_node_v2]
+      - recipe[chef::build_node_v1]
     attributes:
     driver:
       network:
         - ['private_network', {ip: '192.168.254.21'}]
-  - name: build02
+  - name: buildv2
     run_list:
       - recipe[chef::_kitchen]
-      - recipe[chef::build_node_v1]
+      - recipe[chef::build_node_v2]
     attributes:
     driver:
       network:

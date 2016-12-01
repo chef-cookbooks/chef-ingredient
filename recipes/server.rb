@@ -27,7 +27,6 @@ chef_client node['fqdn'] do
   ssl_verify false
   interval 1800
   splay 1800
-  data_collector_url 'https://automate.local/data-collector/v0/'
 end
 
 chef_server node['fqdn'] do
@@ -43,7 +42,7 @@ EOS
   addons manage: { version: '2.4.3', config: '' },
          :"push-jobs-server" => { version: '2.1.0', config: '' }
   accept_license true
-  data_collector_url 'https://automate.local/data-collector/v0/'
+  data_collector_url 'https://automate.local/data-collector/v0/' if search(:node, 'name:automate-centos-72', filter_result: { 'name' => ['name'] }) # ~FC003
 end
 
 %w(/etc/opscode/users /etc/opscode/orgs).each do |dir|

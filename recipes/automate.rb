@@ -42,5 +42,5 @@ file '/tmp/config/chef.creds' do
 end
 
 log 'Automate Credentials' do
-  message ::File.read('/etc/delivery/chef.creds')
+  message lazy { ::File.read('/etc/delivery/chef.creds') }
 end

@@ -28,5 +28,4 @@ chef_client node['fqdn'] do
   ssl_verify true
   interval 1800
   splay 1800
-#  data_collector_url 'https://automate.local/data-collector/v0/'
 end
