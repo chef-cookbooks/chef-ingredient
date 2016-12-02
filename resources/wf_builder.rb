@@ -154,7 +154,7 @@ action :create do
   case new_resource.job_dispatch_version
   when 'v1'
     execute 'tag node as legacy build-node' do
-      command "knife tag create #{node['fqdn']} automate-build-node -c /etc/chef/client.rb -u #{node['fqdn']}"
+      command "knife tag create #{node['fqdn']} delivery-build-node -c /etc/chef/client.rb -u #{node['fqdn']}"
       not_if { node['tags'].include?('delivery-build-node') }
     end
 
