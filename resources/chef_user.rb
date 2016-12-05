@@ -41,7 +41,7 @@ action :create do
     recursive true
   end
 
-  key = (property_is_set?(:key) ? key : "/etc/opscode/users/#{username}.pem")
+  key = (property_is_set?(:key) ? new_resource.key : "/etc/opscode/users/#{new_resource.username}.pem")
   password = (property_is_set?(:password) ? new_resource.password : SecureRandom.base64(36))
   execute "create-user-#{username}" do
     # sensitive true
