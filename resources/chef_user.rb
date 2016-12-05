@@ -25,7 +25,7 @@ property :first_name, String, required: true
 property :last_name, String, required: true
 property :email, String, required: true
 property :password, String
-property :key, String
+property :key_path, String
 property :serveradmin, [TrueClass, FalseClass], default: false
 
 load_current_value do
@@ -41,7 +41,7 @@ action :create do
     recursive true
   end
 
-  key = (property_is_set?(:key) ? new_resource.key : "/etc/opscode/users/#{new_resource.username}.pem")
+  key = (property_is_set?(:key_path) ? new_resource.key_path : "/etc/opscode/users/#{new_resource.username}.pem")
   password = (property_is_set?(:password) ? new_resource.password : SecureRandom.base64(36))
   execute "create-user-#{new_resource.username}" do
     # sensitive true

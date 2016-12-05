@@ -25,7 +25,7 @@ property :org_full_name, String
 property :admins, Array, required: true
 property :users, Array, default: []
 property :remove_users, Array, default: []
-property :key, String
+property :key_path, String
 
 load_current_value do
   node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -42,7 +42,7 @@ action :create do
   end
 
   org_full_name = (property_is_set?(:org_full_name) ? new_resource.org_full_name : new_resource.org)
-  key = (property_is_set?(:key) ? new_resource.key : "/etc/opscode/orgs/#{new_resource.org}-validation.pem")
+  key = (property_is_set?(:key_path) ? new_resource.key_path : "/etc/opscode/orgs/#{new_resource.org}-validation.pem")
   execute "create-org-#{new_resource.org}" do
     retries 10
     command "chef-server-ctl org-create #{new_resource.org} #{org_full_name} -f #{key}"
