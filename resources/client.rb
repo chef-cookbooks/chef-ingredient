@@ -110,7 +110,7 @@ action :install do
     group 'root'
     mode '0600'
     not_if { ::File.exist?(::File.join(prefix, 'client.pem')) }
-    only_if { property_is_set?(:validation_pem) }
+    only_if { new_resource.property_is_set?(:validation_pem) }
   end
 end
 
