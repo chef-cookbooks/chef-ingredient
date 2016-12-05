@@ -41,31 +41,31 @@ action :create do
     recursive true
   end
 
-  org_full_name = (property_is_set?(:org_full_name) ? org_full_name : org)
-  key = (property_is_set?(:key) ? key : "/etc/opscode/orgs/#{org}-validation.pem")
-  execute "create-org-#{org}" do
+  org_full_name = (property_is_set?(:org_full_name) ? new_resource.org_full_name : new_resource.org)
+  key = (property_is_set?(:key) ? new_resource.key : "/etc/opscode/orgs/#{new_resource.org}-validation.pem")
+  execute "create-org-#{new_resource.org}" do
     retries 10
-    command "chef-server-ctl org-create #{org} #{org_full_name} -f #{key}"
-    not_if { node.run_state['chef-orgs'].index(/^#{org}$/) }
+    command "chef-server-ctl org-create #{new_resource.org} #{org_full_name} -f #{key}"
+    not_if { node.run_state['chef-orgs'].index(/^#{new_resource.org}$/) }
   end
 
   users.each do |user|
-    execute "add-user-#{user}-org-#{org}" do
-      command "chef-server-ctl org-user-add #{org} #{user}"
+    execute "add-user-#{user}-org-#{new_resource.org}" do
+      command "chef-server-ctl org-user-add #{new_resource.org} #{user}"
       only_if { node.run_state['chef-users'].index(/^#{user}$/) }
     end
   end
 
   admins.each do |user|
-    execute "add-admin-#{user}-org-#{org}" do
-      command "chef-server-ctl org-user-add --admin #{org} #{user}"
+    execute "add-admin-#{user}-org-#{new_resource.org}" do
+      command "chef-server-ctl org-user-add --admin #{new_resource.org} #{user}"
       only_if { node.run_state['chef-users'].index(/^#{user}$/) }
     end
   end
 
   remove_users.each do |user|
-    execute "remove-user-#{user}-org-#{org}" do
-      command "chef-server-ctl org-user-remove #{org} #{user}"
+    execute "remove-user-#{user}-org-#{new_resource.org}" do
+      command "chef-server-ctl org-user-remove #{new_resource.org} #{user}"
       only_if { node.run_state['chef-users'].index(/^#{user}$/) }
     end
   end
