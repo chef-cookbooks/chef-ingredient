@@ -43,34 +43,34 @@ action :create do
 
   key = (property_is_set?(:key) ? new_resource.key : "/etc/opscode/users/#{new_resource.username}.pem")
   password = (property_is_set?(:password) ? new_resource.password : SecureRandom.base64(36))
-  execute "create-user-#{username}" do
+  execute "create-user-#{new_resource.username}" do
     # sensitive true
     retries 3
-    command "chef-server-ctl user-create #{username} #{first_name} #{last_name} #{email} #{password} -f #{key}"
-    not_if { node.run_state['chef-users'].index(/^#{username}$/) }
+    command "chef-server-ctl user-create #{new_resource.username} #{new_resource.first_name} #{new_resource.last_name} #{new_resource.email} #{password} -f #{key}"
+    not_if { node.run_state['chef-users'].index(/^#{new_resource.username}$/) }
   end
 
   ruby_block 'append-user-to-users' do
     block do
-      node.run_state['chef-users'] << "#{username}\n"
+      node.run_state['chef-users'] << "#{new_resource.username}\n"
     end
   end
-  execute "grant-server-admin-#{username}" do
-    command "chef-server-ctl grant-server-admin-permissions #{username}"
-    only_if { serveradmin }
+  execute "grant-server-admin-#{new_resource.username}" do
+    command "chef-server-ctl grant-server-admin-permissions #{new_resource.username}"
+    only_if { new_resource.serveradmin }
   end
 end
 
 action :delete do
-  execute "delete-user-#{username}" do
+  execute "delete-user-#{new_resource.username}" do
     retries 3
-    command "chef-server-ctl user-delete #{username} --yes --remove-from-admin-groups"
-    only_if { node.run_state['chef-users'].index(/^#{username}$/) }
+    command "chef-server-ctl user-delete #{new_resource.username} --yes --remove-from-admin-groups"
+    only_if { node.run_state['chef-users'].index(/^#{new_resource.username}$/) }
   end
 
   ruby_block 'delete-user-to-users' do
     block do
-      node.run_state['chef-users'] = node.run_state['chef-users'].gsub(/#{username}\n/, '')
+      node.run_state['chef-users'] = node.run_state['chef-users'].gsub(/#{new_resource.username}\n/, '')
     end
   end
 end
