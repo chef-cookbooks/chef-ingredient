@@ -103,17 +103,18 @@ action :install do
     mode '0640'
     only_if { new_resource.config }
   end
-end
 
-action :register do
   chef_file ::File.join(prefix, 'validation.pem') do
     source new_resource.validation_pem
     user 'root'
     group 'root'
     mode '0600'
     not_if { ::File.exist?(::File.join(prefix, 'client.pem')) }
+    only_if { property_is_set?(:validation_pem) }
   end
+end
 
+action :register do
   execute 'fetch ssl certificates' do
     command "knife ssl fetch -c #{::File.join(prefix, 'client.rb')}"
     not_if "knife ssl check -c #{::File.join(prefix, 'client.rb')}"
