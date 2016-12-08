@@ -212,6 +212,16 @@ action :create do
       group build_user
     end
 
+    directory "#{home_dir}/.ssh" do
+      owner build_user
+      group build_user
+      notifies :touch, "file[#{home_dir}/.ssh/authorized_keys]", :immediately
+    end
+
+    file "#{home_dir}/.ssh/authorized_keys" do
+      action :nothing
+    end
+
     # TODO: Figure out how to auto-detect enterprise
     ruby_block 'install job runner' do # ~FC014
       block do
