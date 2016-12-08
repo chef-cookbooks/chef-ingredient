@@ -34,6 +34,7 @@ property :supermarket_fqdn, String
 property :job_dispatch_version, String, default: 'v2'
 property :automate_user, String, default: 'admin'
 property :automate_password, String
+property :automate_enterprise, String, default: 'chef'
 
 load_current_value do
   # node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -236,7 +237,7 @@ action :create do
         runner = Mixlib::ShellOut.new("delivery api post runners \
           -d '#{data.to_json}' \
           -s #{new_resource.automate_fqdn} \
-          -e chef \
+          -e #{new_resource.automate_enterprise} \
           -u #{new_resource.automate_user}").run_command
         ::File.write(::File.join(home_dir, '.ssh/authorized_keys'), JSON.parse(runner.stdout)['openssh_public_key'])
       end
