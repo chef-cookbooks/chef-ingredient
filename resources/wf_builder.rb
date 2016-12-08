@@ -255,7 +255,7 @@ action :create do
     end
 
     file '/usr/local/bin/delivery-cmd' do
-      content ::File.read('/var/opt/delivery/workspace/bin/delivery-cmd')
+      content lazy { ::File.read('/var/opt/delivery/workspace/bin/delivery-cmd') }
       owner 'dbuild'
       group 'dbuild'
       mode '0755'
