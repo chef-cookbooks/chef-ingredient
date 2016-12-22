@@ -285,7 +285,7 @@ module ChefIngredientCookbook
           product_name: new_resource.product_name,
           channel: new_resource.channel,
           product_version: new_resource.version,
-          platform_version_compatibility_mode: new_resource.platform_version_compatibility_mode
+          platform_version_compatibility_mode: new_resource.platform_version_compatibility_mode,
         }.tap do |opt|
           opt[:shell_type] = :ps1 if windows?
         end
@@ -333,7 +333,7 @@ module ChefIngredientCookbook
         # We also have a specific case we need to handle for push-client and push-server
         deprecated_product_names = {
           'push-client' => 'push-jobs-client',
-          'push-server' => 'push-jobs-server'
+          'push-server' => 'push-jobs-server',
         }
 
         if deprecated_product_names.keys.include?(new_resource.product_name)
