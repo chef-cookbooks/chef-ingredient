@@ -1,7 +1,7 @@
 # File managed by Chef. Do not modify.
 
 chef_server_url   "<%= Chef::Config['chef_server_url'] %>"
-node_name "<%= node['fqdn'] %>"
+node_name "<%= Chef::Config['node_name'] %>"
 allow_unencrypted true
 
 # Chef server connect options
