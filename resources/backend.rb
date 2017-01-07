@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: chef
+# Cookbook Name:: chef_stack
 # Resource:: backend
 #
 # Copyright 2016 Chef Software Inc

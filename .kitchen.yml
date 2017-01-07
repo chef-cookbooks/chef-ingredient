@@ -17,8 +17,8 @@ platforms:
 suites:
   - name: chef
     run_list:
-      - recipe[chef::_kitchen]
-      - recipe[chef::server]
+      - recipe[chef_stack::_kitchen]
+      - recipe[chef_stack::server]
     driver:
       customize:
         memory: 1024
@@ -26,8 +26,8 @@ suites:
         - ['private_network', {ip: '192.168.254.10'}]
   # - name: chefbe
   #   run_list:
-  #     - recipe[chef::_kitchen]
-  #     - recipe[chef::backend]
+  #     - recipe[chef_stack::_kitchen]
+  #     - recipe[chef_stack::backend]
   #   driver:
   #     customize:
   #       memory: 1024
@@ -35,8 +35,8 @@ suites:
   #       - ['private_network', {ip: '192.168.254.11'}]
   - name: automate
     run_list:
-      - recipe[chef::_kitchen]
-      - recipe[chef::automate]
+      - recipe[chef_stack::_kitchen]
+      - recipe[chef_stack::automate]
     driver:
       customize:
         memory: 1024
@@ -44,24 +44,24 @@ suites:
         - ['private_network', {ip: '192.168.254.20'}]
   - name: buildv1
     run_list:
-      - recipe[chef::_kitchen]
-      - recipe[chef::build_node_v1]
+      - recipe[chef_stack::_kitchen]
+      - recipe[chef_stack::build_node_v1]
     attributes:
     driver:
       network:
         - ['private_network', {ip: '192.168.254.21'}]
   - name: buildv2
     run_list:
-      - recipe[chef::_kitchen]
-      - recipe[chef::build_node_v2]
+      - recipe[chef_stack::_kitchen]
+      - recipe[chef_stack::build_node_v2]
     attributes:
     driver:
       network:
         - ['private_network', {ip: '192.168.254.22'}]
   - name: supermarket
     run_list:
-      - recipe[chef::_kitchen]
-      - recipe[chef::supermarket]
+      - recipe[chef_stack::_kitchen]
+      - recipe[chef_stack::supermarket]
     driver:
       network:
         - ['private_network', {ip: '192.168.254.30'}]

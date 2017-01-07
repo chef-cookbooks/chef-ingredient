@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: chef
+# Cookbook Name:: chef_stack
 # Spec:: default
 #
 # Copyright 2016 Chef Software Inc
@@ -19,7 +19,7 @@
 
 require 'spec_helper'
 
-describe 'chef::default' do
+describe 'chef_stack::default' do
   context 'When all attributes are default, on an unspecified platform' do
     let(:chef_run) do
       runner = ChefSpec::ServerRunner.new

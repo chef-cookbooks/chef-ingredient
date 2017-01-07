@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: chef
+# Cookbook Name:: chef_stack
 # Resource:: supermarket
 #
 # Copyright 2016 Chef Software Inc
