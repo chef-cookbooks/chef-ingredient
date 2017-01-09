@@ -1,9 +1,12 @@
-name 'chef'
+# rubocop:disable LineLength
+name 'chef_stack'
 maintainer 'Chef Software Inc'
 maintainer_email 'success@chef.io'
 license 'apachev2'
-description 'Installs/Configures chef'
-long_description 'Installs/Configures chef'
-version '0.4.26'
+description 'Resource Cookbook for Managing Chef Software Inc Product Suite'
+long_description 'Resource Cookbook for Managing Chef Software Inc Product Suite'
+issues_url 'https://github.com/ncerny/chef_stack/issues' if respond_to?(:issues_url)
+source_url 'https://github.com/ncerny/chef_stack' if respond_to?(:source_url)
+version '0.5.0'
 
 depends 'chef-ingredient'
