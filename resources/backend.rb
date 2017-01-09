@@ -67,14 +67,3 @@ action :create do
     not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
   end
 end
-
-def ensurekv(config, hash)
-  hash.each do |k, v|
-    if config =~ /^ *#{v}.*$/ # doesnt work
-      config.sub(/^ *#{v}.*$/, "#{k} '#{v}'")
-    else
-      config << "\n#{k} '#{v}'"
-    end
-  end
-  config
-end
