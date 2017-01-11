@@ -19,3 +19,14 @@
 def prefix
   (platform_family?('windows') ? 'C:/Chef/' : '/etc/chef/')
 end
+
+def ensurekv(config, hash)
+  hash.each do |k, v|
+    if config =~ /^ *#{v}.*$/
+      config.sub(/^ *#{v}.*$/, "#{k} '#{v}'")
+    else
+      config << "\n#{k} '#{v}'"
+    end
+  end
+  config
+end

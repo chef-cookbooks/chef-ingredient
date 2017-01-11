@@ -275,14 +275,3 @@ action :create do
     raise 'Invalid Runner Version'
   end
 end
-
-def ensurekv(config, hash)
-  hash.each do |k, v|
-    if config =~ /^ *#{v}.*$/ # doesnt work
-      config.sub(/^ *#{v}.*$/, "#{k} '#{v}'")
-    else
-      config << "\n#{k} '#{v}'"
-    end
-  end
-  config
-end
