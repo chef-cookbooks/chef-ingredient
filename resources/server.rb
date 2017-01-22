@@ -96,20 +96,3 @@ action :gather_secrets do
     action :run
   end
 end
-
-# rubocop:disable Metrics/AbcSize
-# rubocop:disable Metrics/MethodLength
-def write_vault(data)
-  item = read_vault || ChefVault::Item.new(
-    'chef',
-    node.chef_environment,
-    node_name: 'workflow',
-    client_key_path: '/etc/opscode/users/workflow.pem'
-  )
-  item.raw_data ||= { 'id' => node.chef_environment }
-  item.raw_data.merge!(data)
-  item.search("chef_environment:#{node.chef_environment} AND recipe:chef")
-  item.clients("chef_environment:#{node.chef_environment} AND recipe:chef")
-  item.admins('workflow')
-  item.save
-end
