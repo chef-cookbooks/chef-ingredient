@@ -44,7 +44,7 @@ def write_vault(data)
     'chef_stack',
     node.chef_environment,
     node_name: node['chef_stack']['admin'],
-    client_key_path: '/etc/chef/workflow.pem'
+    client_key_path: '/etc/chef/#{node["chef_stack"]["admin"]}.pem'
   )
   item.raw_data ||= { 'id' => node.chef_environment }
   item.raw_data.merge!(data)
