@@ -69,12 +69,12 @@ end
 action :gather_secrets do
   ruby_block 'gather chef-server secrets' do
     block do
-      chefserver = {}
+      chef_server = {}
       files = Dir.glob('/etc/opscode*/*.{rb,pem,pub,json}')
       files.each do |file|
-        chefserver[file] = IO.read(file)
+        chef_server[file] = IO.read(file)
       end
-      write_vault('chefserver' => chefserver)
+      write_vault('chef_server' => chef_server)
     end
     action :run
   end

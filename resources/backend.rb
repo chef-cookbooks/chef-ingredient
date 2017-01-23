@@ -49,7 +49,6 @@ action :create do
   file '/etc/chef-backend/chef-backend.rb' do
     content new_resource.config
   end
-
   execute 'chef-backend-ctl create-cluster --accept-license --yes' do
     only_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
     not_if 'chef-backend-ctl cluster-status'
@@ -65,5 +64,19 @@ action :create do
 
   execute "chef-backend-ctl join-cluster #{new_resource.bootstrap_node} --accept-license --yes" do
     not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
+  end
+end
+
+action :gather_secrets do
+  ruby_block 'gather chef-backend-secrets' do
+    block do
+      chef_backend = {}
+      files = Dir.glob('/etc/chef-backend*/*.{rb,pem,pub,json}')
+      files.each do |file|
+        chef_backend[file] = IO.read(file)
+      end
+      write_vault('chef_backend' => chef_backend)
+    end
+    action :run
   end
 end
