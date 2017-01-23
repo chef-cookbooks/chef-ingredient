@@ -33,6 +33,12 @@ end
 
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/MethodLength
+def read_vault()
+  ChefVault::Item.load('chef_stack', node.chef_environment)
+end
+
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
 def write_vault(data)
   item = read_vault || ChefVault::Item.new(
     'chef_stack',
