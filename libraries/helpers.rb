@@ -37,7 +37,7 @@ def write_vault(data)
   item = read_vault || ChefVault::Item.new(
     'chef_stack',
     node.chef_environment,
-    node_name: 'workflow',
+    node_name: node['chef_stack']['admin'],
     client_key_path: '/etc/opscode/users/workflow.pem'
   )
   item.raw_data ||= { 'id' => node.chef_environment }
