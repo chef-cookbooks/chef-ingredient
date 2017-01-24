@@ -66,6 +66,7 @@ action :create do
 
   execute "chef-backend-ctl join-cluster #{new_resource.bootstrap_node} --accept-license --yes" do
     not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
+    not_if 'chef-backend-ctl cluster-status'
   end
 end
 
