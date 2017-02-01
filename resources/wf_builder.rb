@@ -227,6 +227,12 @@ action :create do
     ruby_block 'install job runner' do # ~FC014
       block do
         ENV['AUTOMATE_PASSWORD'] = new_resource.automate_password
+
+        Mixlib::ShellOut.new("delivery token \
+        -s #{new_resource.automate_fqdn} \
+        -e #{new_resource.automate_enterprise} \
+        -u #{new_resource.automate_user}").run_command
+
         data = {
           hostname: new_resource.name,
           os: node['os'],
@@ -234,6 +240,7 @@ action :create do
           platform: node['platform'],
           platform_version: node['platform_version']
         }
+
         runner = Mixlib::ShellOut.new("delivery api post runners \
           -d '#{data.to_json}' \
           -s #{new_resource.automate_fqdn} \
