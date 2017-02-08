@@ -55,4 +55,3 @@ suites:
       - recipe[test::install_git]
       <% end %>
       - recipe[test::chefdk]
-

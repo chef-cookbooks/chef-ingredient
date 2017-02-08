@@ -290,7 +290,17 @@ module ChefIngredientCookbook
           opt[:shell_type] = :ps1 if windows?
         end
 
-        Mixlib::Install.new(options).detect_platform
+        platform_details = Mixlib::Install.detect_platform
+
+        platform_details.tap do |opt|
+          opt[:platform] = new_resource.platform if new_resource.platform
+          opt[:platform_version] = new_resource.platform_version if new_resource.platform_version
+          opt[:architecture] = new_resource.architecture if new_resource.architecture
+        end
+
+        options.merge!(platform_details)
+
+        Mixlib::Install.new(options)
       end
     end
 
