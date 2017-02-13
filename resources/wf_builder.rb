@@ -156,7 +156,7 @@ action :create do
   case new_resource.job_dispatch_version
   when 'v1'
     execute 'tag node as legacy build-node' do
-      command "knife tag create #{node['fqdn']} delivery-build-node -c new_resource.chef_config_path"
+      command "knife tag create #{Chef::Config['node_name']} delivery-build-node -c new_resource.chef_config_path"
       not_if { node['tags'].include?('delivery-build-node') }
     end
 
@@ -200,7 +200,7 @@ action :create do
     home_dir = '/home/job_runner'
 
     execute 'tag node as job-runner' do
-      command "knife tag create #{node['fqdn']} delivery-job-runner -c #{new_resource.chef_config_path}"
+      command "knife tag create #{Chef::Config['node_name']} delivery-job-runner -c #{new_resource.chef_config_path}"
       not_if { node['tags'].include?('delivery-job-runner') }
     end
 
