@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 class Chef
   class Resource
     class ChefIngredient < Chef::Resource::LWRPBase
@@ -27,7 +28,7 @@ class Chef
 
       # Attributes for determining what version to install from which channel
       attribute :version, kind_of: [String, Symbol], default: :latest
-      attribute :channel, kind_of: Symbol, default: :stable, equal_to: [:current, :stable, :unstable]
+      attribute :channel, kind_of: Symbol, default: :stable, equal_to: [:stable, :current, :unstable]
 
       # Attribute to install package from local file
       attribute :package_source, kind_of: String
@@ -45,6 +46,11 @@ class Chef
       # Attribute to enable selecting packages built for earlier versions in
       # platforms that are not yet officially added to Chef support matrix
       attribute :platform_version_compatibility_mode, kind_of: [TrueClass, FalseClass], default: false
+
+      # Atttibutes for configuring a specific platform package
+      attribute :platform, kind_of: String
+      attribute :platform_version, kind_of: String
+      attribute :architecture, kind_of: String
     end
   end
 end

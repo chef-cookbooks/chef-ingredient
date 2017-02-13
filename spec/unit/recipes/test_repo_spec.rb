@@ -193,10 +193,11 @@ EOS
 
     it 'raises an error' do
       # override before in spec_helper
-      installer = instance_double('installer', artifact_info: [])
+      options = instance_double('options', platform: 'ubuntu', platform_version: '14.04', architecture: 'x86_64')
+      installer = instance_double('installer', artifact_info: [], options: options)
       allow_any_instance_of(Chef::Provider::ChefIngredient).to receive(:installer).and_return(installer)
 
-      expect { ubuntu_1404 }.to raise_error RuntimeError, /No package found for 'chef-server' with version 'latest' for current platform in 'stable' channel/
+      expect { ubuntu_1404 }.to raise_error RuntimeError, /No package found for 'chef-server' with version 'latest' for platform 'ubuntu-14.04-x86_64' in 'stable' channel/
     end
   end
 end

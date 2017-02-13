@@ -64,6 +64,10 @@ By default, `chef_ingredient` will install using the `packages.chef.io` stable r
 - `package_source`: Full path to a location where the package is located. If present, this file is used for installing the package. Default `nil`.
 - `timeout`: The amount of time (in seconds) to wait to fetch the installer before timing out. Default: default timeout of the Chef package resource - `900` seconds.
 - `accept_license`: A boolean value that specifies if license should be accepted if it is asked for during `reconfigure`action. This option is applicable to only these products: manage, analytics, reporting and compliance. Default: `false`.
+- `platform`: Override the auto-detected platform for which package to install.
+- `platform_version`: Override the auto-detected platform version for which package to install.
+- `architecture`: Override the auto-detected architecture for which package to install.
+- `platform_version_compatibility_mode`: Find closest matching package when platform auto-detection does not find an exact package match in the repository. Default: `false`.
 
 ### omnibus_service
 

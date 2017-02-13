@@ -96,7 +96,7 @@ module ChefIngredient
 
       if artifact_info == []
         raise <<-EOH
-No package found for '#{new_resource.product_name}' with version '#{new_resource.version}' for current platform in '#{new_resource.channel}' channel.
+No package found for '#{new_resource.product_name}' with version '#{new_resource.version}' for platform '#{installer.options.platform}-#{installer.options.platform_version}-#{installer.options.architecture}' in '#{new_resource.channel}' channel.
 Check that the package exists.
         EOH
       end
