@@ -1,6 +1,9 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 0.21.4 (2017-02-13)
+- Add properties to override the platform details of a `chef_ingredient` product to install
+
 ## 0.21.3 (2017-02-02)
 - Add timeout to package resource created by configure_from_source_package
 
