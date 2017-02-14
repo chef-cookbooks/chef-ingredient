@@ -56,7 +56,7 @@ action :create do
     version new_resource.version
     config new_resource.config
     accept_license new_resource.accept_license
-    package_source new_resource.package_source if new_resource.property_is_set?(:package_source)
+    package_source new_resource.package_source if property_is_set?(:package_source)
   end
 
   directory '/etc/delivery'
