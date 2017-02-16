@@ -25,12 +25,11 @@ This cookbook is maintained and supported by Chef's engineering services team. T
 
 ### Chef
 
-- Chef 12.1+
+- Chef 12.5+
 
 ### Cookbooks
 
-- compat_resource
-
+- none
 
 ## Resources
 

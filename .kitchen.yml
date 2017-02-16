@@ -9,10 +9,11 @@ provisioner:
   data_bags_path: test/fixtures/data_bags
 
 platforms:
+  - name: centos-6.8
+  - name: centos-7.3
   - name: ubuntu-12.04
   - name: ubuntu-14.04
-  - name: centos-6.8
-  - name: centos-7.2
+  - name: ubuntu-16.04
   - name: macosx-10.10
     driver:
       box: chef/macosx-10.10 # private
@@ -32,7 +33,7 @@ default: &default
 suites:
   - name: default
     <<: *default
-    includes: [ 'ubuntu-12.04', 'ubuntu-14.04', 'centos-6.8', 'centos-7.2' ]
+    includes: [ 'ubuntu-12.04', 'ubuntu-14.04', 'centos-6.8', 'centos-7.3' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -42,14 +43,14 @@ suites:
 
   - name: local_package_install
     <<: *default
-    includes: [ 'ubuntu-12.04', 'ubuntu-14.04', 'centos-6.8', 'centos-7.2' ]
+    includes: [ 'ubuntu-12.04', 'ubuntu-14.04', 'centos-6.8', 'centos-7.3' ]
     run_list:
       - recipe[test]
       - recipe[test::local]
 
   - name: chefdk
     <<: *default
-    includes: [ 'ubuntu-12.04', 'ubuntu-14.04', 'centos-6.8', 'centos-7.2', 'macosx-10.10', 'windows-server-2012r2-standard' ]
+    includes: [ 'ubuntu-12.04', 'ubuntu-14.04', 'centos-6.8', 'centos-7.3', 'macosx-10.10', 'windows-server-2012r2-standard' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
