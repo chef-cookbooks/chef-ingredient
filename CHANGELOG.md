@@ -1,6 +1,11 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 1.0.0 (2017-02-15)
+
+- Require Chef 12.5+ and remove compat_resource dependency
+- Use mixlib-install >= 2.1.12 - this brings in an important fix for the `delivery` -> `automate` package rename. See the [Discourse announcement](https://discourse.chef.io/t/chef-automate-install-package-renaming-in-0-7-14-available/10429/1) for details on the rename
+
 ## 0.21.4 (2017-02-13)
 - Add properties to override the platform details of a `chef_ingredient` product to install
 
