@@ -30,26 +30,3 @@ def ensurekv(config, hash)
   end
   config
 end
-
-# rubocop:disable Metrics/AbcSize
-# rubocop:disable Metrics/MethodLength
-def read_vault()
-  ChefVault::Item.load('chef_stack', node.chef_environment)
-end
-
-# rubocop:disable Metrics/AbcSize
-# rubocop:disable Metrics/MethodLength
-def write_vault(data)
-  item = read_vault || ChefVault::Item.new(
-    'chef_stack',
-    node.chef_environment,
-    node_name: node['chef_stack']['admin'],
-    client_key_path: '/etc/chef/#{node["chef_stack"]["admin"]}.pem'
-  )
-  item.raw_data ||= { 'id' => node.chef_environment }
-  item.raw_data.merge!(data)
-  item.search("chef_environment:#{node.chef_environment} AND recipe:chef_backend")
-  item.clients("chef_environment:#{node.chef_environment} AND recipe:chef_backend")
-  item.admins(node['chef_stack']['admin'])
-  item.save
-end

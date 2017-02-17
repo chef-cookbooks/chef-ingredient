@@ -65,34 +65,3 @@ action :create do
     end
   end
 end
-
-action :gather_secrets do
-  ruby_block 'gather chef-server secrets' do
-    block do
-      chef_server = {}
-      files = Dir.glob('/etc/opscode*/*.{rb,pem,pub,json}')
-      files.each do |file|
-        chef_server[file] = IO.read(file)
-      end
-      write_vault('chef_server' => chef_server)
-    end
-    action :run
-  end
-
-  ruby_block 'gather automate secrets' do
-    block do
-      supermarket_ocid = JSON.parse(::File.read('/etc/opscode/oc-id-applications/supermarket.json'))
-      automate = {
-        'validator_pem' => ::File.read('/etc/opscode/infrastructure-validation.pem'),
-        'user_pem' => ::File.read('/etc/opscode/users/workflow.pem'),
-        'builder_pem' => ::File.read('/etc/opscode/users/builder.pem'),
-        #  'builder_pub' => "ssh-rsa #{[builder_key.to_blob].pack('m0')}",
-        'supermarket_oauth2_app_id' => supermarket_ocid['uid'],
-        'supermarket_oauth2_secret' => supermarket_ocid['secret'],
-        'supermarket_fqdn' => URI(supermarket_ocid['redirect_uri']).host
-      }
-      write_vault('automate' => automate)
-    end
-    action :run
-  end
-end

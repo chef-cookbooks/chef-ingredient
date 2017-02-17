@@ -28,7 +28,6 @@ property :accept_license, [TrueClass, FalseClass], default: false
 property :bootstrap_node, String, required: true
 property :publish_address, String, default: node['ipaddress']
 property :chef_backend_secrets, String, default: nil
-property :overwrite_secrets, String, default: false
 
 load_current_value do
   # node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -51,13 +50,13 @@ action :create do
     content new_resource.config
   end
 
-#  chef_file '/etc/chef-backend/chef-backend-secrets.json' do
-#    source new_resource.chef_backend_secrets
-#    user 'root'
-#    group 'root'
-#    mode '0600'
-#    not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
-#  end
+  chef_file '/etc/chef-backend/chef-backend-secrets.json' do
+    source new_resource.chef_backend_secrets
+    user 'root'
+    group 'root'
+    mode '0600'
+    not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
+  end
 
   execute 'chef-backend-ctl create-cluster --accept-license --yes' do
     only_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
@@ -67,19 +66,5 @@ action :create do
   execute "chef-backend-ctl join-cluster #{new_resource.bootstrap_node} --accept-license --yes" do
     not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
     not_if 'chef-backend-ctl cluster-status'
-  end
-end
-
-action :gather_secrets do
-  ruby_block 'gather chef-backend-secrets' do
-    block do
-      chef_backend = {}
-      files = Dir.glob('/etc/chef-backend*/*.{rb,pem,pub,json}')
-      files.each do |file|
-        chef_backend[file] = IO.read(file)
-      end
-      write_vault('chef_backend' => chef_backend)
-    end
-    action :run
   end
 end

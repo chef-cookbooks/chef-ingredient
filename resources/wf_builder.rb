@@ -69,10 +69,11 @@ action :create do
 
   execute 'cat /etc/chef/trusted_certs/*.crt >> /opt/chefdk/embedded/ssl/certs/cacert.pem'
 
-  #ohai 'reload_passwd' do
-  #  action :nothing
-  #  plugin 'etc'
-  #end
+  ohai 'reload_passwd' do
+    action :nothing
+    plugin 'etc'
+    ignore_failure true
+  end
 
   workspace = '/var/opt/delivery/workspace'
 
@@ -81,7 +82,7 @@ action :create do
   user 'dbuild' do
     home workspace
     group 'dbuild'
-    #notifies :reload, 'ohai[reload_passwd]', :immediately
+    notifies :reload, 'ohai[reload_passwd]', :immediately
   end
 
   %w(.chef bin lib etc).each do |dir|
