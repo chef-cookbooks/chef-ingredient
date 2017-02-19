@@ -1,3 +1,3 @@
-apt_update 'update' if node['platform_family'] == 'debian'
+apt_update 'update'
 
 include_recipe 'git'
