@@ -27,7 +27,7 @@ property :config, String, default: ''
 property :accept_license, [TrueClass, FalseClass], default: false
 property :bootstrap_node, String, required: true
 property :publish_address, String, default: node['ipaddress']
-property :chef_backend_secrets, String, default: ''
+property :chef_backend_secrets, String, default: nil
 
 load_current_value do
   # node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -56,6 +56,7 @@ action :create do
     group 'root'
     mode '0600'
     not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
+    only_if { new_resource.chef_backend_secrets }
   end
 
   execute 'chef-backend-ctl create-cluster --accept-license --yes' do
