@@ -50,13 +50,14 @@ action :create do
     content new_resource.config
   end
 
-  chef_file '/etc/chef-backend/chef-backend-secrets.json' do
-    source new_resource.chef_backend_secrets
-    user 'root'
-    group 'root'
-    mode '0600'
-    not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
-    only_if { new_resource.chef_backend_secrets }
+  if new_resource.chef_backend_secrets
+    chef_file '/etc/chef-backend/chef-backend-secrets.json' do
+      source new_resource.chef_backend_secrets
+      user 'root'
+      group 'root'
+      mode '0600'
+      not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
+    end
   end
 
   execute 'chef-backend-ctl create-cluster --accept-license --yes' do
