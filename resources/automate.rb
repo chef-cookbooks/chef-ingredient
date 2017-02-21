@@ -107,6 +107,7 @@ action :create do
       execute "create enterprise #{ent}" do
         command "delivery-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub > /etc/delivery/#{ent}.creds"
         not_if "delivery-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"
+        only_if 'delivery-ctl status'
       end
     end
   end

@@ -35,6 +35,7 @@ property :job_dispatch_version, String, default: 'v2'
 property :automate_user, String, default: 'admin'
 property :automate_password, String
 property :automate_enterprise, String, default: 'chef'
+property :chef_config_path, String, default: '/etc/chef/client.rb'
 
 load_current_value do
   # node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -71,6 +72,7 @@ action :create do
   ohai 'reload_passwd' do
     action :nothing
     plugin 'etc'
+    ignore_failure true
   end
 
   workspace = '/var/opt/delivery/workspace'
@@ -110,12 +112,11 @@ action :create do
 
   %w(etc/delivery.rb .chef/knife.rb).each do |dir|
     file "#{workspace}/#{dir}" do
-      content ensurekv(::File.read('/etc/chef/client.rb'),
+      content ensurekv(::File.read(new_resource.chef_config_path),
                        node_name: new_resource.chef_user,
                        log_location: 'STDOUT',
                        client_key: "#{workspace}/#{dir}/#{new_resource.chef_user}.pem",
-                       trusted_certs_dir: '/etc/chef/trusted_certs'
-                      )
+                       trusted_certs_dir: '/etc/chef/trusted_certs')
       mode '0644'
       owner 'dbuild'
       group 'dbuild'
@@ -142,7 +143,7 @@ action :create do
     mode '0640'
   end
 
-  file '/etc/chef/client.rb' do
+  file new_resource.chef_config_path do
     mode '0644'
   end
 
@@ -155,7 +156,7 @@ action :create do
   case new_resource.job_dispatch_version
   when 'v1'
     execute 'tag node as legacy build-node' do
-      command "knife tag create #{node['fqdn']} delivery-build-node -c /etc/chef/client.rb -u #{node['fqdn']}"
+      command "knife tag create #{Chef::Config['node_name']} delivery-build-node -c new_resource.chef_config_path"
       not_if { node['tags'].include?('delivery-build-node') }
     end
 
@@ -199,7 +200,7 @@ action :create do
     home_dir = '/home/job_runner'
 
     execute 'tag node as job-runner' do
-      command "knife tag create #{node['fqdn']} delivery-job-runner -c /etc/chef/client.rb -u #{node['fqdn']}"
+      command "knife tag create #{Chef::Config['node_name']} delivery-job-runner -c #{new_resource.chef_config_path}"
       not_if { node['tags'].include?('delivery-job-runner') }
     end
 
