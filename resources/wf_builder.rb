@@ -116,8 +116,7 @@ action :create do
                        node_name: new_resource.chef_user,
                        log_location: 'STDOUT',
                        client_key: "#{workspace}/#{dir}/#{new_resource.chef_user}.pem",
-                       trusted_certs_dir: '/etc/chef/trusted_certs'
-                      )
+                       trusted_certs_dir: '/etc/chef/trusted_certs')
       mode '0644'
       owner 'dbuild'
       group 'dbuild'
