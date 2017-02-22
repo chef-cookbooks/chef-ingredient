@@ -1,6 +1,5 @@
 # Chef Server Core
 chef_ingredient 'chef-server' do
-  version node['test']['chef-server-core']['version']
   config <<-EOS
 api_fqdn "#{node['fqdn']}"
 ip_version "ipv6"
