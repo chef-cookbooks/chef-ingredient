@@ -1,6 +1,10 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 1.0.1 (2017-02-22)
+
+- Testing cleanup for Chef 13 compatibility and testing on the latest platforms
+
 ## 1.0.0 (2017-02-15)
 
 - Require Chef 12.5+ and remove compat_resource dependency
