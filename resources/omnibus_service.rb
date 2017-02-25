@@ -15,40 +15,35 @@
 # limitations under the License.
 #
 
-require_relative '../libraries/helpers'
-include ChefIngredientCookbook::Helpers
-
-provides :omnibus_service
+resource_name :omnibus_service
 
 default_action :nothing
 
 property :ctl_command, String
 property :service_name, String, regex: %r{[\w-]+\/[\w-]+}, name_property: true
 
+action_class do
+  include ChefIngredientCookbook::Helpers
+
+  #
+  # Returns the ctl-command to be used when executing commands for the
+  # service.
+  #
+  def omnibus_ctl_command
+    product_key_for_service = service_name.split('/').first
+    ctl_command || ctl_command_for_product(product_key_for_service)
+  end
+
+  #
+  # Returns the raw service name
+  #
+  def raw_service_name
+    service_name.split('/').last
+  end
+end
+
 %w(start stop restart hup int kill graceful-kill once).each do |sv_command|
   action sv_command.tr('-', '_').to_sym do
     execute "#{omnibus_ctl_command} #{sv_command} #{raw_service_name}"
   end
-end
-
-#
-# Returns the ctl-command to be used when executing commands for the
-# service.
-#
-def omnibus_ctl_command
-  ctl_command || ctl_command_for_product(product_key_for_service)
-end
-
-#
-# Returns the name of the product for which the service belongs to
-#
-def product_key_for_service
-  service_name.split('/').first
-end
-
-#
-# Returns the raw service name
-#
-def raw_service_name
-  service_name.split('/').last
 end

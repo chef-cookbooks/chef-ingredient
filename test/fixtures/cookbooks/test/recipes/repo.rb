@@ -18,8 +18,7 @@ ingredient_config 'chef-server' do
   notifies :reconfigure, 'chef_ingredient[chef-server]'
 end
 
-# Management Console - using the compat shim resource
-chef_server_ingredient 'manage' do
+chef_ingredient 'manage' do
   config <<-EOS
 disable_sign_up true
 support_email_address "#{node['chef_admin']}"
@@ -34,6 +33,6 @@ file '/tmp/opscode-manage.firstrun' do
 end
 
 ingredient_config 'manage' do
-  notifies :reconfigure, 'chef_server_ingredient[manage]'
+  notifies :reconfigure, 'chef_ingredient[manage]'
   sensitive true
 end

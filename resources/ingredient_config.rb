@@ -15,13 +15,14 @@
 # limitations under the License.
 #
 
-require_relative '../libraries/helpers'
-include ChefIngredientCookbook::Helpers
-
-provides :ingredient_config
+resource_name :ingredient_config
 
 property :product_name, String, name_property: true
 property :config, [String, NilClass]
+
+action_class do
+  include ChefIngredientCookbook::Helpers
+end
 
 action :render do
   target_config = ingredient_config_file(product_name)

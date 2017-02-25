@@ -239,18 +239,6 @@ module ChefIngredientCookbook
     ########################################################################
 
     #
-    # Returns true if a given fqdn resolves, false otherwise.
-    #
-    def fqdn_resolves?(fqdn)
-      require 'resolv'
-      Resolv.getaddress(fqdn)
-      return true
-    rescue Resolv::ResolvError, Resolv::ResolvTimeout
-      false
-    end
-    module_function :fqdn_resolves?
-
-    #
     # Declares a resource that will fail the chef run when signalled.
     #
     def declare_chef_run_stop_resource
@@ -276,6 +264,7 @@ module ChefIngredientCookbook
     # Creates a Mixlib::Install instance using the common attributes of
     # chef_ingredient resource that can be used for querying builds or
     # generating install scripts.
+    #
     #
     def installer
       @installer ||= begin
@@ -331,8 +320,7 @@ module ChefIngredientCookbook
     #
     def check_deprecated_properties
       # Historically we have had chef- and opscode- in front of most of our
-      # packages. But with our move to bintray we have standardized on names
-      # without any prefixes except some products.
+      # packages. We have standardized on names without any prefixes except some products.
       if !%w(chef-backend chef-server chef-server-ha-provisioning).include?(new_resource.product_name) &&
          (match = new_resource.product_name.match(/(chef-|opscode-)(?<product_key>.*)/))
 
