@@ -36,6 +36,8 @@ property :automate_user, String, default: 'admin'
 property :automate_password, String
 property :automate_enterprise, String, default: 'chef'
 property :chef_config_path, String, default: '/etc/chef/client.rb'
+property :platform, String
+property :platform_version, String
 
 load_current_value do
   # node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -48,6 +50,8 @@ action :create do
     channel new_resource.channel
     version new_resource.version
     accept_license new_resource.accept_license
+    platform new_resource.platform if new_resource.platform
+    platform_version new_resource.platform_version if new_resource.platform_version
   end
 
   directory '/etc/chef/trusted_certs' do

@@ -31,6 +31,8 @@ property :chef_user, String, default: 'workflow'
 property :chef_user_pem, String, required: true
 property :validation_pem, String, required: true
 property :builder_pem, String, required: true
+property :platform, String
+property :platform_version, String
 
 load_current_value do
   # node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -55,6 +57,8 @@ action :create do
     version new_resource.version
     config new_resource.config
     accept_license new_resource.accept_license
+    platform new_resource.platform if new_resource.platform
+    platform_version new_resource.platform_version if new_resource.platform_version
   end
 
   directory '/etc/delivery'
