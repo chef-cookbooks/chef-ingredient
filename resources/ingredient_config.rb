@@ -21,7 +21,6 @@ include ChefIngredientCookbook::Helpers
 provides :ingredient_config
 
 property :product_name, String, name_property: true
-property :sensitive, [TrueClass, FalseClass], default: false
 property :config, [String, NilClass]
 
 action :render do
