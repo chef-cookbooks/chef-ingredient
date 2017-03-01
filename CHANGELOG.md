@@ -1,6 +1,12 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 1.1.0 (2017-03-01)
+
+- Test with local delivery and not Rake
+- Remove sensitive property for Chef 13 compatibility as this properly is provided by chef-client now for us by any resource and doesn't need to be defined
+- Test in Travis CI with kitchen-dokken and convert tests to InSpec
+
 ## 1.0.1 (2017-02-22)
 
 - Testing cleanup for Chef 13 compatibility and testing on the latest platforms
