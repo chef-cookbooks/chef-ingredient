@@ -18,11 +18,10 @@ branches:
 # Ensure we make ChefDK's Ruby the default
 before_script:
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - /opt/chefdk/embedded/bin/chef gem install chef-sugar
   - /opt/chefdk/embedded/bin/chef gem install mixlib-versioning
   - /opt/chefdk/embedded/bin/chef gem install mixlib-install --pre
 script:
   - /opt/chefdk/embedded/bin/chef --version
   - /opt/chefdk/embedded/bin/cookstyle --version
   - /opt/chefdk/embedded/bin/foodcritic --version
-  - /opt/chefdk/bin/chef exec rake
+  - /opt/chefdk/bin/chef exec delivery local all
