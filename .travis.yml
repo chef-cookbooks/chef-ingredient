@@ -1,10 +1,10 @@
-# Use Travis's cointainer based infrastructure
-sudo: false
+sudo: required
+dist: trusty
 
 addons:
   apt:
     sources:
-      - chef-stable-precise
+      - chef-stable-trusty
     packages:
       - chefdk
 
@@ -15,13 +15,26 @@ branches:
   only:
     - master
 
-# Ensure we make ChefDK's Ruby the default
+services: docker
+
+env:
+  matrix:
+  - INSTANCE=chefdk-centos-6
+  - INSTANCE=chefdk-centos-7
+  - INSTANCE=chefdk-ubuntu-1404
+  - INSTANCE=chefdk-ubuntu-1604
+
 before_script:
+  - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - /opt/chefdk/embedded/bin/chef gem install mixlib-versioning
-  - /opt/chefdk/embedded/bin/chef gem install mixlib-install --pre
-script:
   - /opt/chefdk/embedded/bin/chef --version
   - /opt/chefdk/embedded/bin/cookstyle --version
   - /opt/chefdk/embedded/bin/foodcritic --version
-  - /opt/chefdk/bin/chef exec delivery local all
+
+script: KITCHEN_LOCAL_YAML=.kitchen.dokken.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
+
+matrix:
+  include:
+    - script:
+      - /opt/chefdk/bin/chef exec delivery local all
+      env: UNIT_AND_LINT=1

@@ -1,8 +1,6 @@
-require 'spec_helper'
-
 describe 'test::chefdk' do
   it 'chefdk should print a version' do
-    command = if os[:family] == 'windows'
+    command = if os.windows?
                 `C:\\opscode\\chefdk\\bin\\chef --version`
               else
                 `/opt/chefdk/bin/chef --version`
