@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe 'chef-ingredient::default' do
+context 'chef-ingredient::default' do
   describe package('chef-server-core') do
     it { should be_installed }
   end

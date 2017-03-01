@@ -78,8 +78,7 @@ platforms:
       - RUN zypper --non-interactive install aaa_base perl-Getopt-Long-Descriptive which net-tools
 
 suites:
-  - name: default
+  - name: chefdk
     run_list:
-      - recipe[test::install_git]
       - recipe[test]
-      - recipe[test::repo]
+      - recipe[test::chefdk]
