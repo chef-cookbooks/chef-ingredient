@@ -76,66 +76,65 @@ Installs Chef Automate.
 ### chef_client
 | Name  | Type | Default Value  | Description  |
 |---|---|---|---|
-| node_name |  String | true | |
-| versio [String, Symbol] | latest | |
-| chefdk |  [TrueClass, FalseClass] | false | |
-| chef_server_url |  [String, Symbol] | local | |
-| ssl_verif [TrueClass, FalseClass] | true | |
-| log_locatio String | 'STDOUT' | |
-| log_level |  Symbol | auto | |
-| config |  String | | |
-| run_list |  Arra| |
-| environment |  String | | |
-| validation_pem |  String | | |
-| validation_client_name |  String | | |
-| tags |  [String, Array] |   '' | |
-| interval |  Integer |   1800 | |
-| spla Integer |   1800 | |
-| data_collector_toke String |  '93a49a4f2482c64126f7b6015e6b0f30284287ee4054ff8807fb63d9cbd1c506' | |
-| data_collector_url |  String | | |
+| node_name |  String | true | The name of the node. |
+| version | [String, Symbol] | latest | The version of chef-client to install. |
+| chefdk |  [TrueClass, FalseClass] | false | Do you want to install chefdk? |
+| chef_server_url |  [String, Symbol] | local | What is hte Chef server URL to connect to. |
+| ssl_verify | [TrueClass, FalseClass] | true | Validate ssl certificates? |
+| log_location | String | 'STDOUT' | Where to log. |
+| log_level |  Symbol | auto | Log level. |
+| config |  String | | Any configuration for client.rb. |
+| run_list |  Array | | The clients runlist. |
+| environment |  String | | Which Chef Environment the client belongs to. |
+| validation_pem |  String | | The validation pem to validate with. |
+| validation_client_name |  String | | The validation client name. |
+| tags |  [String, Array] |   '' | Any tags for the node. |
+| interval |  Integer |   1800 | The interval to run chef-client on. |
+| splay | Integer |   1800 | The randomization to add to the interval. |
+| data_collector_token | String |  '93a49a4f2482c64126f7b6015e6b0f30284287ee4054ff8807fb63d9cbd1c506' | The data collector token to talk to Visibility. |
+| data_collector_url |  String | | The Visibility URL to send data. |
 
 ### chef_file
 
 
 | Name  | Type | Default Value  | Description  |
 |---|---|---|---|
-|  filename | String | | |
-|  source |  String | | |
-|  user |  String |  default 'root' | |
-|  group |  String |  default 'root' | |
-|  mode |  String |  default '0600' | |
+|  filename | String | | The name of the resource. |
+|  source |  String | | The source of the file. |
+|  user |  String |  default 'root' | The owner of the file. |
+|  group |  String |  default 'root' | The group owner of the file. |
+|  mode |  String |  default '0600' | The mode for the file. |
 
 ### chef_server
 
 | Name  | Type | Default Value  | Description  |
 |---|---|---|---|
-|  addons |  Hash | | |
-|  data_collector_toke String |  default '93a49a4f2482c64126f7b6015e6b0f30284287ee4054ff8807fb63d9cbd1c506' | |
-|  data_collector_url |  String | | |
+|  addons |  Hash | | A set of addons to install with the Chef Server. |
+|  data_collector_token | String |  default '93a49a4f2482c64126f7b6015e6b0f30284287ee4054ff8807fb63d9cbd1c506' | The data collector token to authenticate with Chef Visiblity. |
+|  data_collector_url |  String | | The URL to connect to Visibility. |
 
 ### chef_supermarket
 
 | Name  | Type | Default Value  | Description  |
 |---|---|---|---|
-| chef_server_url |  String |  Chef::Config['chef_server_url'] | |
-| chef_oauth2_app_id |  String |  | |
-| chef_oauth2_secret |  String |  | |
-| chef_oauth2_verify_ssl |  [TrueClass, FalseClass] |  true | |
+| chef_server_url |  String |  Chef::Config['chef_server_url'] | The Chef server's URL. |
+| chef_oauth2_app_id |  String |  | The oauth2 app id from the Chef server. |
+| chef_oauth2_secret |  String |  | The oauth2 secret from the Chef server. |
+| chef_oauth2_verify_ssl |  [TrueClass, FalseClass] |  true | Whether to validate SSL certificates. |
 
 ### workflow_builder
 
 | Name  | Type | Default Value  | Description  |
 |---|---|---|---|
-| pj_versio [String, Symbol] | :latest | |
-| accept_license |  [TrueClass, FalseClass] | false | |
-| chef_user |  String | 'workflow' | |
-| chef_user_pem |  String |  | |  
-| builder_pem |  String |  | |  
-| chef_fqd String |   URI.parse(Chef::Config['chef_server_url']).host | |
-| automate_fqd String | | | |
-| supermarket_fqd String | | |
-| job_dispatch_versio String | 'v2' | |
-| automate_user |  String | 'admin' | |
-| automate_password |  String | | |
-| automate_enterprise |  String | 'chef' | |
-| chef_config_path |  String | '/etc/chef/client.rb' | |
+| pj_version | [String, Symbol] | :latest | The version of Push-Jobs to install. |
+| chef_user |  String | 'workflow' | The Chef user to authenticate with the Chef Server. |
+| chef_user_pem |  String |  | The private key of the Chef user to authenticate with the Chef Server. |  
+| builder_pem |  String |  | The builder users private key to communicate with Chef Automate. |  
+| chef_fqdn | String |   URI.parse(Chef::Config['chef_server_url']).host | The FQDN of the Chef server. |
+| automate_fqdn | String | | | The FQDN of the automate server. |
+| supermarket_fqdn | String | | The FQDN of the Supermarket server. |
+| job_dispatch_version | String | 'v2' | Which job dispatch version to use. V1 is push-jobs, V2 is SSH runners. |
+| automate_user |  String | 'admin' | What is the Automate user we're connecting to Automate as. |
+| automate_password |  String | | The password for the user above. |
+| automate_enterprise |  String | 'chef' | The Enterprise to connect to. |
+| chef_config_path |  String | '/etc/chef/client.rb' | The config path for chef-client. |
