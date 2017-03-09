@@ -64,7 +64,7 @@ Installs Chef Automate.
 ### chef_user
 
 | Name  | Type | Default Value  |  Description  |
- |---|---|---|---|
+|---|---|---|---|
 | username  | String  | N/A | The username of the user. |
 | first_name  | String  | N/A  | The first name of the user. |
 | last_name  | Array  | N/A  | The last name of the user. |
