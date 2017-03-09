@@ -2,11 +2,11 @@
 
 Chef stack is a library cookbook that provides custom resources to build and manage your Chef infrastructure.
 
-An accompanying project |  [Chef-Services](https//github.com/stephenlauck/chef-services) exists as an example implementation of Chef Stack.
+An accompanying project, [Chef-Services](https//github.com/stephenlauck/chef-services) exists as an example implementation of Chef Stack.
 
 ## Custom Resources
 
-Below are the custom resources provided by this cookbook |  their uses |  and their properties
+Below are the custom resources provided by this cookbook.
 
 ### General Properties
 
