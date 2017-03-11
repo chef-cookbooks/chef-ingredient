@@ -1,23 +1,8 @@
 require 'spec_helper'
 
-describe 'test::handlers' do
-  context 'install chef on aix' do
-    cached(:aix) do
-      ChefSpec::SoloRunner.new(
-        platform: 'aix',
-        version: '7.1',
-        step_into: %w(chef_ingredient)
-      ).converge(described_recipe)
-    end
-
-    it 'use the omnitruck handler' do
-      skip 'chefspec instance mocking issue'
-      expect(aix).to run_execute('install-chef-latest').with(command: 'sudo /bin/sh installer.sh')
-    end
-  end
-
+describe 'test::default_handler' do
   context 'install chef on ubuntu' do
-    cached(:ubuntu_1404) do
+    let(:ubuntu_1404) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
         version: '14.04',
@@ -31,7 +16,7 @@ describe 'test::handlers' do
   end
 
   context 'install chef on suse' do
-    cached(:suse) do
+    let(:suse) do
       ChefSpec::SoloRunner.new(
         platform: 'suse',
         version: '12.1',

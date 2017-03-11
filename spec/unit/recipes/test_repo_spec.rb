@@ -6,7 +6,7 @@ describe 'test::repo' do
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
-          platform.merge(step_into: %w(chef_ingredient chef_server_ingredient ingredient_config))
+          platform.merge(step_into: %w(chef_ingredient ingredient_config))
         ) do |node|
           node.normal['chef_admin'] = 'admin@chef.io'
         end.converge(described_recipe)
@@ -38,8 +38,8 @@ EOS
         expect(resource).to notify('chef_ingredient[chef-server]')
       end
 
-      it 'installs chef_server_ingredient[manage]' do
-        expect(chef_run).to install_chef_server_ingredient('manage')
+      it 'installs chef_ingredient[manage]' do
+        expect(chef_run).to install_chef_ingredient('manage')
       end
 
       it 'creates file[/tmp/opscode-manage.firstrun]' do
@@ -59,7 +59,7 @@ EOS
 
       it 'uses ingredient_config to notify a reconfigure for manage' do
         resource = chef_run.find_resource('ingredient_config', 'manage')
-        expect(resource).to notify('chef_server_ingredient[manage]')
+        expect(resource).to notify('chef_ingredient[manage]')
       end
     end
   end
@@ -69,7 +69,7 @@ EOS
       ChefSpec::SoloRunner.new(
         platform: 'centos',
         version: '6.7',
-        step_into: %w(chef_ingredient chef_server_ingredient)
+        step_into: %w(chef_ingredient chef_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = nil
       end.converge(described_recipe)
@@ -127,7 +127,7 @@ EOS
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
         version: '14.04',
-        step_into: %w(chef_ingredient chef_server_ingredient)
+        step_into: %w(chef_ingredient chef_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = nil
       end.converge(described_recipe)
@@ -191,13 +191,14 @@ EOS
       end.converge(described_recipe)
     end
 
-    it 'raises an error' do
-      # override before in spec_helper
-      options = instance_double('options', platform: 'ubuntu', platform_version: '14.04', architecture: 'x86_64')
+    before do
+      options = instance_double('options', platform: 'ubuntu', platform_version: '99.99', architecture: 'x86_64')
       installer = instance_double('installer', artifact_info: [], options: options)
-      allow_any_instance_of(Chef::Provider::ChefIngredient).to receive(:installer).and_return(installer)
+      allow_any_instance_of(ChefIngredient::DefaultHandler).to receive(:installer).and_return(installer)
+    end
 
-      expect { ubuntu_1404 }.to raise_error RuntimeError, /No package found for 'chef-server' with version 'latest' for platform 'ubuntu-14.04-x86_64' in 'stable' channel/
+    it 'raises an error' do
+      expect { ubuntu_1404 }.to raise_error RuntimeError, /No package found for 'chef-server' with version 'latest' for platform 'ubuntu 99.99 x86_64' in 'stable' channel/
     end
   end
 end

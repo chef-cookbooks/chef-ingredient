@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe 'test::config' do
-  [{ platform: 'ubuntu', version: '14.04' },
-   { platform: 'centos', version: '6.7' }].each do |platform|
+  [
+    { platform: 'ubuntu', version: '14.04' },
+    { platform: 'centos', version: '6.7' },
+  ].each do |platform|
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
-          platform.merge(step_into: %w(chef_ingredient chef_server_ingredient ingredient_config))
+          platform.merge(step_into: %w(chef_ingredient ingredient_config))
         ) do |node|
           node.normal['chef_admin'] = 'admin@chef.io'
         end.converge(described_recipe)
@@ -33,8 +35,8 @@ nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
 EOS
       end
 
-      it 'reconfigure chef_server_ingredient[manage]' do
-        expect(chef_run).to reconfigure_chef_server_ingredient('manage')
+      it 'reconfigure chef_ingredient[manage]' do
+        expect(chef_run).to reconfigure_chef_ingredient('manage')
       end
 
       it 'creates the directory for the license acceptance file' do

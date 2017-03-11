@@ -33,12 +33,6 @@ This cookbook is maintained and supported by Chef's engineering services team. T
 
 ## Resources
 
-### chef_server_ingredient
-
-This is a backwards compatibility shim for the `chef_ingredient` resource.
-
-This may be removed in a future version.
-
 ### chef_ingredient
 
 A "chef ingredient" is the core package itself, or products or add-on components published by Chef Software, Inc. This resource manages the installation, configuration, and running the `ctl reconfigure` of individual packages.
@@ -155,7 +149,8 @@ end
 
 - Author: Joshua Timberman [joshua@chef.io](mailto:joshua@chef.io)
 - Author: Serdar Sutay [serdar@chef.io](mailto:serdar@chef.io)
-- Copyright (C) 2014-2016, Chef Software Inc. [legal@chef.io](mailto:legal@chef.io)
+- Author: Patrick Wright [patrick@chef.io](mailto:patrick@chef.io)
+- Copyright (C) 2014-2017, Chef Software Inc. [legal@chef.io](mailto:legal@chef.io)
 
 ```text
 
