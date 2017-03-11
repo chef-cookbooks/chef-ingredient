@@ -87,7 +87,7 @@ module ChefIngredientCookbook
             'mixlib-install'
           )
         else
-          install_gem_from_rubygems('mixlib-install', ['~> 2.1', '>= 2.1.12'])
+          install_gem_from_rubygems('mixlib-install', '~> 3')
         end
 
         require 'mixlib/install'
@@ -274,8 +274,10 @@ module ChefIngredientCookbook
           product_name: new_resource.product_name,
           channel: new_resource.channel,
           product_version: new_resource.version,
-          platform_version_compatibility_mode: new_resource.platform_version_compatibility_mode,
         }.tap do |opt|
+          if new_resource.platform_version_compatibility_mode
+            opt[:platform_version_compatibility_mode] = new_resource.platform_version_compatibility_mode
+          end
           opt[:shell_type] = :ps1 if windows?
         end
 

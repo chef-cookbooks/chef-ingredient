@@ -42,8 +42,7 @@ property :accept_license, kind_of: [TrueClass, FalseClass], default: false
 
 # Enable selecting packages built for earlier versions in
 # platforms that are not yet officially added to Chef support matrix
-# TODO: *this should not be defaulted. This should be handled by mixlib-install by default*
-property :platform_version_compatibility_mode, kind_of: [TrueClass, FalseClass], default: false
+property :platform_version_compatibility_mode, kind_of: [TrueClass, FalseClass]
 
 # Configure specific platform package
 property :platform, kind_of: String
