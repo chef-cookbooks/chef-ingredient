@@ -92,14 +92,9 @@ module ChefIngredient
     def configure_from_channel(action_name)
       cache_path = Chef::Config[:file_cache_path]
 
+      # raises Mixlib::Install::Backend::ArtifactsNotFound exception
       artifact_info = installer.artifact_info
 
-      if artifact_info == []
-        raise <<-EOH
-No package found for '#{new_resource.product_name}' with version '#{new_resource.version}' for platform '#{installer.options.platform} #{installer.options.platform_version} #{installer.options.architecture}' in '#{new_resource.channel}' channel.
-Check that the package exists.
-        EOH
-      end
       remote_artifact_path = artifact_info.url
       local_artifact_path = File.join(cache_path, ::File.basename(remote_artifact_path))
 

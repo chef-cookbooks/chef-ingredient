@@ -179,26 +179,4 @@ EOS
       expect(ubuntu_1404).to install_package('chef-server-core')
     end
   end
-
-  context 'non-existing package specified' do
-    cached(:ubuntu_1404) do
-      ChefSpec::SoloRunner.new(
-        platform: 'ubuntu',
-        version: '14.04',
-        step_into: ['chef_ingredient']
-      ) do |node|
-        node.normal['test']['chef-server-core']['version'] = 'latest'
-      end.converge(described_recipe)
-    end
-
-    before do
-      options = instance_double('options', platform: 'ubuntu', platform_version: '99.99', architecture: 'x86_64')
-      installer = instance_double('installer', artifact_info: [], options: options)
-      allow_any_instance_of(ChefIngredient::DefaultHandler).to receive(:installer).and_return(installer)
-    end
-
-    it 'raises an error' do
-      expect { ubuntu_1404 }.to raise_error RuntimeError, /No package found for 'chef-server' with version 'latest' for platform 'ubuntu 99.99 x86_64' in 'stable' channel/
-    end
-  end
 end
