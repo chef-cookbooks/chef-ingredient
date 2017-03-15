@@ -13,7 +13,7 @@ Below are the custom resources provided by this cookbook.
 These properties exist for all resources
 
 | Name  | Type | Default Value  |  Description  |
-|---|---|---|---|---|
+|---|---|---|---|
 | name  | String  | N/A | A name for the resource |
 | channel  | Symbol  | stable  | The channel from our package repository to install. Most of the time you want stable.  |
 | version  | [String,  Symbol]  | latest  | The version of Automate you want to install  |
@@ -29,7 +29,7 @@ Installs Chef Automate.
 
 #### Properties
 | Name  | Type | Default Value  |  Description  |
-|---|---|---|---|---|
+|---|---|---|---|
 | enterprise  | [String,  Array]  | chef | The Enterprise to create in Automate|
 | license  | String  | N/A  | Your license file |  we recommend using the chef_file resource |
 | chef_user  | String  | workflow  | The user you will connect to the Chef server as  |
@@ -42,7 +42,7 @@ Installs Chef Automate.
 #### Properties
 
 | Name  | Type | Default Value  |  Description  |
-|---|---|---|---|---|
+|---|---|---|---|
 | bootstrap_node  | String  | N/A | The node we'll bootstrap secrets with. |
 | publish_address  | String  | node['ipaddress']  | The address you want Chef-Backend to listen on. |
 | chef_backend_secrets  | String  | nil  | A location where your secrets are |  we recommend using the chef_file resource. |
@@ -53,7 +53,7 @@ Installs Chef Automate.
 
 
 | Name  | Type | Default Value  |  Description  |
-|---|---|---|---|---|
+|---|---|---|---|
 | org  | String  | N/A | The short name of the org. |
 | org_full_name  | String  | node['ipaddress']  | The full name of the org you want to create. |
 | admins  | Array  | N/A  | An array of admins for the org. |
