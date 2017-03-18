@@ -27,7 +27,7 @@ property :config, String, default: ''
 property :accept_license, [TrueClass, FalseClass], default: false
 property :bootstrap_node, String, required: true
 property :publish_address, String, default: node['ipaddress']
-property :chef_backend_secrets, String, default: nil
+property :chef_backend_secrets, String
 property :platform, String
 property :platform_version, String
 
@@ -54,7 +54,7 @@ action :create do
     content new_resource.config
   end
 
-  if new_resource.chef_backend_secrets
+  if new_resource.property_is_set?(:chef_backend_secrets)
     chef_file '/etc/chef-backend/chef-backend-secrets.json' do
       source new_resource.chef_backend_secrets
       user 'root'
