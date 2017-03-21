@@ -2,7 +2,7 @@ name 'chef-ingredient'
 version '1.1.0'
 maintainer 'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
-license 'Apache 2.0'
+license 'Apache-2.0'
 description 'Primitives for managing Chef products and packages'
 
 source_url 'https://github.com/chef-cookbooks/chef-ingredient'
