@@ -60,7 +60,7 @@ By default, `chef_ingredient` will install using the `packages.chef.io` stable r
 - `platform`: Override the auto-detected platform for which package to install.
 - `platform_version`: Override the auto-detected platform version for which package to install.
 - `architecture`: Override the auto-detected architecture for which package to install.
-- `platform_version_compatibility_mode`: Find closest matching package when platform auto-detection does not find an exact package match in the repository. Default: `false`.
+- `platform_version_compatibility_mode`: Find closest matching package when platform auto-detection does not find an exact package match in the repository
 
 ### omnibus_service
 
