@@ -23,6 +23,7 @@ property :ctl_command, String
 property :service_name, String, regex: %r{[\w-]+\/[\w-]+}, name_property: true
 
 action_class do
+  require_relative '../libraries/helpers'
   include ChefIngredientCookbook::Helpers
 
   #
