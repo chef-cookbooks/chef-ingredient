@@ -1,6 +1,14 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.0.0 (2017-03-24)
+
+- Remove `chef_server_ingredient` resource shim
+- Update mixlib-install to major version 3
+ - `platform_version_compatibility_mode` property no longer has a default value
+ - If no matching artifacts are found a `Mixlib::Install::Backend::ArtifactsNotFound` exception is raised instead a `RuntimeError`
+- All resources have been converted to custom resources
+
 ## 1.1.0 (2017-03-01)
 
 - Test with local delivery and not Rake
