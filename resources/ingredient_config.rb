@@ -21,6 +21,7 @@ property :product_name, String, name_property: true
 property :config, [String, NilClass]
 
 action_class do
+  require_relative '../libraries/helpers'
   include ChefIngredientCookbook::Helpers
 end
 

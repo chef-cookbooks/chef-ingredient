@@ -52,14 +52,17 @@ property :architecture, kind_of: String
 platform_family = node['platform_family']
 
 action_class do
+  require_relative '../libraries/helpers'
   include ChefIngredientCookbook::Helpers
 
   case platform_family
   when 'debian', 'rhel', 'suse', 'windows'
+    require_relative '../libraries/default_handler'
     include ChefIngredient::DefaultHandler
   else
     # OmnitruckHandler is used for Solaris, AIX, FreeBSD, etc.
     # Eventually, we would like to support all platforms with the DefaultHandler
+    require_relative '../libraries/omnitruck_handler'
     include ChefIngredient::OmnitruckHandler
   end
 end
