@@ -27,7 +27,7 @@ property :config, String, default: ''
 property :accept_license, [TrueClass, FalseClass], default: false
 property :peers, [String, Array], required: true
 property :publish_address, String, default: node['ipaddress']
-property :chef_backend_secrets, String
+property :chef_backend_secrets, String, default: ''
 property :platform, String
 property :platform_version, String
 
@@ -61,7 +61,7 @@ action :create do
     user 'root'
     group 'root'
     mode '0600'
-    only_if { new_resource.property_is_set?(:chef_backend_secrets) }
+    not_if { new_resource.chef_backend_secrets.empty? }
   end
 
   http_retry_count = Chef::Config['http_retry_count']
