@@ -25,11 +25,13 @@ property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest
 property :config, String, default: ''
 property :accept_license, [TrueClass, FalseClass], default: false
-property :bootstrap_node, String, required: true
+property :peers, [String, Array], required: true
 property :publish_address, String, default: node['ipaddress']
 property :chef_backend_secrets, String
 property :platform, String
 property :platform_version, String
+
+alias :bootstrap_node :peers
 
 load_current_value do
   # node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -54,23 +56,37 @@ action :create do
     content new_resource.config
   end
 
-  if new_resource.property_is_set?(:chef_backend_secrets)
-    chef_file '/etc/chef-backend/chef-backend-secrets.json' do
-      source new_resource.chef_backend_secrets
-      user 'root'
-      group 'root'
-      mode '0600'
-      not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
+  chef_file '/etc/chef-backend/chef-backend-secrets.json' do
+    source new_resource.chef_backend_secrets
+    user 'root'
+    group 'root'
+    mode '0600'
+    only_if { new_resource.property_is_set?(:chef_backend_secrets) }
+  end
+
+  http_retry_count = Chef::Config['http_retry_count']
+  Chef::Config['http_retry_count'] = 0
+  existing_peer = false
+  peers = (new_resource.peers.is_a?(Array) ? new_resource.peers : [new_resource.peers])
+
+  peers.each do |peer|
+    begin
+      Chef::HTTP.new("http://#{peer}:2379").get('/version')
+      existing_peer = peer
+      break
+    rescue
+      next
     end
   end
+  Chef::Config['http_retry_count'] = http_retry_count
 
   execute 'chef-backend-ctl create-cluster --accept-license --yes' do
-    only_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
-    not_if 'chef-backend-ctl cluster-status'
+    not_if 'chef-backend-ctl cluster-status > /dev/null'
+    not_if { existing_peer }
   end
 
-  execute "chef-backend-ctl join-cluster #{new_resource.bootstrap_node} --accept-license --yes" do
-    not_if { node['fqdn'].eql?(new_resource.bootstrap_node) }
-    not_if 'chef-backend-ctl cluster-status'
+  execute "chef-backend-ctl join-cluster #{existing_peer} --accept-license --yes" do
+    not_if 'chef-backend-ctl cluster-status > /dev/null'
+    only_if { existing_peer }
   end
 end
