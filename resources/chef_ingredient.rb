@@ -56,11 +56,11 @@ action_class do
 
   case platform_family
   when 'debian', 'rhel', 'suse', 'windows'
-    include ChefIngredient::DefaultHandler
+    include ::ChefIngredient::DefaultHandler
   else
     # OmnitruckHandler is used for Solaris, AIX, FreeBSD, etc.
     # Eventually, we would like to support all platforms with the DefaultHandler
-    include ChefIngredient::OmnitruckHandler
+    include ::ChefIngredient::OmnitruckHandler
   end
 end
 
