@@ -1,6 +1,10 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.0.1 (2017-03-28)
+
+- Update DefaultHandler and OmnitruckHandler to use a global constant lookup. In some environments, not doing so caused a naming conflict with the dynamically generated ChefIngredient DSL resource class.
+
 ## 2.0.0 (2017-03-24)
 
 - Remove `chef_server_ingredient` resource shim
