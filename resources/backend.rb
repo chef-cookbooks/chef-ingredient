@@ -81,12 +81,12 @@ action :create do
   Chef::Config['http_retry_count'] = http_retry_count
 
   execute 'chef-backend-ctl create-cluster --accept-license --yes' do
-    not_if 'chef-backend-ctl cluster-status > /dev/null'
+    not_if 'chef-backend-ctl cluster-status &> /dev/null'
     not_if { existing_peer }
   end
 
   execute "chef-backend-ctl join-cluster #{existing_peer} --accept-license --yes" do
-    not_if 'chef-backend-ctl cluster-status > /dev/null'
+    not_if 'chef-backend-ctl cluster-status &> /dev/null'
     only_if { existing_peer }
   end
 end
