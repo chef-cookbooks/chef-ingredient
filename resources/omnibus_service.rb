@@ -22,7 +22,13 @@ default_action :nothing
 property :ctl_command, String
 property :service_name, String, regex: %r{[\w-]+\/[\w-]+}, name_property: true
 
-action_class do
+%w(start stop restart hup int kill graceful-kill once).each do |sv_command|
+  action sv_command.tr('-', '_').to_sym do
+    execute "#{omnibus_ctl_command} #{sv_command} #{raw_service_name}"
+  end
+end
+
+action_class.class_eval do
   include ChefIngredientCookbook::Helpers
 
   #
@@ -39,11 +45,5 @@ action_class do
   #
   def raw_service_name
     service_name.split('/').last
-  end
-end
-
-%w(start stop restart hup int kill graceful-kill once).each do |sv_command|
-  action sv_command.tr('-', '_').to_sym do
-    execute "#{omnibus_ctl_command} #{sv_command} #{raw_service_name}"
   end
 end

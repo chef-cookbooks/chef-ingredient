@@ -20,10 +20,6 @@ resource_name :ingredient_config
 property :product_name, String, name_property: true
 property :config, [String, NilClass]
 
-action_class do
-  include ChefIngredientCookbook::Helpers
-end
-
 action :render do
   target_config = ingredient_config_file(product_name)
   return if target_config.nil?
@@ -42,4 +38,8 @@ end
 
 action :add do
   add_config(product_name, config)
+end
+
+action_class.class_eval do
+  include ChefIngredientCookbook::Helpers
 end
