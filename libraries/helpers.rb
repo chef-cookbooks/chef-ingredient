@@ -283,6 +283,10 @@ module ChefIngredientCookbook
 
         platform_details = Mixlib::Install.detect_platform
 
+        # Some auto-detected architectures needs to be normalized before being queried
+        platform_details[:architecture] = Mixlib::Install::Util.normalize_architecture(platform_details[:architecture])
+
+        # Set any raw overrides
         platform_details.tap do |opt|
           opt[:platform] = new_resource.platform if new_resource.platform
           opt[:platform_version] = new_resource.platform_version if new_resource.platform_version
