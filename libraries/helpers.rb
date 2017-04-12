@@ -296,27 +296,6 @@ module ChefIngredientCookbook
     end
 
     #
-    # Returns package installer options with any required
-    # options based on platform
-    #
-    def package_options_with_force
-      options = new_resource.options
-
-      # Ubuntu 10.10 and Debian 6 require the `--force-yes` option
-      # for package installs
-      if (platform?('ubuntu') && node['platform_version'] == '10.04') ||
-         (platform?('debian') && node['platform_version'].start_with?('6'))
-        if options.nil?
-          options = '--force-yes'
-        else
-          options << ' --force-yes'
-        end
-      end
-
-      options
-    end
-
-    #
     # Checks the deprecated properties of chef-ingredient and prints warning
     # messages if any of them are being used.
     #
