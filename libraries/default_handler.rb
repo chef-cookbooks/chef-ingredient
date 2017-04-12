@@ -73,7 +73,7 @@ module ChefIngredient
       package new_resource.product_name do # ~FC009
         action action_name
         package_name ingredient_package_name
-        options package_options_with_force
+        options new_resource.options
         timeout new_resource.timeout
 
         # If the latest version is specified, we should not give any version

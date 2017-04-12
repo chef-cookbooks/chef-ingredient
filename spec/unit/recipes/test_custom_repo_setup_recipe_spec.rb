@@ -52,44 +52,4 @@ describe 'test::custom_repo_setup_recipe' do
       expect(ubuntu_1404).to include_recipe 'custom_repo::awesome_custom_setup'
     end
   end
-
-  context 'installs packages with apt options on ubuntu 10.04' do
-    cached(:ubuntu_1004) do
-      ChefSpec::SoloRunner.new(
-        platform: 'ubuntu',
-        version: '10.04',
-        step_into: %w(chef_ingredient chef_server_ingredient)
-      ) do |node|
-        node.normal['chef-server-core']['version'] = nil
-      end.converge(described_recipe)
-    end
-
-    it 'installs apt_package[chef-server-core]' do
-      skip
-      pkgres = ubuntu_1004.find_resource('package', 'chef-server')
-      expect(pkgres).to_not be_nil
-      expect(pkgres).to be_a(Chef::Resource::Package)
-      expect(ubuntu_1004).to install_package('chef-server').with(options: '--force-yes')
-    end
-  end
-
-  context 'installs packages with apt options on debian 6' do
-    cached(:debian_605) do
-      ChefSpec::SoloRunner.new(
-        platform: 'debian',
-        version: '6.0.5',
-        step_into: %w(chef_ingredient chef_server_ingredient)
-      ) do |node|
-        node.normal['chef-server-core']['version'] = nil
-      end.converge(described_recipe)
-    end
-
-    it 'installs apt_package[chef-server-core]' do
-      skip
-      pkgres = debian_605.find_resource('package', 'chef-server')
-      expect(pkgres).to_not be_nil
-      expect(pkgres).to be_a(Chef::Resource::Package)
-      expect(debian_605).to install_package('chef-server').with(options: '--force-yes')
-    end
-  end
 end
