@@ -42,12 +42,11 @@ module ChefIngredient
 
     def configure_version(installer)
       install_command_resource = "install-#{new_resource.product_name}-#{new_resource.version}"
+      file installer_script_path do
+        content installer.install_command
+      end
 
       if windows?
-        file installer_script_path do
-          content installer.install_command
-        end
-
         powershell_script install_command_resource do
           code installer.install_command
 
@@ -57,10 +56,6 @@ module ChefIngredient
           end
         end
       else
-        file installer_script_path do
-          content installer.install_command
-        end
-
         execute install_command_resource do
           command "sudo /bin/sh #{installer_script_path}"
 

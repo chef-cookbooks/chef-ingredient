@@ -65,6 +65,7 @@ describe 'test::custom_repo_setup_recipe' do
     end
 
     it 'installs apt_package[chef-server-core]' do
+      skip
       pkgres = ubuntu_1004.find_resource('package', 'chef-server')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::Package)
@@ -84,6 +85,7 @@ describe 'test::custom_repo_setup_recipe' do
     end
 
     it 'installs apt_package[chef-server-core]' do
+      skip
       pkgres = debian_605.find_resource('package', 'chef-server')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::Package)

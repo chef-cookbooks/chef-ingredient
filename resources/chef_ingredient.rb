@@ -51,19 +51,6 @@ property :architecture, kind_of: String
 
 platform_family = node['platform_family']
 
-action_class do
-  include ChefIngredientCookbook::Helpers
-
-  case platform_family
-  when 'debian', 'rhel', 'suse', 'windows'
-    include ::ChefIngredient::DefaultHandler
-  else
-    # OmnitruckHandler is used for Solaris, AIX, FreeBSD, etc.
-    # Eventually, we would like to support all platforms with the DefaultHandler
-    include ::ChefIngredient::OmnitruckHandler
-  end
-end
-
 action :install do
   check_deprecated_properties
   add_config(new_resource.product_name, new_resource.config)
@@ -123,5 +110,18 @@ action :reconfigure do
     execute "#{ingredient_package_name}-reconfigure" do
       command "#{ingredient_ctl_command} reconfigure"
     end
+  end
+end
+
+action_class.class_eval do
+  include ChefIngredientCookbook::Helpers
+
+  case platform_family
+  when 'debian', 'rhel', 'suse', 'windows'
+    include ::ChefIngredient::DefaultHandler
+  else
+    # OmnitruckHandler is used for Solaris, AIX, FreeBSD, etc.
+    # Eventually, we would like to support all platforms with the DefaultHandler
+    include ::ChefIngredient::OmnitruckHandler
   end
 end
