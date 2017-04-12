@@ -1,7 +1,7 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
-## UNRELEASED
+## 2.0.2 (2017-04-11)
 
 - Update resources to support Chef 12.5 and 12.6
 
