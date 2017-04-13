@@ -1,6 +1,10 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.0.3 (2017-04-13)
+
+- Normalize architectures detected by ohai before mixlib-install validation
+
 ## 2.0.2 (2017-04-11)
 
 - Update resources to support Chef 12.5 and 12.6
