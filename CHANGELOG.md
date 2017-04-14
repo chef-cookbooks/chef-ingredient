@@ -1,6 +1,10 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.0.4 (2017-04-13)
+
+- Hotfix: Rollback normalize architectures change
+
 ## 2.0.3 (2017-04-13)
 
 - Normalize architectures detected by ohai before mixlib-install validation
