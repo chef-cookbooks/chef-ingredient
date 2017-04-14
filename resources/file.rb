@@ -21,7 +21,7 @@ resource_name 'chef_file'
 default_action :create
 
 property :filename, String, name_property: true
-property :source, String, required: true
+property :source, String
 property :user, String, default: 'root'
 property :group, String, default: 'root'
 property :mode, String, default: '0600'
@@ -31,6 +31,7 @@ load_current_value do
 end
 
 action :create do
+  new_resource.source = (property_is_set?(:source) ? new_resource.source : "cookbook_file://#{new_resource.filename}")
   if new_resource.source.start_with?('cookbook_file://')
     src = new_resource.source.split('://')[1].split('::')
 
