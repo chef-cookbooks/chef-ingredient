@@ -1,4 +1,3 @@
-# rubocop:disable LineLength
 name 'chef_stack'
 maintainer 'Chef Software Inc'
 maintainer_email 'success@chef.io'

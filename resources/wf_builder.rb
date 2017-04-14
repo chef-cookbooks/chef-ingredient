@@ -15,7 +15,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# rubocop:disable LineLength
 
 resource_name 'workflow_builder'
 default_action :create
@@ -62,7 +61,7 @@ action :create do
   [
     new_resource.chef_fqdn,
     new_resource.automate_fqdn,
-    new_resource.supermarket_fqdn
+    new_resource.supermarket_fqdn,
   ].each do |server|
     execute "fetch ssl cert for #{server}" do
       command "knife ssl fetch -s https://#{server} -c #{Chef::Config['config_file']}"
@@ -243,7 +242,7 @@ action :create do
           os: node['os'],
           platform_family: node['platform_family'],
           platform: node['platform'],
-          platform_version: node['platform_version']
+          platform_version: node['platform_version'],
         }
 
         runner = Mixlib::ShellOut.new("delivery api post runners \
