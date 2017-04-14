@@ -15,7 +15,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# rubocop:disable LineLength
 
 resource_name 'chef_automate'
 default_action :create
@@ -72,7 +71,7 @@ action :create do
     '/var/opt/delivery/license/delivery.license' => new_resource.license,
     "/etc/delivery/#{new_resource.chef_user}.pem" => new_resource.chef_user_pem,
     '/etc/chef/validation.pem' => new_resource.validation_pem,
-    '/etc/delivery/builder_key' => new_resource.builder_pem
+    '/etc/delivery/builder_key' => new_resource.builder_pem,
   }.each do |file, src|
     chef_file file do
       source src
