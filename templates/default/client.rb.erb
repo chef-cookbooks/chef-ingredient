@@ -1,0 +1,41 @@
+# This file managed by Chef.  Do not edit.
+
+chef_server_url "<%= @chef_server_url %>"
+client_fork true
+
+log_level :<%= @log_level %>
+log_location <%= @log_location %>
+
+<%- if @ssl_verify.eql?(true) %>
+verify_api_cert true
+ssl_verify_mode :verify_peer
+<%- else %>
+verify_api_cert false
+ssl_verify_mode :verify_none
+<%- end %>
+
+<%- if @validation_client_name %>
+validation_client_name "<%= @validation_client_name %>"
+<%- end %>
+
+node_name "<%= @node_name %>"
+<%- if @client_key %>
+client_key "<%= @client_key %>"
+<%- end %>
+
+<%- if @json_attribs %>
+json_attribs "<%= @json_attribs %>"
+<%- end %>
+
+<%- if @data_collector_url %>
+data_collector.server_url = '<%= @data_collector_url %>'
+data_collector.token = '<%= @data_collector_token %>'
+<%- end %>
+
+trusted_certs_dir "<%= @trusted_certs_dir || '/etc/chef/trusted_certs' %>"
+
+# Do not crash if a handler is missing / not installed yet
+begin
+rescue NameError => e
+  Chef::Log.error e
+end

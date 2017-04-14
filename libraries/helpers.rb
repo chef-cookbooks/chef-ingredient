@@ -1,12 +1,14 @@
 #
 # Author:: Joshua Timberman <joshua@chef.io>
 # Copyright (c) 2014-2016, Chef Software, Inc. <legal@chef.io>
+# Cookbook Name:: chef-ingredient
+# Library:: helpers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#    http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -327,4 +329,19 @@ module ChefIngredientCookbook
       end
     end
   end
+end
+
+def prefix
+  (platform_family?('windows') ? 'C:/Chef/' : '/etc/chef/')
+end
+
+def ensurekv(config, hash)
+  hash.each do |k, v|
+    if config =~ /^ *#{v}.*$/
+      config.sub(/^ *#{v}.*$/, "#{k} '#{v}'")
+    else
+      config << "\n#{k} '#{v}'"
+    end
+  end
+  config
 end
