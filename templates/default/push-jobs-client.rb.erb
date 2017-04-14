@@ -1,0 +1,16 @@
+# File managed by Chef. Do not modify.
+
+chef_server_url   "<%= Chef::Config['chef_server_url'] %>"
+node_name "<%= Chef::Config['node_name'] %>"
+allow_unencrypted true
+
+# Chef server connect options
+trusted_certs_dir "/etc/chef/trusted_certs"
+verify_api_cert   true
+ssl_verify_mode   :verify_peer
+whitelist({"chef-client"=>"chef-client",
+         /^delivery-cmd (.+)$/=>"/var/opt/delivery/workspace/bin/delivery-cmd '\\1'"})
+
+# NOTE - if we settle on a daemon provider that captures and timestamps logs,
+#        set this to 'false' to avoid duplicated timestamps in the logs.
+Mixlib::Log::Formatter.show_time = false

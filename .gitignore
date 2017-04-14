@@ -10,12 +10,15 @@ test/tmp
 test/version_tmp
 tmp
 _Store
+.vagrant
+Berksfile.lock
 *~
 *#
 .#*
 \#*#
 .*.sw[a-z]
 *.un~
+
 *.tmp
 *.bk
 *.bkup
@@ -49,3 +52,13 @@ Cheffile.lock
 .vagrant/
 .vagrant.d/
 .kitchen/
+
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
+
+.kitchen/
+.kitchen.local.yml
+
+test/fixtures/config/*.*
