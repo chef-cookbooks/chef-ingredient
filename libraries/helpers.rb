@@ -87,7 +87,7 @@ module ChefIngredientCookbook
             'mixlib-install'
           )
         else
-          install_gem_from_rubygems('mixlib-install', '~> 3')
+          install_gem_from_rubygems('mixlib-install', '~> 3.2')
         end
 
         require 'mixlib/install'
