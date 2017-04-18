@@ -36,6 +36,9 @@ module ChefIngredient
     private
 
     def configure_package(action_name)
+      # Set action name to :install when Windows :upgrade
+      action_name = :install if action_name == :upgrade && windows?
+
       if new_resource.package_source
         configure_from_source_package(action_name)
       elsif use_custom_repo_recipe?
@@ -54,7 +57,7 @@ module ChefIngredient
         package_name ingredient_package_name
         options new_resource.options
         source local_path || new_resource.package_source
-        timeout new_resource.timeout
+        timeout new_resource.timeout if new_resource.timeout
         provider value_for_platform_family(
           'debian'  => Chef::Provider::Package::Dpkg,
           'rhel'    => Chef::Provider::Package::Rpm,
@@ -74,7 +77,7 @@ module ChefIngredient
         action action_name
         package_name ingredient_package_name
         options new_resource.options
-        timeout new_resource.timeout
+        timeout new_resource.timeout if new_resource.timeout
 
         # If the latest version is specified, we should not give any version
         # to the package resource.

@@ -20,34 +20,35 @@ resource_name :chef_ingredient
 
 default_action :install
 
-property :product_name, kind_of: String, name_attribute: true
-property :config, kind_of: String
+property :product_name, String, name_property: true
+property :config, String
 
 # Determine what version to install from which channel
-property :version, kind_of: [String, Symbol], default: :latest
-property :channel, kind_of: Symbol, default: :stable, equal_to: [:stable, :current, :unstable]
+property :version, [String, Symbol], default: :latest
+property :channel, Symbol, default: :stable, equal_to: [:stable, :current, :unstable]
 
 # Install package from local file
-property :package_source, kind_of: String
+property :package_source, String
 
 # Set the *-ctl command to use when doing reconfigure
-property :ctl_command, kind_of: String
+property :ctl_command, String
 
 # Package resources used on rhel and debian platforms
-property :options, kind_of: String
-property :timeout, kind_of: [Integer, String, NilClass]
+property :options, String
+
+property :timeout, [Integer, String]
 
 # Accept the license when applicable
-property :accept_license, kind_of: [TrueClass, FalseClass], default: false
+property :accept_license, [true, false], default: false
 
 # Enable selecting packages built for earlier versions in
 # platforms that are not yet officially added to Chef support matrix
-property :platform_version_compatibility_mode, kind_of: [TrueClass, FalseClass]
+property :platform_version_compatibility_mode, [true, false]
 
 # Configure specific platform package
-property :platform, kind_of: String
-property :platform_version, kind_of: String
-property :architecture, kind_of: String
+property :platform, String
+property :platform_version, String
+property :architecture, String
 
 platform_family = node['platform_family']
 
