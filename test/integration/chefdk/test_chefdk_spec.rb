@@ -1,11 +1,5 @@
-describe 'test::chefdk' do
-  it 'chefdk should print a version' do
-    command = if os.windows?
-                `C:\\opscode\\chefdk\\bin\\chef --version`
-              else
-                `/opt/chefdk/bin/chef --version`
-              end
+resource_command = os.windows? ? 'powershell' : 'command'
 
-    expect(command).to include('Chef Development Kit Version:')
-  end
+describe send(resource_command, 'chef --version') do
+  its('stdout') { should match /Chef Development Kit Version: 1.2.22/ }
 end
