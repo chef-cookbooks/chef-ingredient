@@ -8,6 +8,7 @@ transport:
 
 provisioner:
   name: dokken
+  require_chef_omnibus: <%= ENV['CHEF_VERSION'] || true %>
   data_bags_path: test/fixtures/data_bags
   deprecations_as_errors: true
 
