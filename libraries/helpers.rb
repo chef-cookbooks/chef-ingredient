@@ -298,33 +298,5 @@ module ChefIngredientCookbook
         Mixlib::Install.new(options)
       end
     end
-
-    #
-    # Checks the deprecated properties of chef-ingredient and prints warning
-    # messages if any of them are being used.
-    #
-    def check_deprecated_properties
-      # Historically we have had chef- and opscode- in front of most of our
-      # packages. We have standardized on names without any prefixes except some products.
-      if !%w(chef-backend chef-server chef-server-ha-provisioning).include?(new_resource.product_name) &&
-         (match = new_resource.product_name.match(/(chef-|opscode-)(?<product_key>.*)/))
-
-        new_product_key = match[:product_key]
-        Chef::Log.warn "product_name '#{new_resource.product_name}' is deprecated and it will be removed in the future versions of chef-ingredient. Use '#{new_product_key}' instead of '#{new_resource.product_name}'."
-        new_resource.product_name(new_product_key)
-      else
-        # We also have a specific case we need to handle for push-client and push-server
-        deprecated_product_names = {
-          'push-client' => 'push-jobs-client',
-          'push-server' => 'push-jobs-server',
-        }
-
-        if deprecated_product_names.keys.include?(new_resource.product_name)
-          new_product_key = deprecated_product_names[new_resource.product_name]
-          Chef::Log.warn "product_name '#{new_resource.product_name}' is deprecated and it will be removed in the future versions of chef-ingredient. Use '#{new_product_key}' instead of '#{new_resource.product_name}'."
-          new_resource.product_name(new_product_key)
-        end
-      end
-    end
   end
 end

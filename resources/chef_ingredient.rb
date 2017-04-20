@@ -53,7 +53,6 @@ property :architecture, String
 platform_family = node['platform_family']
 
 action :install do
-  check_deprecated_properties
   add_config(new_resource.product_name, new_resource.config)
   declare_chef_run_stop_resource
 
@@ -61,7 +60,6 @@ action :install do
 end
 
 action :upgrade do
-  check_deprecated_properties
   add_config(new_resource.product_name, new_resource.config)
   declare_chef_run_stop_resource
 
@@ -69,12 +67,10 @@ action :upgrade do
 end
 
 action :uninstall do
-  check_deprecated_properties
   handle_uninstall
 end
 
 action :reconfigure do
-  check_deprecated_properties
   add_config(new_resource.product_name, new_resource.config)
 
   if ingredient_ctl_command.nil?
