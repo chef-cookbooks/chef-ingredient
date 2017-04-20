@@ -5,6 +5,7 @@ driver:
     cpus: 2
 
 provisioner:
+  require_chef_omnibus: <%= ENV['CHEF_VERSION'] || true %>
   name: chef_zero
   data_bags_path: test/fixtures/data_bags
   deprecations_as_errors: true
@@ -18,6 +19,7 @@ provisioner:
 
 verifier:
   name: inspec
+
 platforms:
   - name: centos-6.8
   - name: centos-7.3

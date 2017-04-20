@@ -8,6 +8,7 @@ driver:
 
 provisioner:
   name: chef_zero
+  require_chef_omnibus: <%= ENV['CHEF_VERSION'] || true %>
 
 platforms:
   - name: windows-2012R2
