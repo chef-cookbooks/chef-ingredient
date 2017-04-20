@@ -7,8 +7,7 @@
 # tests to work correctly.
 #
 
-include_recipe 'apt'
-include_recipe 'yum'
+apt_update 'update' if node['platform_family'] == 'debian'
 include_recipe 'git'
 
 chef_ingredient 'compliance' do

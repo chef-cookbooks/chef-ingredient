@@ -4,9 +4,9 @@ require_relative '../libraries/default_handler'
 require_relative '../libraries/omnitruck_handler'
 
 RSpec.configure do |config|
-  config.color = true
-  config.formatter = 'doc'
-  config.log_level = :error
+  config.color = true               # Use color in STDOUT
+  config.formatter = :documentation # Use the specified formatter
+  config.log_level = :error         # Avoid deprecation notice SPAM
 
   config.before do
     artifact_info = instance_double('artifact info',
