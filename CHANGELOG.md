@@ -1,6 +1,12 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.0.5 (2017-04-24)
+
+- [#155](https://github.com/chef-cookbooks/chef-ingredient/issues/155) Workaround chef_ingredient timeout property on Windows (windows_package timeout property currently broken in Chef)
+- [#158](https://github.com/chef-cookbooks/chef-ingredient/issues/158) Remove #check_deprecated_properties logic (handled by mixlib-install)
+- Allow chef_ingredient action :upgrade on Windows
+
 ## 2.0.4 (2017-04-13)
 
 - Ensure mixlib-install `~> 3.2` is installed
