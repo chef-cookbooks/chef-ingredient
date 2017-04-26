@@ -139,4 +139,5 @@ Installs Chef Automate.
 | automate_enterprise |  String | 'chef' | The Enterprise to connect to. |
 | chef_config_path |  String | '/etc/chef/client.rb' | The config path for chef-client. |
 
-## Contributers
+## Authors
+- Author: Nathan Cerny <ncerny@chef.io>
