@@ -143,3 +143,4 @@ Installs Chef Automate.
 - Author: Nathan Cerny <ncerny@chef.io>
 - Author: Andy Dufour <adufour@chef.io>
 - Author: Brandon Raabe <brandon.raabe@newcontext.com>
+- Author: Jeremy J. Miller <jm@chef.io>
