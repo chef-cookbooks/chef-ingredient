@@ -300,3 +300,27 @@ module ChefIngredientCookbook
     end
   end
 end
+
+#
+# Chef Stack Helpers
+#
+def prefix
+  (platform_family?('windows') ? 'C:/Chef/' : '/etc/chef/')
+end
+
+def ensurekv(config, hash)
+  hash.each do |k, v|
+    if v.is_a?(Symbol)
+      v = v.to_s
+      str = v
+    else
+      str = "'#{v}'"
+    end
+    if config =~ /^ *#{v}.*$/
+      config.sub(/^ *#{v}.*$/, "#{k} #{str}")
+    else
+      config << "\n#{k} #{str}"
+    end
+  end
+  config
+end

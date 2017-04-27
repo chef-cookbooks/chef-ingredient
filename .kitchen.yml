@@ -78,3 +78,9 @@ suites:
       <% end %>
       - recipe[test]
       - recipe[test::inspec]
+
+  - name: chef_server
+    includes: [ 'ubuntu-16.04' ]
+    run_list:
+      - recipe[test]
+      - recipe[test::chef_server]
