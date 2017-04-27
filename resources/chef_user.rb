@@ -44,8 +44,9 @@ action :create do
 
   key = (property_is_set?(:key_path) ? new_resource.key_path : "/etc/opscode/users/#{new_resource.username}.pem")
   password = (property_is_set?(:password) ? new_resource.password : SecureRandom.base64(36))
+
   execute "create-user-#{new_resource.username}" do
-    # sensitive true
+    sensitive true
     retries 3
     command "chef-server-ctl user-create #{new_resource.username} #{new_resource.first_name} #{new_resource.last_name} #{new_resource.email} #{password} -f #{key}"
     not_if { node.run_state['chef-users'].index(/^#{new_resource.username}$/) }
@@ -56,6 +57,7 @@ action :create do
       node.run_state['chef-users'] << "#{new_resource.username}\n"
     end
   end
+
   execute "grant-server-admin-#{new_resource.username}" do
     command "chef-server-ctl grant-server-admin-permissions #{new_resource.username}"
     only_if { new_resource.serveradmin }
@@ -74,4 +76,8 @@ action :delete do
       node.run_state['chef-users'] = node.run_state['chef-users'].gsub(/#{new_resource.username}\n/, '')
     end
   end
+end
+
+action_class.class_eval do
+  include ChefIngredientCookbook::Helpers
 end

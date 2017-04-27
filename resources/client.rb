@@ -159,6 +159,6 @@ action :run do
   end
 end
 
-def prefix
-  (platform_family?('windows') ? 'C:/Chef/' : '/etc/chef/')
+action_class.class_eval do
+  include ChefIngredientCookbook::Helpers
 end

@@ -60,3 +60,7 @@ action :create do
     notifies :reconfigure, 'chef_ingredient[supermarket]', :immediately
   end
 end
+
+action_class.class_eval do
+  include ChefIngredientCookbook::Helpers
+end

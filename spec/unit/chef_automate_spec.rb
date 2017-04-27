@@ -50,8 +50,8 @@ require 'spec_helper'
 
 describe 'test::automate' do
   cached(:centos_7_2) do
-    stub_command('delivery-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w test').and_return(false)
-    stub_command('delivery-ctl status').and_return(true)
+    stub_command('automate-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w test').and_return(false)
+    stub_command('automate-ctl status').and_return(true)
     ChefSpec::ServerRunner.new(
       step_into: 'chef_automate',
       platform: 'centos',
