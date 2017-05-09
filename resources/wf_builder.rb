@@ -123,23 +123,31 @@ action :create do
       sensitive new_resource.sensitive if new_resource.sensitive
       source new_resource.chef_user_pem
       mode '0600'
-      user 'root'
-      group 'root'
+      user 'dbuild'
+      group 'dbuild'
     end
   end
 
-  %w(etc/delivery.rb .chef/knife.rb).each do |dir|
-    properpath = dir.split('/')
-    file "#{workspace}/#{dir}" do
-      content ensurekv(::File.read(new_resource.chef_config_path),
-                       node_name: new_resource.chef_user,
-                       log_location: :STDOUT,
-                       client_key: "#{workspace}/#{properpath[0]}/#{new_resource.chef_user}.pem",
-                       trusted_certs_dir: '/etc/chef/trusted_certs')
-      mode '0644'
-      owner 'dbuild'
-      group 'dbuild'
-    end
+  file "#{workspace}/etc/delivery.rb" do
+    content ensurekv(::File.read(new_resource.chef_config_path),
+                     node_name: new_resource.chef_user,
+                     log_location: :STDOUT,
+                     client_key: "#{workspace}/etc/#{new_resource.chef_user}.pem",
+                     trusted_certs_dir: '/etc/chef/trusted_certs')
+    mode '0644'
+    owner 'dbuild'
+    group 'dbuild'
+  end
+
+  file "#{workspace}/.chef/knife.rb" do
+    content ensurekv(::File.read(new_resource.chef_config_path),
+                     node_name: new_resource.chef_user,
+                     log_location: :STDOUT,
+                     client_key: "#{workspace}/.chef/#{new_resource.chef_user}.pem",
+                     trusted_certs_dir: '/etc/chef/trusted_certs')
+    mode '0644'
+    owner 'dbuild'
+    group 'dbuild'
   end
 
   remote_file "#{workspace}/bin/git_ssh" do
@@ -263,8 +271,8 @@ action :create do
         }
 
         # TODO: Rework this to call the API directly, so we don't have delivery-cli formatting things.
-        runner = Mixlib::ShellOut.new("delivery --non-interactive --no-color \
-          api post runners \
+        runner = Mixlib::ShellOut.new("delivery api post runners \
+          --non-interactive --no-color \
           -d '#{data.to_json}' \
           -s #{new_resource.automate_fqdn} \
           -e #{new_resource.automate_enterprise} \
