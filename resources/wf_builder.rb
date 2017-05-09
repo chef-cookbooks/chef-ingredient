@@ -69,10 +69,23 @@ action :create do
       command "knife ssl fetch -s https://#{server} -c #{Chef::Config['config_file']}"
       not_if "knife ssl check -s https://#{server} -c #{Chef::Config['config_file']}"
       ignore_failure true
+    end unless server.nil? || server.empty?
+  end
+
+  cacert_pem = ::File.read('/opt/chefdk/embedded/ssl/certs/cacert.pem')
+
+  ruby_block 'configure SSL certificates' do
+    block do
+      ::Dir.glob('/etc/chef/trusted_certs/*.crt').each do |crt|
+        c = ::File.read(crt)
+        cacert_pem << "\n" << c unless cacert_pem.include?(c)
+      end
     end
   end
 
-  execute 'cat /etc/chef/trusted_certs/*.crt >> /opt/chefdk/embedded/ssl/certs/cacert.pem'
+  file '/opt/chefdk/embedded/ssl/certs/cacert.pem' do
+    content cacert_pem
+  end
 
   ohai 'reload_passwd' do
     action :nothing
@@ -247,12 +260,13 @@ action :create do
           platform_version: node['platform_version'],
         }
 
+        # TODO: Rework this to call the API directly, so we don't have delivery-cli formatting things.
         runner = Mixlib::ShellOut.new("delivery api post runners \
           -d '#{data.to_json}' \
           -s #{new_resource.automate_fqdn} \
           -e #{new_resource.automate_enterprise} \
           -u #{new_resource.automate_user}").run_command
-        ::File.write(::File.join(home_dir, '.ssh/authorized_keys'), JSON.parse(runner.stdout)['openssh_public_key'])
+        ::File.write(::File.join(home_dir, '.ssh/authorized_keys'), JSON.parse(runner.stdout.gsub(/\e\(B|\e\[m|\e\[37m/, ''))['openssh_public_key'])
       end
       not_if { ::File.read(::File.join(home_dir, '.ssh/authorized_keys')).include?("#{build_user}@#{node['fqdn']}") }
     end
