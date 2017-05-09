@@ -21,7 +21,7 @@
 resource_name 'chef_automate'
 default_action :create
 
-property :name, String, name_property: true
+property :fqdn, String, name_property: true
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest
 property :config, String, required: true
@@ -42,21 +42,17 @@ load_current_value do
 end
 
 action :create do
-  # https://github.com/chef/delivery/issues/469
-  new_resource.config << "\ndelivery['chef_server_proxy'] = false" unless new_resource.config.include?('chef_server_proxy')
-
-  # Always make sure user and key provided to resource is at the bottom of the config, overriding duplicates.
-  new_resource.config << "\ndelivery['chef_username'] = '#{new_resource.chef_user}'"
-  new_resource.config << "\ndelivery['chef_private_key'] = '/etc/delivery/#{new_resource.chef_user}.pem'"
-
-  # Hardcode v1 runner search to automate-build-node
-  new_resource.config << "\ndelivery['default_search'] = 'tags:delivery-build-node'"
+  required_config = <<-EOF
+    delivery['chef_username'] = '#{new_resource.chef_user}'
+    delivery['chef_private_key'] = '/etc/delivery/#{new_resource.chef_user}.pem'
+    delivery['default_search'] = 'tags:delivery-build-node'
+  EOF
 
   chef_ingredient 'automate' do
     action :upgrade
     channel new_resource.channel
     version new_resource.version
-    config new_resource.config
+    config ensurekv(new_resource.config.dup.concat(required_config), delivery_fqdn: new_resource.fqdn)
     accept_license new_resource.accept_license
     platform new_resource.platform if new_resource.platform
     platform_version new_resource.platform_version if new_resource.platform_version
@@ -106,14 +102,11 @@ action :create do
     notifies :reconfigure, 'chef_ingredient[automate]', :immediately
   end
 
-  if new_resource.enterprise.is_a?(String)
-    new_resource.enterprise = [new_resource.enterprise]
-    new_resource.enterprise.each do |ent|
-      execute "create enterprise #{ent}" do
-        command "delivery-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub > /etc/delivery/#{ent}.creds"
-        not_if "delivery-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"
-        only_if 'delivery-ctl status'
-      end
+  (new_resource.enterprise.is_a?(String) ? [new_resource.enterprise] : new_resource.enterprise).each do |ent|
+    execute "create enterprise #{ent}" do
+      command "delivery-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub >> /etc/delivery/#{ent}.creds"
+      not_if "delivery-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"
+      only_if 'delivery-ctl status'
     end
   end
 end
