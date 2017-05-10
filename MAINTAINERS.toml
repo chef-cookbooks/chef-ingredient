@@ -16,12 +16,18 @@ Check out [How Cookbooks are Maintained](https://github.com/chef-cookbooks/commu
     [Org.Components.Core]
       title = "Project Maintainer"
 
-      lieutenant = 'wrightp'
+      lieutenant = "wrightp"
 
       maintainers = [
-        'jtimberman',
-        'wrightp',
-        'schisamo'
+        "jtimberman",
+        "wrightp",
+        "schisamo",
+        "ncerny",
+        "tduffield",
+        "andrew-dufour",
+        "mivok",
+        "stephenlauck",
+        "tas50",
       ]
 
 [people]
@@ -36,3 +42,27 @@ Check out [How Cookbooks are Maintained](https://github.com/chef-cookbooks/commu
   [people.schisamo]
     name = "Seth Chisamore"
     github = "schisamo"
+
+  [people.ncerny]
+    name = "Nathan Cerny"
+    github = "ncerny"
+
+  [people.tduffield]
+    name = "Tom Duffield"
+    github = "tduffield"
+
+  [people.andrew-dufour]
+    name = "Andrew DuFour"
+    github = "andrew-dufour"
+
+  [people.mivok]
+    name = "Mark Harrison"
+    github = "mivok"
+
+  [people.stephenlauck]
+    name = "Stephen Lauck"
+    github = "stephenlauck"
+
+  [people.tas50]
+    name = "Tim Smith"
+    github = "tas50"

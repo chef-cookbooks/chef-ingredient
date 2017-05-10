@@ -42,9 +42,6 @@ load_current_value do
 end
 
 action :create do
-  # https://github.com/chef/delivery/issues/469
-  new_resource.config << "\ndelivery['chef_server_proxy'] = false" unless new_resource.config.include?('chef_server_proxy')
-
   # Always make sure user and key provided to resource is at the bottom of the config, overriding duplicates.
   new_resource.config << "\ndelivery['chef_username'] = '#{new_resource.chef_user}'"
   new_resource.config << "\ndelivery['chef_private_key'] = '/etc/delivery/#{new_resource.chef_user}.pem'"
@@ -62,11 +59,10 @@ action :create do
     platform_version new_resource.platform_version if new_resource.platform_version
   end
 
-  directory '/etc/delivery'
-  directory '/etc/chef'
-
-  directory '/var/opt/delivery/license/' do
-    recursive true
+  %w(/etc/delivery /etc/chef /var/opt/delivery/license).each do |dir|
+    directory dir do
+      recursive true
+    end
   end
 
   {
@@ -90,16 +86,16 @@ action :create do
     mode '0644'
   end
 
-  directory '/var/opt/delivery/nginx/etc/addon.d/' do
+  directory '/var/opt/delivery/nginx/etc/addon.d' do
     recursive true
   end
 
   file '/var/opt/delivery/nginx/etc/addon.d/99-installer_internal.conf' do
     content <<-EOF
-      location /installer {
-        alias /opt/delivery/embedded/service/omnibus-ctl/installer;
-      }
-      EOF
+location /installer {
+  alias /opt/delivery/embedded/service/omnibus-ctl/installer;
+}
+EOF
   end
 
   ingredient_config 'automate' do
@@ -110,10 +106,14 @@ action :create do
     new_resource.enterprise = [new_resource.enterprise]
     new_resource.enterprise.each do |ent|
       execute "create enterprise #{ent}" do
-        command "delivery-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub > /etc/delivery/#{ent}.creds"
-        not_if "delivery-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"
-        only_if 'delivery-ctl status'
+        command "automate-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub > /etc/delivery/#{ent}.creds"
+        not_if "automate-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"
+        only_if 'automate-ctl status'
       end
     end
   end
+end
+
+action_class.class_eval do
+  include ChefIngredientCookbook::Helpers
 end
