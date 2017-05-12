@@ -91,3 +91,7 @@ action :create do
     only_if { existing_peer }
   end
 end
+
+action_class.class_eval do
+  include ChefIngredientCookbook::Helpers
+end

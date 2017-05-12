@@ -58,11 +58,10 @@ action :create do
     platform_version new_resource.platform_version if new_resource.platform_version
   end
 
-  directory '/etc/delivery'
-  directory '/etc/chef'
-
-  directory '/var/opt/delivery/license/' do
-    recursive true
+  %w(/etc/delivery /etc/chef /var/opt/delivery/license).each do |dir|
+    directory dir do
+      recursive true
+    end
   end
 
   {
@@ -86,16 +85,16 @@ action :create do
     mode '0644'
   end
 
-  directory '/var/opt/delivery/nginx/etc/addon.d/' do
+  directory '/var/opt/delivery/nginx/etc/addon.d' do
     recursive true
   end
 
   file '/var/opt/delivery/nginx/etc/addon.d/99-installer_internal.conf' do
     content <<-EOF
-      location /installer {
-        alias /opt/delivery/embedded/service/omnibus-ctl/installer;
-      }
-      EOF
+location /installer {
+  alias /opt/delivery/embedded/service/omnibus-ctl/installer;
+}
+EOF
   end
 
   ingredient_config 'automate' do
@@ -104,9 +103,13 @@ action :create do
 
   Array(enterprise).each do |ent|
     execute "create enterprise #{ent}" do
-      command "delivery-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub >> /etc/delivery/#{ent}.creds"
-      not_if "delivery-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"
-      only_if 'delivery-ctl status'
+      command "automate-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub >> /etc/delivery/#{ent}.creds"
+      not_if "automate-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"
+      only_if 'automate-ctl status'
     end
   end
+end
+
+action_class.class_eval do
+  include ChefIngredientCookbook::Helpers
 end

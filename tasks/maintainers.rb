@@ -1,5 +1,5 @@
 #
-# Copyright:: 2015-2016, Chef Software, Inc.
+# Copyright:: 2015-2017, Chef Software, Inc.
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -74,3 +74,5 @@ def github_link(person)
   github = @toml['people'][person]['github']
   "* [#{name}](https://github.com/#{github})"
 end
+
+Rake.application['default'].invoke
