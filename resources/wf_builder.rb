@@ -261,12 +261,13 @@ action :create do
         }
 
         # TODO: Rework this to call the API directly, so we don't have delivery-cli formatting things.
-        runner = Mixlib::ShellOut.new("delivery api post runners \
+        runner = Mixlib::ShellOut.new("delivery --non-interactive --no-color \
+          api post runners \
           -d '#{data.to_json}' \
           -s #{new_resource.automate_fqdn} \
           -e #{new_resource.automate_enterprise} \
           -u #{new_resource.automate_user}").run_command
-        ::File.write(::File.join(home_dir, '.ssh/authorized_keys'), JSON.parse(runner.stdout.gsub(/\e\(B|\e\[m|\e\[37m/, ''))['openssh_public_key'])
+        ::File.write(::File.join(home_dir, '.ssh/authorized_keys'), JSON.parse(runner.stdout)['openssh_public_key'])
       end
       not_if { ::File.read(::File.join(home_dir, '.ssh/authorized_keys')).include?("#{build_user}@#{node['fqdn']}") }
     end
