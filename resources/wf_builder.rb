@@ -72,19 +72,18 @@ action :create do
     end unless server.nil? || server.empty?
   end
 
-  cacert_pem = ::File.read('/opt/chefdk/embedded/ssl/certs/cacert.pem')
-
   ruby_block 'configure SSL certificates' do
     block do
+      @cacert_pem = ::File.read('/opt/chefdk/embedded/ssl/certs/cacert.pem')
       ::Dir.glob('/etc/chef/trusted_certs/*.crt').each do |crt|
         c = ::File.read(crt)
-        cacert_pem << "\n" << c unless cacert_pem.include?(c)
+        @cacert_pem << "\n" << c unless @cacert_pem.include?(c)
       end
     end
   end
 
   file '/opt/chefdk/embedded/ssl/certs/cacert.pem' do
-    content cacert_pem
+    content @cacert_pem
   end
 
   ohai 'reload_passwd' do
