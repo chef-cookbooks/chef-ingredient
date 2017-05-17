@@ -281,17 +281,11 @@ module ChefIngredientCookbook
           opt[:shell_type] = :ps1 if windows?
         end
 
-        platform_details = Mixlib::Install.detect_platform
-
-        # Some auto-detected architectures needs to be normalized before being queried
-        platform_details[:architecture] = Mixlib::Install::Util.normalize_architecture(platform_details[:architecture])
-
-        # Set any raw overrides
-        platform_details.tap do |opt|
-          opt[:platform] = new_resource.platform if new_resource.platform
-          opt[:platform_version] = new_resource.platform_version if new_resource.platform_version
-          opt[:architecture] = new_resource.architecture if new_resource.architecture
-        end
+        platform_details = {
+          platform: platform_family_shortname,
+          platform_version: truncate_platform_version(new_resource.platform_version, new_resource.platform),
+          architecture: Mixlib::Install::Util.normalize_architecture(new_resource.architecture),
+        }
 
         options.merge!(platform_details)
 
@@ -318,6 +312,99 @@ module ChefIngredientCookbook
         end
       end
       config
+    end
+
+    #
+    # TODO: Imported from Omnibus::Metadata
+    # Will be moved into a Mixlib Install module
+    #
+
+    #
+    # Platform name to be used when creating metadata for the artifact.
+    #
+    # @return [String]
+    #   the platform family short name
+    #
+    def platform_family_shortname
+      if platform_family?('rhel')
+        'el'
+      elsif platform_family?('suse')
+        'sles'
+      else
+        new_resource.platform
+      end
+    end
+
+    #
+    # TODO: Imported from Omnibus::Metadata
+    # Will be moved into a Mixlib Install module
+    #
+
+    #
+    # On certain platforms we don't care about the full MAJOR.MINOR.PATCH platform
+    # version. This method will properly truncate the version down to a more human
+    # friendly version. This version can also be thought of as a 'marketing'
+    # version.
+    #
+    # @param [String] platform_version
+    #   the platform version to truncate
+    # @param [String] platform
+    #   the platform shortname. this might be an Ohai-returned platform or
+    #   platform family but it also might be a shortname like `el`
+    #
+    def truncate_platform_version(platform_version, platform)
+      case platform
+      when 'centos', 'debian', 'el', 'fedora', 'freebsd', 'omnios', 'pidora', 'raspbian', 'rhel', 'sles', 'suse', 'smartos', 'nexus', 'ios_xr' # ~FC024
+        # Only want MAJOR (e.g. Debian 7, OmniOS r151006, SmartOS 20120809T221258Z)
+        platform_version.split('.').first
+      when 'aix', 'alpine', 'gentoo', 'mac_os_x', 'openbsd', 'slackware', 'solaris2', 'opensuse', 'ubuntu'
+        # Only want MAJOR.MINOR (e.g. Mac OS X 10.9, Ubuntu 12.04)
+        platform_version.split('.')[0..1].join('.')
+      when 'arch'
+        # Arch Linux does not have a platform_version ohai attribute, it is rolling release (lsb_release -r)
+        'rolling'
+      when 'windows'
+        # Windows has this really awesome "feature", where their version numbers
+        # internally do not match the "marketing" name.
+        #
+        # Definitively computing the Windows marketing name actually takes more
+        # than the platform version. Take a look at the following file for the
+        # details:
+        #
+        #   https://github.com/opscode/chef/blob/master/lib/chef/win32/version.rb
+        #
+        # As we don't need to be exact here the simple mapping below is based on:
+        #
+        #  http://www.jrsoftware.org/ishelp/index.php?topic=winvernotes
+        #
+        # Microsoft's version listing (more general than the above) is here:
+        #
+        # https://msdn.microsoft.com/en-us/library/windows/desktop/ms724832(v=vs.85).aspx
+        #
+        case platform_version
+        when '5.0.2195', '2000'   then '2000'
+        when '5.1.2600', 'xp'     then 'xp'
+        when '5.2.3790', '2003r2' then '2003r2'
+        when '6.0.6001', '2008'   then '2008'
+        when '6.1.7600', '7'      then '7'
+        when '6.1.7601', '2008r2' then '2008r2'
+        when '6.2.9200', '2012'   then '2012'
+        # The following `when` will never match since Windows 8's platform
+        # version is the same as Windows 2012. It's only here for completeness and
+        # documentation.
+        # when '6.2.9200', '8'      then '8'
+        when /6\.3\.\d+/, '2012r2' then '2012r2'
+        # The following `when` will never match since Windows 8.1's platform
+        # version is the same as Windows 2012R2. It's only here for completeness
+        # and documentation.
+        # when /6\.3\.\d+/, '8.1' then '8.1'
+        when /^10\.0/ then '10'
+        else
+          raise "Unknown Platform Version: #{platform} #{platform_version}"
+        end
+      else
+        raise "Unknown Platform #{platform}"
+      end
     end
   end
 end
