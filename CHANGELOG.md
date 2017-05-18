@@ -1,6 +1,11 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.1.0 (2017-05-18)
+- Add initial chef infrastructure resources and contributors from chef_stack project
+- Add Ohai attributes as defaults to `chef_ingredient` resource properties `platform`, `platform_version`, and `architecture`
+- Add platform remapping and platform version truncation fixes to align with Chef Software Inc's software distribution systems
+
 ## 2.0.5 (2017-04-24)
 
 - [#155](https://github.com/chef-cookbooks/chef-ingredient/issues/155) Workaround chef_ingredient timeout property on Windows (windows_package timeout property currently broken in Chef)
