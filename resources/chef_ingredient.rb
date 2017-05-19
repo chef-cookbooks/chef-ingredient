@@ -46,9 +46,9 @@ property :accept_license, [true, false], default: false
 property :platform_version_compatibility_mode, [true, false]
 
 # Configure specific platform package
-property :platform, String, default: node['platform']
-property :platform_version, String, default: node['platform_version']
-property :architecture, String, default: node['kernel']['machine']
+property :platform, String
+property :platform_version, String
+property :architecture, String
 
 platform_family = node['platform_family']
 
