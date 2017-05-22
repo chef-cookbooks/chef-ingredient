@@ -1,6 +1,10 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.1.1 (2017-05-22)
+- Revert platform remapping and platform version truncation changes.
+- `chef_ingredient` properties `platform`, `platform_version`, `architecture` default to auto-detected value when not set.
+
 ## 2.1.0 (2017-05-18)
 - Add initial chef infrastructure resources and contributors from chef_stack project
 - Add Ohai attributes as defaults to `chef_ingredient` resource properties `platform`, `platform_version`, and `architecture`
