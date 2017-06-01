@@ -1,14 +1,13 @@
 driver:
   name: dokken
   privileged: true # because Docker and SystemD/Upstart
-  chef_version: current
+  chef_version: <%= ENV['CHEF_VERSION'] || "current" %>
 
 transport:
   name: dokken
 
 provisioner:
   name: dokken
-  require_chef_omnibus: <%= ENV['CHEF_VERSION'] || true %>
   data_bags_path: test/fixtures/data_bags
   deprecations_as_errors: true
 
