@@ -21,7 +21,7 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6.8
+  - name: centos-6.9
   - name: centos-7.3
   - name: ubuntu-14.04
   - name: ubuntu-16.04
@@ -61,7 +61,7 @@ suites:
 
   - name: chefdk
     <<: *default
-    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6.8', 'centos-7.3', 'macosx-10.11', 'windows-server-2012r2-standard' ]
+    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6.9', 'centos-7.3', 'macosx-10.11', 'windows-server-2012r2-standard' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -71,7 +71,7 @@ suites:
 
   - name: inspec
     <<: *default
-    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6.8', 'centos-7.3', 'macosx-10.11', 'windows-server-2012r2-standard' ]
+    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6.9', 'centos-7.3', 'macosx-10.11', 'windows-server-2012r2-standard' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
