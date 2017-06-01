@@ -73,7 +73,7 @@ action :create do
     ingredient_config addon do
       notifies :reconfigure, "chef_ingredient[#{addon}]", :immediately
     end
-  end if new_resource.addons
+  end #if new_resource.addons
 end
 
 action_class.class_eval do
