@@ -278,7 +278,7 @@ module ChefIngredientCookbook
           product_version: new_resource.version,
           platform: new_resource.platform,
           platform_version: new_resource.platform_version,
-          architecture: new_resource.architecture,
+          architecture: Mixlib::Install::Util.normalize_architecture(new_resource.architecture),
         }.tap do |opt|
           if new_resource.platform_version_compatibility_mode
             opt[:platform_version_compatibility_mode] = new_resource.platform_version_compatibility_mode
@@ -307,8 +307,7 @@ module ChefIngredientCookbook
       end
 
       if new_resource.architecture.nil?
-        architecture = Mixlib::Install::Util.normalize_architecture(detected_platform[:architecture])
-        new_resource.architecture(architecture)
+        new_resource.architecture(detected_platform[:architecture])
       end
 
       true
