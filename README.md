@@ -243,17 +243,17 @@ Installs Chef Automate.
 
 ### workflow_builder
 
-- `cpj_version` - The version of Push-Jobs to install.
-- `cchef_user` - The Chef user to authenticate with the Chef Server.
-- `cchef_user_pem` - The private key of the Chef user to authenticate with the Chef Server.
-- `cbuilder_pem` - The builder users private key to communicate with Chef Automate.
+- `pj_version` - The version of Push-Jobs to install.
+- `chef_user` - The Chef user to authenticate with the Chef Server.
+- `chef_user_pem` - The private key of the Chef user to authenticate with the Chef Server.
+- `builder_pem` - The builder users private key to communicate with Chef Automate.
 - `chef_fqdn` - The FQDN of the Chef server.
-- `cautomate_fqdn` - The FQDN of the automate server.
-- `csupermarket_fqdn` - The FQDN of the Supermarket server.
-- `cjob_dispatch_version` - Which job dispatch version to use. V1 is push-jobs, V2 is SSH runners.
-- `cautomate_user` - What is the Automate user we're connecting to Automate as.
-- `cautomate_password` - The password for the user above.
-- `cautomate_enterprise` - The Enterprise to connect to.
+- `automate_fqdn` - The FQDN of the automate server.
+- `supermarket_fqdn` - The FQDN of the Supermarket server.
+- `job_dispatch_version` - Which job dispatch version to use. V1 is push-jobs, V2 is SSH runners.
+- `automate_user` - What is the Automate user we're connecting to Automate as.
+- `automate_password` - The password for the user above.
+- `automate_enterprise` - The Enterprise to connect to.
 - `chef_config_path` - The config path for chef-client.
 
 ## License & Authors
