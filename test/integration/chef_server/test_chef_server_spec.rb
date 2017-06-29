@@ -3,5 +3,5 @@
 # end
 
 describe command('chef-server-ctl status opscode-erchef') do
-  its('stdout') { should match /run: opscode-erchef:/ }
+  its('stdout') { should match(/run: opscode-erchef:/) }
 end
