@@ -1,6 +1,9 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.1.3 (2017-06-29)
+- Pin mixlib-install `~> 3.3`
+
 ## 2.1.2 (2017-06-03)
 - Fix normalization of auto-detected and set architectures
 
