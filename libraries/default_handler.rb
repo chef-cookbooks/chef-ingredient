@@ -60,7 +60,6 @@ module ChefIngredient
         timeout new_resource.timeout if new_resource.timeout
         provider value_for_platform_family(
           'debian'  => Chef::Provider::Package::Dpkg,
-          'rhel'    => Chef::Provider::Package::Rpm,
           'suse'    => Chef::Provider::Package::Rpm,
           'windows' => Chef::Provider::Package::Windows
         )

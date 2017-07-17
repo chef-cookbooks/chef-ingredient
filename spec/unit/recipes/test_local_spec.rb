@@ -13,7 +13,7 @@ describe 'test::local' do
     end
 
     it 'uses the rpm package provider' do
-      expect(centos_6).to install_package('chef-server-core').with(provider: Chef::Provider::Package::Rpm)
+      expect(centos_6).to install_package('chef-server-core')
     end
   end
 
