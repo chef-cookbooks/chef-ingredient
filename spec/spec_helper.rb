@@ -20,5 +20,3 @@ RSpec.configure do |config|
     allow_any_instance_of(ChefIngredient::OmnitruckHandler).to receive(:installer).and_return(installer)
   end
 end
-
-ChefSpec::Coverage.start!
