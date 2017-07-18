@@ -19,29 +19,29 @@
 require 'spec_helper'
 
 describe 'test::file' do
-  cached(:centos_7_2) do
+  cached(:centos_7) do
     ChefSpec::ServerRunner.new(
       step_into: 'chef_file',
       platform: 'centos',
-      version: '7.2.1511'
+      version: '7.3.1611'
     ).converge(described_recipe)
   end
 
   context 'compiling the recipe' do
     it 'creates chef_file[/tmp/uri.test]' do
-      expect(centos_7_2).to create_chef_file('/tmp/remote_file')
+      expect(centos_7).to create_chef_file('/tmp/remote_file')
     end
     it 'creates chef_file[/tmp/cookbook.test]' do
-      expect(centos_7_2).to create_chef_file('/tmp/cookbook_file')
+      expect(centos_7).to create_chef_file('/tmp/cookbook_file')
     end
     it 'creates chef_file[/tmp/content.test]' do
-      expect(centos_7_2).to create_chef_file('/tmp/file')
+      expect(centos_7).to create_chef_file('/tmp/file')
     end
   end
 
   context 'stepping into chef_file' do
     it 'correctly creates cookbook_files' do
-      expect(centos_7_2).to create_cookbook_file('/tmp/cookbook_file')
+      expect(centos_7).to create_cookbook_file('/tmp/cookbook_file')
         .with(
           source: 'testfile',
           cookbook: 'chef_test',
@@ -51,7 +51,7 @@ describe 'test::file' do
         )
     end
     it 'correctly creates remote_files' do
-      expect(centos_7_2).to create_remote_file('/tmp/remote_file')
+      expect(centos_7).to create_remote_file('/tmp/remote_file')
         .with(
           source: 'https://www.example.com/test',
           user: 'root',
@@ -60,14 +60,14 @@ describe 'test::file' do
         )
     end
     it 'correctly creates files' do
-      expect(centos_7_2).to create_file('/tmp/file')
+      expect(centos_7).to create_file('/tmp/file')
         .with(
           content: 'abcdef',
           user: 'root',
           group: 'root',
           mode: '0600'
         )
-      expect(centos_7_2).to render_file('/tmp/file').with_content('abcdef')
+      expect(centos_7).to render_file('/tmp/file').with_content('abcdef')
     end
   end
 end

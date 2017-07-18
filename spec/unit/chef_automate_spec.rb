@@ -49,25 +49,25 @@ EOS
 require 'spec_helper'
 
 describe 'test::automate' do
-  cached(:centos_7_2) do
+  cached(:centos_7) do
     stub_command('automate-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w test').and_return(false)
     stub_command('automate-ctl status').and_return(true)
     ChefSpec::ServerRunner.new(
       step_into: 'chef_automate',
       platform: 'centos',
-      version: '7.2.1511'
+      version: '7.3.1611'
     ).converge(described_recipe)
   end
 
   context 'compiling the recipe' do
     it 'creates chef_automate[automate.chefstack.local]' do
-      expect(centos_7_2).to create_chef_automate('automate.chefstack.local')
+      expect(centos_7).to create_chef_automate('automate.chefstack.local')
     end
   end
 
   context 'stepping into chef_automate' do
     it 'upgrades chef_ingredient[automate]' do
-      expect(centos_7_2).to upgrade_chef_ingredient('automate')
+      expect(centos_7).to upgrade_chef_ingredient('automate')
         .with(
           channel: :current,
           version: '0.6.64',
@@ -87,7 +87,7 @@ describe 'test::automate' do
         '/etc/delivery',
         '/etc/chef',
       ].each do |dir|
-        expect(centos_7_2).to create_directory(dir)
+        expect(centos_7).to create_directory(dir)
       end
     end
 
@@ -98,7 +98,7 @@ describe 'test::automate' do
         '/etc/chef/validation.pem' => insecure_key,
         '/etc/delivery/builder_key' => insecure_key,
       }.each do |file, src|
-        expect(centos_7_2).to create_chef_file(file)
+        expect(centos_7).to create_chef_file(file)
           .with(
             source: src,
             user: 'root',
@@ -109,7 +109,7 @@ describe 'test::automate' do
     end
 
     it 'creates the builder public key' do
-      expect(centos_7_2).to create_file('/etc/delivery/builder_key.pub')
+      expect(centos_7).to create_file('/etc/delivery/builder_key.pub')
         .with(
           user: 'root',
           group: 'root',
@@ -118,8 +118,8 @@ describe 'test::automate' do
     end
 
     it 'configures nginx to host installation files' do
-      expect(centos_7_2).to create_directory('/var/opt/delivery/nginx/etc/addon.d')
-      expect(centos_7_2).to create_file('/var/opt/delivery/nginx/etc/addon.d/99-installer_internal.conf')
+      expect(centos_7).to create_directory('/var/opt/delivery/nginx/etc/addon.d')
+      expect(centos_7).to create_file('/var/opt/delivery/nginx/etc/addon.d/99-installer_internal.conf')
         .with(
           content: <<-EOF
 location /installer {
@@ -130,12 +130,12 @@ EOF
     end
 
     it 'reconfigures automate' do
-      expect(centos_7_2).to render_ingredient_config('automate')
-      expect(centos_7_2.ingredient_config('automate')).to notify('chef_ingredient[automate]').to(:reconfigure).immediately
+      expect(centos_7).to render_ingredient_config('automate')
+      expect(centos_7.ingredient_config('automate')).to notify('chef_ingredient[automate]').to(:reconfigure).immediately
     end
 
     it 'configures automate enterprises' do
-      expect(centos_7_2).to run_execute('create enterprise test')
+      expect(centos_7).to run_execute('create enterprise test')
     end
   end
 end

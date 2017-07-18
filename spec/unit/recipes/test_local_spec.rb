@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe 'test::local' do
   context 'on centos' do
-    cached(:centos_67) do
+    cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.7',
+        version: '6.9',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = nil
@@ -13,7 +13,7 @@ describe 'test::local' do
     end
 
     it 'uses the rpm package provider' do
-      expect(centos_67).to install_package('chef-server-core').with(provider: Chef::Provider::Package::Rpm)
+      expect(centos_6).to install_package('chef-server-core').with(provider: Chef::Provider::Package::Rpm)
     end
   end
 

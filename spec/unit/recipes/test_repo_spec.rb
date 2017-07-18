@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'test::repo' do
   [{ platform: 'ubuntu', version: '14.04' },
-   { platform: 'centos', version: '6.7' }].each do |platform|
+   { platform: 'centos', version: '6.9' }].each do |platform|
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
@@ -65,10 +65,10 @@ EOS
   end
 
   context 'install packages with yum on centos' do
-    cached(:centos_67) do
+    cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.7',
+        version: '6.9',
         step_into: %w(chef_ingredient chef_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = nil
@@ -76,25 +76,25 @@ EOS
     end
 
     it 'installs package[chef-server]' do
-      pkgres = centos_67.find_resource('package', 'chef-server')
+      pkgres = centos_6.find_resource('package', 'chef-server')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::Package)
-      expect(centos_67).to install_package('chef-server')
+      expect(centos_6).to install_package('chef-server')
     end
 
     it 'installs package[opscode-manage]' do
-      pkgres = centos_67.find_resource('package', 'manage')
+      pkgres = centos_6.find_resource('package', 'manage')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::Package)
-      expect(centos_67).to install_package('manage')
+      expect(centos_6).to install_package('manage')
     end
   end
 
   context ':latest is specified for the version as a symbol' do
-    cached(:centos_67) do
+    cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.7',
+        version: '6.9',
         step_into: ['chef_ingredient']
       ) do |node|
         node.normal['test']['chef-server-core']['version'] = :latest
@@ -102,15 +102,15 @@ EOS
     end
 
     it 'installs yum_package[chef-server]' do
-      expect(centos_67).to install_package('chef-server-core')
+      expect(centos_6).to install_package('chef-server-core')
     end
   end
 
   context 'latest is specified for the version as a string' do
-    cached(:centos_67) do
+    cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.7',
+        version: '6.9',
         step_into: ['chef_ingredient']
       ) do |node|
         node.normal['test']['chef-server-core']['version'] = 'latest'
@@ -118,7 +118,7 @@ EOS
     end
 
     it 'installs yum_package[chef-server]' do
-      expect(centos_67).to install_package('chef-server-core')
+      expect(centos_6).to install_package('chef-server-core')
     end
   end
 
