@@ -17,10 +17,10 @@ describe 'test::push' do
   end
 
   context 'installs packages with yum on centos' do
-    cached(:centos_67) do
+    cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.7',
+        version: '6.9',
         step_into: %w(chef_ingredient)
       ) do |node|
         node.normal['test']['push-client']['version'] = :latest
@@ -28,10 +28,10 @@ describe 'test::push' do
     end
 
     it 'upgrades package[push-client]' do
-      pkgres = centos_67.find_resource('package', 'push-jobs-client')
+      pkgres = centos_6.find_resource('package', 'push-jobs-client')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::Package)
-      expect(centos_67).to install_package('push-jobs-client')
+      expect(centos_6).to install_package('push-jobs-client')
     end
   end
 

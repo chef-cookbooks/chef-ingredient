@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'test::config' do
   [
     { platform: 'ubuntu', version: '14.04' },
-    { platform: 'centos', version: '6.7' },
+    { platform: 'centos', version: '6.9' },
   ].each do |platform|
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do

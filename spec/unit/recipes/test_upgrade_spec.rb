@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'test::upgrade' do
   [{ platform: 'ubuntu', version: '14.04' },
-   { platform: 'centos', version: '6.7' }].each do |platform|
+   { platform: 'centos', version: '6.9' }].each do |platform|
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
@@ -17,10 +17,10 @@ describe 'test::upgrade' do
   end
 
   context 'upgrade packages with yum on centos' do
-    cached(:centos_67) do
+    cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.7',
+        version: '6.9',
         step_into: %w(chef_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = :latest
@@ -30,7 +30,7 @@ describe 'test::upgrade' do
     it 'upgrades yum_package[chef-server]' do
       # Since we have two resources with same name and identity we can't use
       # the upgrade_package & install_package matchers directly.
-      chef_server_resources = centos_67.find_resources(:package)
+      chef_server_resources = centos_6.find_resources(:package)
       expect(chef_server_resources.length).to eq(2)
       expect(chef_server_resources[0].action.first).to eq(:install)
       expect(chef_server_resources[0].package_name).to eq('chef-server-core')
