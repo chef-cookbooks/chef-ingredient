@@ -1,6 +1,11 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.1.4 (2017-07-27)
+
+- Use default package provider on RHEL instead of RPM; fixes #181
+- Resolve CHEF-19 deprecation warnings (#184)
+
 ## 2.1.3 (2017-06-29)
 - Pin mixlib-install `~> 3.3`
 
