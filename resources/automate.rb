@@ -114,6 +114,6 @@ EOF
   end
 end
 
-action_class.class_eval do
+action_class do
   include ChefIngredientCookbook::Helpers
 end

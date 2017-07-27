@@ -9,6 +9,7 @@ This cookbook provides primitives - helpers and resources - to manage Chef Softw
 - Chef Automate
 - Chef Push
 - Supermarket
+- InSpec
 
 This cookbook also provides primitives for building and managing your Chef infrastructure.
 
@@ -18,12 +19,12 @@ It will perform component installation and configuration. It provides no recipes
 
 ### Platforms
 
-- Ubuntu 12.04, 14.04, 16.04
-- CentOS 6, 7
+- Ubuntu
+- CentOS 6+
 
 ### Chef
 
-- Chef 12.5+
+- Chef 12.7+
 
 ### Cookbooks
 
@@ -71,8 +72,8 @@ This delegates to the ctl command the service management command specified in th
 
 #### Properties
 
-- `service_name` -  The name of the service to manage. Specify this like `product_name/service`, for example, `chef-server/rabbitmq`.
-- `ctl_command` -  The "ctl" command, e.g. `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
+- `service_name` - The name of the service to manage. Specify this like `product_name/service`, for example, `chef-server/rabbitmq`.
+- `ctl_command` - The "ctl" command, e.g. `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
 
 ### ingredient_config
 
@@ -85,10 +86,9 @@ Makes it easy to create update configuration files of each Chef product. It uses
 
 #### Properties
 
-- `product_name` -  The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef/mixlib-install/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
+- `product_name` - The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef/mixlib-install/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
 - `config` - Content that will be added to the configuration file of the given product.
 - `sensitive` - Set to mask the config contents in logs. Use when you config contains information like passwords or secrets.
-
 
 #### Examples
 
@@ -164,6 +164,7 @@ These properties exist for all infrastructure resources
 Installs Chef Automate.
 
 #### Properties
+
 - `enterprise` - The Enterprise to create in Automate
 - `license` - we recommend using the chef_file resource
 - `chef_user` - The user you will connect to the Chef server as
@@ -176,8 +177,8 @@ Installs Chef Automate.
 #### Properties
 
 - `bootstrap_node` - The node we'll bootstrap secrets with.
-- `publish_address` - node['ipaddress']  | The address you want Chef-Backend to listen on.
-- `chef_backend_secrets` - A location where your secrets are |  we recommend using the chef_file resource.
+- `publish_address` - node['ipaddress'] | The address you want Chef-Backend to listen on.
+- `chef_backend_secrets` - A location where your secrets are | we recommend using the chef_file resource.
 
 ### chef_org
 
@@ -187,7 +188,7 @@ Installs Chef Automate.
 - `org_full_name` - The full name of the org you want to create.
 - `admins` - An array of admins for the org.
 - `users` - An array of users for the org.
-- `remove_users` - An array of users to remove from  the org.
+- `remove_users` - An array of users to remove from the org.
 - `key_path` - Where to store the validator key that is created with the org.
 
 ### chef_user
@@ -258,15 +259,15 @@ Installs Chef Automate.
 
 ## License & Authors
 
-- Author: Joshua Timberman <joshua@chef.io>
-- Author: Serdar Sutay <serdar@chef.io>
-- Author: Patrick Wright <patrick@chef.io>
-- Author: Nathan Cerny <ncerny@chef.io>
-- Author: Andy Dufour <adufour@chef.io>
-- Author: Brandon Raabe <brandon.raabe@newcontext.com>
-- Author: Jeremy J. Miller <jm@chef.io>
-- Author: Josh Hudson <jhudson@chef.io>
-- Author: Stephen Lauck <lauck@chef.io>
+- Author: Joshua Timberman [joshua@chef.io](mailto:joshua@chef.io)
+- Author: Serdar Sutay [serdar@chef.io](mailto:serdar@chef.io)
+- Author: Patrick Wright [patrick@chef.io](mailto:patrick@chef.io)
+- Author: Nathan Cerny [ncerny@chef.io](mailto:ncerny@chef.io)
+- Author: Andy Dufour [adufour@chef.io](mailto:adufour@chef.io)
+- Author: Brandon Raabe [brandon.raabe@newcontext.com](mailto:brandon.raabe@newcontext.com)
+- Author: Jeremy J. Miller [jm@chef.io](mailto:jm@chef.io)
+- Author: Josh Hudson [jhudson@chef.io](mailto:jhudson@chef.io)
+- Author: Stephen Lauck [lauck@chef.io](mailto:lauck@chef.io)
 - Copyright (C) 2014-2017, Chef Software Inc. [legal@chef.io](mailto:legal@chef.io)
 
 ```text
