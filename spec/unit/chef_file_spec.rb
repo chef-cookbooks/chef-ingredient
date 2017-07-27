@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: chef_stack
+# Cookbook:: chef-ingredient
 # Spec:: chef_file
 #
 # Copyright 2016 Chef Software Inc
