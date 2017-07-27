@@ -16,3 +16,5 @@
 
 # This recipe is included to make our tests happy.
 # By intention, it does not contain anything.
+
+Chef::Log.warn('The chef-ingredient::default recipe includes no resources and should not be included directly on nodes')
