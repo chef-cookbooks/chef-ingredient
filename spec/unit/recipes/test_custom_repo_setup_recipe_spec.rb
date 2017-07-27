@@ -39,11 +39,6 @@ describe 'test::custom_repo_setup_recipe' do
       expect(ubuntu_1404).to_not add_apt_repository('chef-stable')
     end
 
-    it 'does not pins future installs of chef to current repository' do
-      expect(ubuntu_1404).to_not add_apt_preference('chef').with(pin: 'release o=https://packagecloud.io/chef/current',
-                                                                 pin_priority: '900')
-    end
-
     it 'installs chef' do
       expect(ubuntu_1404).to install_package('chef-server')
     end

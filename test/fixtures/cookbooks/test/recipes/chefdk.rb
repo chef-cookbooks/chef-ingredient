@@ -1,11 +1,11 @@
 chef_ingredient 'install old chefdk version' do
   product_name 'chefdk'
   action :install
-  version '1.1.16'
+  version '1.5.0'
 end
 
 chef_ingredient 'upgrade to newer chefdk version' do
   product_name 'chefdk'
   action :upgrade
-  version '1.2.22'
+  version '2.0.28'
 end

@@ -7,9 +7,7 @@
 # tests to work correctly.
 #
 
-include_recipe 'apt'
-include_recipe 'yum'
-include_recipe 'git'
+include_recipe 'test::install_git'
 
 chef_ingredient 'compliance' do
   action :install
