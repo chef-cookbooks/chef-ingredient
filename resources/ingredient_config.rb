@@ -21,7 +21,7 @@ property :product_name, String, name_property: true
 property :config, [String, NilClass]
 
 action :render do
-  target_config = ingredient_config_file(product_name)
+  target_config = ingredient_config_file(new_resource.product_name)
   return if target_config.nil?
 
   directory ::File.dirname(target_config) do
@@ -32,12 +32,12 @@ action :render do
   file target_config do
     action :create
     sensitive new_resource.sensitive
-    content get_config(product_name)
+    content get_config(new_resource.product_name)
   end
 end
 
 action :add do
-  add_config(product_name, config)
+  add_config(new_resource.product_name, config)
 end
 
 action_class.class_eval do
