@@ -83,7 +83,7 @@ action :install do
   template 'client.rb' do
     source 'client.rb.erb'
     path ::File.join(prefix, 'client.rb')
-    cookbook 'chef_stack'
+    cookbook 'chef-ingredient'
     mode '0640'
     variables node_name: new_resource.node_name,
               chef_server_url: new_resource.chef_server_url,
