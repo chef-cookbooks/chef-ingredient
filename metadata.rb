@@ -1,5 +1,5 @@
 name 'chef-ingredient'
-version '2.1.4'
+version '2.1.5'
 maintainer 'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
 license 'Apache-2.0'

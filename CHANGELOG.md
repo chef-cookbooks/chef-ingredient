@@ -1,6 +1,12 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.1.5 (2017-07-31)
+
+- Update the client resource to properly source the client.rb template
+- Add a log warning if the default recipe is included on a run_list
+- Added supported platforms to the metadata for Supermarket
+
 ## 2.1.4 (2017-07-27)
 
 - Use default package provider on RHEL instead of RPM; fixes #181
