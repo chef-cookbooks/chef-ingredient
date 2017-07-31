@@ -40,6 +40,6 @@ action :add do
   add_config(new_resource.product_name, config)
 end
 
-action_class.class_eval do
+action_class do
   include ChefIngredientCookbook::Helpers
 end

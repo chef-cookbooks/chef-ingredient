@@ -28,7 +28,7 @@ property :service_name, String, regex: %r{[\w-]+\/[\w-]+}, name_property: true
   end
 end
 
-action_class.class_eval do
+action_class do
   include ChefIngredientCookbook::Helpers
 
   #
