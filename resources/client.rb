@@ -1,10 +1,10 @@
 #
 # Author:: Nathan Cerny <ncerny@chef.io>
 #
-# Cookbook Name:: chef_stack
+# Cookbook:: chef-ingredient
 # Resource:: client
 #
-# Copyright 2017 Chef Software Inc
+# Copyright:: 2017, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ action :install do
   template 'client.rb' do
     source 'client.rb.erb'
     path ::File.join(prefix, 'client.rb')
-    cookbook 'chef_stack'
+    cookbook 'chef-ingredient'
     mode '0640'
     variables node_name: new_resource.node_name,
               chef_server_url: new_resource.chef_server_url,
