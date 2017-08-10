@@ -12,8 +12,8 @@ describe 'test::local' do
       end.converge(described_recipe)
     end
 
-    it 'uses the rpm package provider' do
-      expect(centos_6).to install_package('chef-server-core')
+    it 'uses the Yum package provider' do
+      expect(centos_6).to install_package('chef-server-core').with(provider: Chef::Provider::Package::Yum)
     end
   end
 
