@@ -1,6 +1,11 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.1.6 (2017-08-10)
+
+-  fix chef_org resource deprecation warnings
+-  RHEL 5 and 6 package manager support (RHEL 5 is not officially supported)
+
 ## 2.1.5 (2017-07-31)
 
 - Update the client resource to properly source the client.rb template
