@@ -50,21 +50,21 @@ action :create do
     not_if { node.run_state['chef-orgs'].index(/^#{new_resource.org}$/) }
   end
 
-  users.each do |user|
+  new_resource.users.each do |user|
     execute "add-user-#{user}-org-#{new_resource.org}" do
       command "chef-server-ctl org-user-add #{new_resource.org} #{user}"
       only_if { node.run_state['chef-users'].index(/^#{user}$/) }
     end
   end
 
-  admins.each do |user|
+  new_resource.admins.each do |user|
     execute "add-admin-#{user}-org-#{new_resource.org}" do
       command "chef-server-ctl org-user-add --admin #{new_resource.org} #{user}"
       only_if { node.run_state['chef-users'].index(/^#{user}$/) }
     end
   end
 
-  remove_users.each do |user|
+  current_resource.remove_users.each do |user|
     execute "remove-user-#{user}-org-#{new_resource.org}" do
       command "chef-server-ctl org-user-remove #{new_resource.org} #{user}"
       only_if { node.run_state['chef-users'].index(/^#{user}$/) }
