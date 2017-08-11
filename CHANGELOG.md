@@ -1,6 +1,9 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.1.6 (2017-08-11)
+- Fix remove_users to use new_resource instead of current_resource.
+
 ## 2.1.6 (2017-08-10)
 
 -  fix chef_org resource deprecation warnings
