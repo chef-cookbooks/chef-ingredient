@@ -92,20 +92,32 @@ describe 'test::automate' do
     end
 
     it 'creates automate keys' do
+      expect(centos_7).to create_chef_file('/var/opt/delivery/license/delivery.license')
+        .with(
+          source: 'license',
+          user: 'delivery',
+          group: 'delivery',
+          mode: '0644'
+        )
       {
-        '/var/opt/delivery/license/delivery.license' => 'license',
         '/etc/delivery/chef_user.pem' => insecure_key,
         '/etc/chef/validation.pem' => insecure_key,
-        '/etc/delivery/builder_key' => insecure_key,
       }.each do |file, src|
         expect(centos_7).to create_chef_file(file)
           .with(
             source: src,
             user: 'root',
             group: 'root',
-            mode: '0600'
+            mode: '0644'
           )
       end
+      expect(centos_7).to create_chef_file('/etc/delivery/builder_key')
+        .with(
+          source: insecure_key,
+          user: 'root',
+          group: 'root',
+          mode: '0600'
+        )
     end
 
     it 'creates the builder public key' do
