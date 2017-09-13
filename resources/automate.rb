@@ -30,6 +30,7 @@ property :enterprise, [String, Array], default: 'chef'
 property :license, String
 property :chef_user, String, default: 'workflow'
 property :chef_user_pem, String, required: true
+property :chef_server, String, required: true
 property :validation_pem, String, required: true
 property :builder_pem, String, required: true
 property :platform, String
@@ -45,6 +46,7 @@ action :create do
   required_config = <<-EOF
     delivery['chef_username'] = '#{new_resource.chef_user}'
     delivery['chef_private_key'] = '/etc/delivery/#{new_resource.chef_user}.pem'
+    delivery['chef_server'] = '#{new_resource.chef_server}'
     delivery['default_search'] = 'tags:delivery-build-node'
   EOF
 
@@ -56,6 +58,7 @@ action :create do
     accept_license new_resource.accept_license
     platform new_resource.platform if new_resource.platform
     platform_version new_resource.platform_version if new_resource.platform_version
+    sensitive new_resource.sensitive if new_resource.sensitive
   end
 
   # Extract custom username and group from the automate config, if it is set.
@@ -70,6 +73,7 @@ action :create do
   end
 
   chef_file '/var/opt/delivery/license/delivery.license' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     source new_resource.license
     user os_user
     group os_group
@@ -81,6 +85,7 @@ action :create do
     '/etc/chef/validation.pem' => new_resource.validation_pem,
   }.each do |file, src|
     chef_file file do
+      sensitive new_resource.sensitive if new_resource.sensitive
       source src
       user 'root'
       group 'root'
@@ -89,6 +94,7 @@ action :create do
   end
 
   chef_file '/etc/delivery/builder_key' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     source new_resource.builder_pem
     user 'root'
     group 'root'
@@ -96,6 +102,7 @@ action :create do
   end
 
   file '/etc/delivery/builder_key.pub' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     content lazy { "ssh-rsa #{[OpenSSL::PKey::RSA.new(::File.read('/etc/delivery/builder_key')).to_blob].pack('m0')}" }
     user 'root'
     group 'root'
@@ -107,6 +114,7 @@ action :create do
   end
 
   file '/var/opt/delivery/nginx/etc/addon.d/99-installer_internal.conf' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     content <<-EOF
 location /installer {
   alias /opt/delivery/embedded/service/omnibus-ctl/installer;
@@ -115,10 +123,11 @@ EOF
   end
 
   ingredient_config 'automate' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     notifies :reconfigure, 'chef_ingredient[automate]', :immediately
   end
 
-  Array(enterprise).each do |ent|
+  Array(new_resource.enterprise).each do |ent|
     execute "create enterprise #{ent}" do
       command "automate-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub >> /etc/delivery/#{ent}.creds"
       not_if "automate-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"

@@ -33,6 +33,15 @@ nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
 EOS
       end
 
+      it 'creates config file for chef-server with sensitive true' do
+        expect(chef_run).to create_file('/etc/opscode/chef-server.rb').with sensitive: false, content: <<-EOS
+api_fqdn "fauxhai.local"
+ip_version "ipv6"
+notification_email "admin@chef.io"
+nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
+EOS
+      end
+
       it 'uses ingredient_config to notify a reconfigure for chef-server' do
         resource = chef_run.find_resource('ingredient_config', 'chef-server')
         expect(resource).to notify('chef_ingredient[chef-server]')

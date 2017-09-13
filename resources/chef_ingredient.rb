@@ -81,6 +81,7 @@ action :reconfigure do
     ingredient_config new_resource.product_name do
       action :render
       not_if { get_config(new_resource.product_name).empty? }
+      sensitive new_resource.sensitive if new_resource.sensitive
     end
 
     # If accept_license is set, drop .license.accepted file so that
