@@ -30,6 +30,7 @@ property :enterprise, [String, Array], default: 'chef'
 property :license, String
 property :chef_user, String, default: 'workflow'
 property :chef_user_pem, String, required: true
+property :chef_server, String, required: true
 property :validation_pem, String, required: true
 property :builder_pem, String, required: true
 property :platform, String
@@ -42,12 +43,12 @@ load_current_value do
 end
 
 action :create do
-  # Always make sure user and key provided to resource is at the bottom of the config, overriding duplicates.
-  new_resource.config << "\ndelivery['chef_username'] = '#{new_resource.chef_user}'"
-  new_resource.config << "\ndelivery['chef_private_key'] = '/etc/delivery/#{new_resource.chef_user}.pem'"
-
-  # Hardcode v1 runner search to automate-build-node
-  new_resource.config << "\ndelivery['default_search'] = 'tags:delivery-build-node'"
+  required_config = <<-EOF
+    delivery['chef_username'] = '#{new_resource.chef_user}'
+    delivery['chef_private_key'] = '/etc/delivery/#{new_resource.chef_user}.pem'
+    delivery['chef_server'] = '#{new_resource.chef_server}'
+    delivery['default_search'] = 'tags:delivery-build-node'
+  EOF
 
   chef_ingredient 'automate' do
     action :upgrade
@@ -119,14 +120,11 @@ EOF
     notifies :reconfigure, 'chef_ingredient[automate]', :immediately
   end
 
-  if new_resource.enterprise.is_a?(String)
-    new_resource.enterprise = [new_resource.enterprise]
-    new_resource.enterprise.each do |ent|
-      execute "create enterprise #{ent}" do
-        command "automate-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub > /etc/delivery/#{ent}.creds"
-        not_if "automate-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"
-        only_if 'automate-ctl status'
-      end
+  Array(new_resource.enterprise).each do |ent|
+    execute "create enterprise #{ent}" do
+      command "automate-ctl create-enterprise #{ent} --ssh-pub-key-file=/etc/delivery/builder_key.pub >> /etc/delivery/#{ent}.creds"
+      not_if "automate-ctl list-enterprises --ssh-pub-key-file=/etc/delivery/builder_key.pub | grep -w #{ent}"
+      only_if 'automate-ctl status'
     end
   end
 end

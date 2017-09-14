@@ -39,6 +39,7 @@ chef_automate 'automate.chefstack.local' do
   license 'license'
   chef_user 'chef_user'
   chef_user_pem insecure_key
+  chef_server 'https://localhost/organizations/foo'
   validation_pem insecure_key
   builder_pem insecure_key
 end

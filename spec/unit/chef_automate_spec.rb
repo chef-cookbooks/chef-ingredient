@@ -72,10 +72,11 @@ describe 'test::automate' do
           channel: :current,
           version: '0.6.64',
           accept_license: true,
-          enterprise: ['test'],
+          enterprise: 'test',
           license: 'license',
           chef_user: 'chef_user',
           chef_user_pem: insecure_key,
+          chef_server: 'https://localhost/organizations/foo',
           validation_pem: insecure_key,
           builder_pem: insecure_key
         )

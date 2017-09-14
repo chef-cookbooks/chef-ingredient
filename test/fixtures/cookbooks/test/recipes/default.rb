@@ -5,5 +5,3 @@ if platform_family?('rhel')
     sensitive true
   end
 end
-
-apt_update 'update'
