@@ -5,7 +5,7 @@ describe 'test::custom_repo_setup_recipe' do
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6.8',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end
