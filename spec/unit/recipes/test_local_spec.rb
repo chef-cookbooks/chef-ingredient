@@ -5,7 +5,7 @@ describe 'test::local' do
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6.8',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = nil

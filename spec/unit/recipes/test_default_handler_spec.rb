@@ -47,7 +47,7 @@ describe 'test::default_handler' do
     let(:rhel_6) do
       ChefSpec::SoloRunner.new(
         platform: 'redhat',
-        version: '6.9',
+        version: '6.8',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end

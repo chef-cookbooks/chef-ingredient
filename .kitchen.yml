@@ -84,3 +84,9 @@ suites:
     run_list:
       - recipe[test]
       - recipe[test::chef_server]
+
+  - name: automate
+    includes: [ 'ubuntu-16.04' ]
+    run_list:
+      - recipe[test]
+      - recipe[test::automate]

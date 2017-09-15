@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'test::upgrade' do
   [{ platform: 'ubuntu', version: '14.04' },
-   { platform: 'centos', version: '6.9' }].each do |platform|
+   { platform: 'centos', version: '6.8' }].each do |platform|
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
@@ -20,7 +20,7 @@ describe 'test::upgrade' do
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6.8',
         step_into: %w(chef_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = :latest
