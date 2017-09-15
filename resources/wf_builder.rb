@@ -69,10 +69,22 @@ action :create do
       command "knife ssl fetch -s https://#{server} -c #{Chef::Config['config_file']}"
       not_if "knife ssl check -s https://#{server} -c #{Chef::Config['config_file']}"
       ignore_failure true
+    end unless server.nil? || server.empty?
+  end
+
+  ruby_block 'configure SSL certificates' do
+    block do
+      @cacert_pem = ::File.read('/opt/chefdk/embedded/ssl/certs/cacert.pem')
+      ::Dir.glob('/etc/chef/trusted_certs/*.crt').each do |crt|
+        c = ::File.read(crt)
+        @cacert_pem << "\n" << c unless @cacert_pem.include?(c)
+      end
     end
   end
 
-  execute 'cat /etc/chef/trusted_certs/*.crt >> /opt/chefdk/embedded/ssl/certs/cacert.pem'
+  file '/opt/chefdk/embedded/ssl/certs/cacert.pem' do
+    content @cacert_pem
+  end
 
   ohai 'reload_passwd' do
     action :nothing
@@ -247,7 +259,9 @@ action :create do
           platform_version: node['platform_version'],
         }
 
-        runner = Mixlib::ShellOut.new("delivery api post runners \
+        # TODO: Rework this to call the API directly, so we don't have delivery-cli formatting things.
+        runner = Mixlib::ShellOut.new("delivery --non-interactive --no-color \
+          api post runners \
           -d '#{data.to_json}' \
           -s #{new_resource.automate_fqdn} \
           -e #{new_resource.automate_enterprise} \
