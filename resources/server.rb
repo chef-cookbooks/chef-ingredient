@@ -31,6 +31,7 @@ property :data_collector_token, String, default: '93a49a4f2482c64126f7b6015e6b0f
 property :data_collector_url, String
 property :platform, String
 property :platform_version, String
+property :package_source, String
 
 load_current_value do
   # node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
@@ -50,6 +51,7 @@ action :create do
     accept_license new_resource.accept_license
     platform new_resource.platform if new_resource.platform
     platform_version new_resource.platform_version if new_resource.platform_version
+    package_source new_resource.package_source if new_resource.package_source
   end
 
   ingredient_config 'chef-server' do
@@ -65,6 +67,7 @@ action :create do
       accept_license new_resource.accept_license
       platform new_resource.platform if new_resource.platform
       platform_version new_resource.platform_version if new_resource.platform_version
+      package_source new_resource.package_source if new_resource.package_source
     end
 
     ingredient_config addon do
