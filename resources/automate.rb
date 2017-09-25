@@ -58,6 +58,7 @@ action :create do
     accept_license new_resource.accept_license
     platform new_resource.platform if new_resource.platform
     platform_version new_resource.platform_version if new_resource.platform_version
+    sensitive new_resource.sensitive if new_resource.sensitive
   end
 
   # Extract custom username and group from the automate config, if it is set.
@@ -72,6 +73,7 @@ action :create do
   end
 
   chef_file '/var/opt/delivery/license/delivery.license' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     source new_resource.license
     user os_user
     group os_group
@@ -83,6 +85,7 @@ action :create do
     '/etc/chef/validation.pem' => new_resource.validation_pem,
   }.each do |file, src|
     chef_file file do
+      sensitive new_resource.sensitive if new_resource.sensitive
       source src
       user 'root'
       group 'root'
@@ -91,6 +94,7 @@ action :create do
   end
 
   chef_file '/etc/delivery/builder_key' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     source new_resource.builder_pem
     user 'root'
     group 'root'
@@ -98,6 +102,7 @@ action :create do
   end
 
   file '/etc/delivery/builder_key.pub' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     content lazy { "ssh-rsa #{[OpenSSL::PKey::RSA.new(::File.read('/etc/delivery/builder_key')).to_blob].pack('m0')}" }
     user 'root'
     group 'root'

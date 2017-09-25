@@ -51,13 +51,16 @@ action :create do
     accept_license new_resource.accept_license
     platform new_resource.platform if new_resource.platform
     platform_version new_resource.platform_version if new_resource.platform_version
+    sensitive new_resource.sensitive if new_resource.sensitive
   end
 
   file '/etc/chef-backend/chef-backend.rb' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     content new_resource.config
   end
 
   chef_file '/etc/chef-backend/chef-backend-secrets.json' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     source new_resource.chef_backend_secrets
     user 'root'
     group 'root'

@@ -30,8 +30,8 @@ action :render do
   end
 
   file target_config do
+    sensitive new_resource.sensitive if new_resource.sensitive
     action :create
-    sensitive new_resource.sensitive
     content get_config(new_resource.product_name)
   end
 end

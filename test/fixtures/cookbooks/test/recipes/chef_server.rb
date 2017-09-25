@@ -8,8 +8,8 @@ oc_id['applications'] = {
   "supermarket"=>{"redirect_uri"=>"https://supermarket.services.com/auth/chef_oauth2/callback"}
 }
 EOS
-  addons manage: { version: '2.4.3', config: '' },
-         :"push-jobs-server" => { version: '2.1.0', config: '' }
+  addons manage: { config: '' },
+         :"push-jobs-server" => { config: '' }
   accept_license true
   data_collector_url 'https://automate.services.com/data-collector/v0/' if search(:node, 'name:automate-centos-68', filter_result: { 'name' => ['name'] }) # ~FC003
 end

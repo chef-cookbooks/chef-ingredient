@@ -83,6 +83,7 @@ action :create do
   end
 
   file '/opt/chefdk/embedded/ssl/certs/cacert.pem' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     content @cacert_pem
   end
 
@@ -113,6 +114,7 @@ action :create do
 
   %w(etc .chef).each do |dir|
     chef_file "#{workspace}/#{dir}/builder_key" do
+      sensitive new_resource.sensitive if new_resource.sensitive
       source new_resource.builder_pem
       mode '0600'
       user 'root'
@@ -120,6 +122,7 @@ action :create do
     end
 
     chef_file "#{workspace}/#{dir}/#{chef_user}.pem" do
+      sensitive new_resource.sensitive if new_resource.sensitive
       source new_resource.chef_user_pem
       mode '0600'
       user 'root'
@@ -155,6 +158,7 @@ action :create do
   end
 
   file '/etc/chef/client.pem' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     owner 'root'
     group 'dbuild'
     mode '0640'

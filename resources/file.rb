@@ -38,6 +38,7 @@ action :create do
     src = new_resource.source.split('://')[1].split('::')
 
     cookbook_file new_resource.filename do
+      sensitive new_resource.sensitive if new_resource.sensitive
       source src[-1]
       cookbook (src.length == 2 ? src[0] : cookbook_name)
       user new_resource.user
@@ -46,6 +47,7 @@ action :create do
     end
   elsif new_resource.source =~ %r{^[a-zA-Z]*://.*}
     remote_file new_resource.filename do
+      sensitive new_resource.sensitive if new_resource.sensitive
       source new_resource.source
       user new_resource.user
       group new_resource.group
@@ -53,6 +55,7 @@ action :create do
     end
   else
     file new_resource.filename do
+      sensitive new_resource.sensitive if new_resource.sensitive
       content new_resource.source
       user new_resource.user
       group new_resource.group

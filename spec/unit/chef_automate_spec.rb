@@ -69,8 +69,6 @@ describe 'test::automate' do
     it 'upgrades chef_ingredient[automate]' do
       expect(centos_7).to upgrade_chef_ingredient('automate')
         .with(
-          channel: :current,
-          version: '0.6.64',
           accept_license: true,
           enterprise: 'test',
           license: 'license',

@@ -50,13 +50,15 @@ action :create do
     accept_license new_resource.accept_license
     platform new_resource.platform if new_resource.platform
     platform_version new_resource.platform_version if new_resource.platform_version
+    sensitive new_resource.sensitive if new_resource.sensitive
   end
 
   ingredient_config 'chef-server' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     notifies :reconfigure, 'chef_ingredient[chef-server]', :immediately
   end
 
-  addons.each do |addon, options|
+  new_resource.addons.each do |addon, options|
     chef_ingredient addon do
       action :upgrade
       channel options['channel'] || :stable
@@ -65,9 +67,11 @@ action :create do
       accept_license new_resource.accept_license
       platform new_resource.platform if new_resource.platform
       platform_version new_resource.platform_version if new_resource.platform_version
+      sensitive new_resource.sensitive if new_resource.sensitive
     end
 
     ingredient_config addon do
+      sensitive new_resource.sensitive if new_resource.sensitive
       notifies :reconfigure, "chef_ingredient[#{addon}]", :immediately
     end
   end

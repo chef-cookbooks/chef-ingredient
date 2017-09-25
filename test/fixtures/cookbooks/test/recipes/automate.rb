@@ -28,9 +28,13 @@ NE5OgEXk2wVfZczCZpigBKbKZHNYcelXtTt/nP3rsCuGcM4h53s=
 -----END RSA PRIVATE KEY-----
 EOS
 
+user 'delivery'
+
+group 'delivery' do
+  members 'delivery'
+end
+
 chef_automate 'automate.chefstack.local' do
-  channel :current
-  version '0.6.64'
   config <<-EOS
     nginx['ssl_protocols'] = 'TLSv1.2'
   EOS
