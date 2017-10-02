@@ -1,5 +1,6 @@
 chef_server 'chef-server.local' do
   sensitive true
-  config "can't see me"
-  addons manage: { config: "can't see me either" }
+  config "api_fqdn 'chef-server.local'"
+  addons manage: { config: 'disable_sign_up false' },
+         :"push-jobs-server" => { config: 'whitelist {}' }
 end
