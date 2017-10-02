@@ -79,6 +79,7 @@ action :reconfigure do
   else
     # Render the config in case it is not rendered yet
     ingredient_config new_resource.product_name do
+      sensitive new_resource.sensitive if new_resource.sensitive
       action :render
       not_if { get_config(new_resource.product_name).empty? }
     end

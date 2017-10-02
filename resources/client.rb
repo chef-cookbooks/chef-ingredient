@@ -105,6 +105,7 @@ action :install do
   end
 
   file 'custom.rb' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     path ::File.join(prefix, 'config.d', 'custom.rb')
     content new_resource.config
     mode '0640'
@@ -112,6 +113,7 @@ action :install do
   end
 
   chef_file ::File.join(prefix, 'validation.pem') do
+    sensitive new_resource.sensitive if new_resource.sensitive
     source new_resource.validation_pem
     user 'root'
     group 'root'
@@ -128,6 +130,7 @@ action :register do
   end
 
   execute 'register with chef-server' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     command "chef-client -j #{::File.join(prefix, 'dna.json')}"
     live_stream true
     not_if { ::File.exist?(::File.join(prefix, 'client.pem')) }
