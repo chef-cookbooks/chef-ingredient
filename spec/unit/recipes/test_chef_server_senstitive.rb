@@ -10,7 +10,7 @@ describe 'test::chef_server_sensitive' do
       ).converge(described_recipe)
     end
 
-    it 'installs chef server' do
+    it 'installs chef server with sensitive true' do
       expect(chef_run).to upgrade_chef_ingredient('chef-server').with(sensitive: true)
       expect(chef_run).to render_ingredient_config('chef-server').with(sensitive: true)
       expect(chef_run).to upgrade_chef_ingredient('manage').with(sensitive: true)
