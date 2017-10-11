@@ -1,6 +1,12 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.1.9 (2017-10-11)
+
+- Multiple fixes for Automate and Workflow Builder resources
+- Honor senstivie property when set on high level resources
+- Fix chef_server resoure to run without confifigured addons
+
 ## 2.1.8 (2017-08-23)
 
 - Fix permissions on automate keys and license.
