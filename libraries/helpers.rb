@@ -256,6 +256,16 @@ module ChefIngredientCookbook
       end
     end
 
+    def fqdn_resolves?(fqdn)
+      require 'resolv'
+      Resolv.getaddress(fqdn)
+      return true
+    rescue Resolv::ResolvError, Resolv::ResolvTimeout
+      false
+    end
+
+    module_function :fqdn_resolves?
+
     def windows?
       node['platform_family'] == 'windows'
     end
