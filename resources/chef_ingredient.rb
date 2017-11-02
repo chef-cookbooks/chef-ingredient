@@ -25,7 +25,8 @@ property :config, String
 
 # Determine what version to install from which channel
 property :version, [String, Symbol], default: :latest
-property :channel, Symbol, default: :stable, equal_to: [:stable, :current, :unstable]
+property :channel, Symbol, default: :stable, equal_to: [:stable, :current, :unstable],
+           coerce: proc { |c| c.is_a?(String) ? c.to_sym : c }
 
 # Install package from local file
 property :package_source, String
