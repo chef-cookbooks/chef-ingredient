@@ -131,11 +131,12 @@ action :create do
   end
 
   %w(etc/delivery.rb .chef/knife.rb).each do |dir|
+    properpath = dir.split('/')
     file "#{workspace}/#{dir}" do
       content ensurekv(::File.read(new_resource.chef_config_path),
                        node_name: new_resource.chef_user,
                        log_location: :STDOUT,
-                       client_key: "#{workspace}/#{dir}/#{new_resource.chef_user}.pem",
+                       client_key: "#{workspace}/#{properpath[0]}/#{new_resource.chef_user}.pem",
                        trusted_certs_dir: '/etc/chef/trusted_certs')
       mode '0644'
       owner 'dbuild'
