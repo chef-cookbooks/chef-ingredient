@@ -1,6 +1,10 @@
 # chef-ingredient Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.1.11 (2017-11-13)
+
+- Fixed pathing for etc and .chef directories for dbuild in wf_builder
+
 ## 2.1.10 (2017-10-23)
 
 - Required for chef_server cookbook (#202)
