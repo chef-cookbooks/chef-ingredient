@@ -20,7 +20,6 @@
 # rubocop:disable Lint/ParenthesesAsGroupedExpression
 
 resource_name 'chef_file'
-default_action :create
 
 property :filename, String, name_property: true
 property :source, String

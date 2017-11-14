@@ -19,7 +19,6 @@
 # limitations under the License.
 
 resource_name 'chef_user'
-default_action :create
 
 property :username, String, name_property: true
 property :first_name, String, required: true

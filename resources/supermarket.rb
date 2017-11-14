@@ -19,7 +19,6 @@
 # limitations under the License.
 
 resource_name 'chef_supermarket'
-default_action :create
 
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest
