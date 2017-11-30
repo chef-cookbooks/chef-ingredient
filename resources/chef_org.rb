@@ -19,7 +19,6 @@
 # limitations under the License.
 
 resource_name 'chef_org'
-default_action :create
 
 property :org, String, name_property: true
 property :org_full_name, String

@@ -18,8 +18,6 @@
 
 resource_name :chef_ingredient
 
-default_action :install
-
 property :product_name, String, name_property: true
 property :config, String
 

@@ -20,7 +20,6 @@
 # rubocop:disable ParenthesesAsGroupedExpression
 
 resource_name 'chef_client'
-default_action :install
 
 property :node_name, String, name_property: true
 property :version, [String, Symbol], default: :latest

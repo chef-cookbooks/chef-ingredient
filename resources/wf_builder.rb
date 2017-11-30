@@ -19,9 +19,7 @@
 # limitations under the License.
 
 resource_name 'workflow_builder'
-default_action :create
 
-property :name, String, name_property: true
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest
 property :pj_version, [String, Symbol], default: :latest
