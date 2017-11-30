@@ -21,13 +21,13 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6.9
-  - name: centos-7.3
+  - name: centos-6
+  - name: centos-7
   - name: ubuntu-14.04
   - name: ubuntu-16.04
-  - name: macosx-10.11
+  - name: macosx-10.12
     driver:
-      box: chef/macosx-10.11 # private
+      box: chef/macosx-10.12 # private
   - name: windows-server-2012r2-standard
     driver:
       box: chef/windows-server-2012r2-standard # private
@@ -44,7 +44,7 @@ default: &default
 suites:
   - name: default
     <<: *default
-    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
+    excludes: [ 'macosx-10.12', 'windows-server-2012r2-standard' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -54,14 +54,14 @@ suites:
 
   - name: local_package_install
     <<: *default
-    excludes: [ 'macosx-10.10', 'windows-server-2012r2-standard' ]
+    excludes: [ 'macosx-10.12', 'windows-server-2012r2-standard' ]
     run_list:
       - recipe[test]
       - recipe[test::local]
 
   - name: chefdk
     <<: *default
-    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6.9', 'centos-7.3', 'macosx-10.11', 'windows-server-2012r2-standard' ]
+    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6', 'centos-7', 'macosx-10.12', 'windows-server-2012r2-standard' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -71,7 +71,7 @@ suites:
 
   - name: inspec
     <<: *default
-    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6.9', 'centos-7.3', 'macosx-10.11', 'windows-server-2012r2-standard' ]
+    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6', 'centos-7', 'macosx-10.12', 'windows-server-2012r2-standard' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -80,7 +80,7 @@ suites:
       - recipe[test::inspec]
 
   - name: chef_server
-    includes: [ 'ubuntu-16.04' ]
+    includes: [ 'ubuntu-16.04', 'centos-7' ]
     run_list:
       - recipe[test]
       - recipe[test::chef_server]
