@@ -58,6 +58,12 @@ module ChefIngredient
         options new_resource.options
         source local_path || new_resource.package_source
         timeout new_resource.timeout if new_resource.timeout
+        provider value_for_platform_family(
+          'debian'  => Chef::Provider::Package::Dpkg,
+          'rhel'    => node['platform_version'].to_i == 5 ? Chef::Provider::Package::Rpm : Chef::Provider::Package::Yum,
+          'suse'    => Chef::Provider::Package::Rpm,
+          'windows' => Chef::Provider::Package::Windows
+        )
         if new_resource.product_name == 'chef'
           # We define this resource in ChefIngredientProvider
           notifies :run, 'ruby_block[stop chef run]', :immediately
