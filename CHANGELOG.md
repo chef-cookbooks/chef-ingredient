@@ -1,5 +1,13 @@
 # chef-ingredient Cookbook CHANGELOG
+
 This file is used to list changes made in each version of the chef-ingredient cookbook.
+
+## 2.2.0 (2017-11-30)
+
+- Resolve multiple issues with the custom resources in various Chef 12 releases by requiring Chef 12.7 or later and removing the usage of class_eval on the action_classes
+- Restored compatibility with Amazon Linux on Chef 13 and added testing
+- Removed unnecessary default_actions in the custom custom resources
+- Resolved FC108 warnings by removing redundant :name name_properties from the custom resources
 
 ## 2.1.11 (2017-11-13)
 
@@ -25,8 +33,8 @@ This file is used to list changes made in each version of the chef-ingredient co
 
 ## 2.1.6 (2017-08-10)
 
--  fix chef_org resource deprecation warnings
--  RHEL 5 and 6 package manager support (RHEL 5 is not officially supported)
+- fix chef_org resource deprecation warnings
+- RHEL 5 and 6 package manager support (RHEL 5 is not officially supported)
 
 ## 2.1.5 (2017-07-31)
 
@@ -40,16 +48,20 @@ This file is used to list changes made in each version of the chef-ingredient co
 - Resolve CHEF-19 deprecation warnings (#184)
 
 ## 2.1.3 (2017-06-29)
+
 - Pin mixlib-install `~> 3.3`
 
 ## 2.1.2 (2017-06-03)
+
 - Fix normalization of auto-detected and set architectures
 
 ## 2.1.1 (2017-05-22)
+
 - Revert platform remapping and platform version truncation changes.
 - `chef_ingredient` properties `platform`, `platform_version`, `architecture` default to auto-detected value when not set.
 
 ## 2.1.0 (2017-05-18)
+
 - Add initial chef infrastructure resources and contributors from chef_stack project
 - Add Ohai attributes as defaults to `chef_ingredient` resource properties `platform`, `platform_version`, and `architecture`
 - Add platform remapping and platform version truncation fixes to align with Chef Software Inc's software distribution systems
@@ -100,21 +112,27 @@ This file is used to list changes made in each version of the chef-ingredient co
 - Use mixlib-install >= 2.1.12 - this brings in an important fix for the `delivery` -> `automate` package rename. See the [Discourse announcement](https://discourse.chef.io/t/chef-automate-install-package-renaming-in-0-7-14-available/10429/1) for details on the rename
 
 ## 0.21.4 (2017-02-13)
+
 - Add properties to override the platform details of a `chef_ingredient` product to install
 
 ## 0.21.3 (2017-02-02)
+
 - Add timeout to package resource created by configure_from_source_package
 
 ## 0.21.2 (2016-10-26)
+
 - Fix issue when failed package installs using OmnitruckHandler would not raise a converge error on subsequent runs
 
 ## 0.21.1 (2016-10-25)
+
 - Update SUSE platform to use DefaultHandler
 
 ## 0.21.0 (2016-09-26)
+
 - Update mixlib-install to version 2.0 (PackageRouter support)
 
 ## 0.20.0 (2016-09-08)
+
 - Remove extraneous converge_by that caused downloads to show as converged on every run
 - Use compat_resource cookbook to add support for Chef 12.1-12.4
 - Use apt_update resource vs. the apt cookbook in the test cookbook
@@ -176,7 +194,6 @@ This file is used to list changes made in each version of the chef-ingredient co
 
 - [#58](https://github.com/chef-cookbooks/chef-ingredient/pull/58) Add Chef Compliance product
 
-
 # v0.13.1
 
 - [#57](https://github.com/chef-cookbooks/chef-ingredient/pull/57) Content accumulator guard
@@ -216,6 +233,7 @@ This file is used to list changes made in each version of the chef-ingredient co
 - [#35](https://github.com/chef-cookbooks/chef-ingredient/issues/35) Add `fqdn_resolves?` method for `chef-server` cookbook.
 
 # v0.10.2
+
 - Add `:add` action to `ingredient_config`
 
 # v0.10.1
