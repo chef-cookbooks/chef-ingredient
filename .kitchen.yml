@@ -21,6 +21,9 @@ verifier:
   name: inspec
 
 platforms:
+  - name: amazonlinux
+    driver_config:
+      box: mvbcoding/awslinux
   - name: centos-6
   - name: centos-7
   - name: ubuntu-14.04
@@ -31,6 +34,11 @@ platforms:
   - name: windows-server-2012r2-standard
     driver:
       box: chef/windows-server-2012r2-standard # private
+      customize:
+        cpus: 4
+  - name: windows-server-2016-standard
+    driver_config:
+      box: chef/windows-server-2016-standard # private
       customize:
         cpus: 4
 
@@ -44,7 +52,7 @@ default: &default
 suites:
   - name: default
     <<: *default
-    excludes: [ 'macosx-10.12', 'windows-server-2012r2-standard' ]
+    excludes: [ 'macosx-10.12', 'windows-server-2012r2-standard', 'windows-server-2016-standard' ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -54,14 +62,14 @@ suites:
 
   - name: local_package_install
     <<: *default
-    excludes: [ 'macosx-10.12', 'windows-server-2012r2-standard' ]
+    excludes: [ 'macosx-10.12', 'windows-server-2012r2-standard', 'windows-server-2016-standard'  ]
     run_list:
       - recipe[test]
       - recipe[test::local]
 
   - name: chefdk
     <<: *default
-    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6', 'centos-7', 'macosx-10.12', 'windows-server-2012r2-standard' ]
+    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6', 'centos-7', 'macosx-10.12', 'windows-server-2012r2-standard', 'windows-server-2016-standard'  ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -71,7 +79,7 @@ suites:
 
   - name: inspec
     <<: *default
-    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6', 'centos-7', 'macosx-10.12', 'windows-server-2012r2-standard' ]
+    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6', 'centos-7', 'macosx-10.12', 'windows-server-2012r2-standard', 'windows-server-2016-standard'  ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
