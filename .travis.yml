@@ -19,6 +19,9 @@ services: docker
 
 env:
   matrix:
+  - INSTANCE=chefdk-debian-7
+  - INSTANCE=chefdk-debian-8
+  - INSTANCE=chefdk-debian-9
   - INSTANCE=chefdk-centos-6
   - INSTANCE=chefdk-centos-7
   - INSTANCE=chefdk-centos-7 CHEF_VERSION=12.7.2
