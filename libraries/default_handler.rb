@@ -62,6 +62,7 @@ module ChefIngredient
           'debian'  => Chef::Provider::Package::Dpkg,
           'rhel'    => node['platform_version'].to_i == 5 ? Chef::Provider::Package::Rpm : Chef::Provider::Package::Yum,
           'suse'    => Chef::Provider::Package::Rpm,
+          'amazon'  => Chef::Provider::Package::Rpm,
           'windows' => Chef::Provider::Package::Windows
         )
         if new_resource.product_name == 'chef'

@@ -113,7 +113,7 @@ action_class.class_eval do
   include ChefIngredientCookbook::Helpers
 
   case platform_family
-  when 'debian', 'rhel', 'suse', 'windows'
+  when 'debian', 'rhel', 'suse', 'windows', 'amazon'
     include ::ChefIngredient::DefaultHandler
   else
     # OmnitruckHandler is used for Solaris, AIX, FreeBSD, etc.
