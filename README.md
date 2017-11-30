@@ -18,12 +18,15 @@ It will perform component installation and configuration. It provides no recipes
 
 ### Platforms
 
-- Ubuntu 12.04, 14.04, 16.04
-- CentOS 6, 7
+- Ubuntu 14.04, 16.04
+- Debian 7/8/9
+- CentOS/RHEL 6, 7
+- openSUSE
+- Amazon Linux
 
 ### Chef
 
-- Chef 12.5+
+- Chef 12.7+
 
 ### Cookbooks
 
