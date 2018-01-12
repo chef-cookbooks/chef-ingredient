@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.2.1 (2018-01-12)
+
+- Resolve chef_org full name truncation issue (#215)
+
 ## 2.2.0 (2017-11-30)
 
 - Resolve multiple issues with the custom resources in various Chef 12 releases by requiring Chef 12.7 or later and removing the usage of class_eval on the action_classes

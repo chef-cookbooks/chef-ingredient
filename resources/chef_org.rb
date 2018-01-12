@@ -45,7 +45,7 @@ action :create do
   key = (property_is_set?(:key_path) ? new_resource.key_path : "/etc/opscode/orgs/#{new_resource.org}-validation.pem")
   execute "create-org-#{new_resource.org}" do
     retries 10
-    command "chef-server-ctl org-create #{new_resource.org} #{org_full_name} -f #{key}"
+    command "chef-server-ctl org-create #{new_resource.org} '#{org_full_name}' -f #{key}"
     not_if { node.run_state['chef-orgs'].index(/^#{new_resource.org}$/) }
   end
 
