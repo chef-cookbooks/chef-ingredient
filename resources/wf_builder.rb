@@ -228,6 +228,8 @@ action :create do
       action [:create, :lock]
       home home_dir
     end
+    
+    group build_user
 
     directory home_dir do
       owner build_user
