@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.3.0 (2018-02-15)
+
+- Multiple fixes for Automate and Workflow Builder resources.
+- Fix permissions on chef-backend-secrets.json and provide new properties for modifying the permissions
+- Remove Chefspec matchers that are no longer necessary
+
 ## 2.2.1 (2018-01-12)
 
 - Resolve chef_org full name truncation issue (#215)
