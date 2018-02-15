@@ -27,6 +27,8 @@ property :accept_license, [TrueClass, FalseClass], default: false
 property :peers, [String, Array], required: true
 property :publish_address, String, default: node['ipaddress']
 property :chef_backend_secrets, String, default: ''
+property :chef_backend_secrets_user, String, default: 'root'
+property :chef_backend_secrets_group, String, default: 'chef_pgsql'
 property :platform, String
 property :platform_version, String
 
@@ -60,9 +62,9 @@ action :create do
   chef_file '/etc/chef-backend/chef-backend-secrets.json' do
     sensitive new_resource.sensitive if new_resource.sensitive
     source new_resource.chef_backend_secrets
-    user 'root'
-    group 'root'
-    mode '0600'
+    user new_resource.chef_backend_secrets_user
+    group new_resource.chef_backend_secrets_group
+    mode '0640'
     not_if { new_resource.chef_backend_secrets.empty? }
   end
 
