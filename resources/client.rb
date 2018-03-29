@@ -74,9 +74,11 @@ action :install do
     platform_version new_resource.platform_version if new_resource.platform_version
   end
 
-  directory ::File.join(prefix, 'config.d') do
-    mode '0755'
-    recursive true
+  %w( config.d client.d ).each do |d_folder|
+    directory ::File.join(prefix, d_folder) do
+      mode '0755'
+      recursive true
+    end
   end
 
   template 'client.rb' do
