@@ -19,7 +19,7 @@ describe 'test::default_handler' do
     let(:suse) do
       ChefSpec::SoloRunner.new(
         platform: 'suse',
-        version: '12.1',
+        version: '12.3',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end
@@ -33,7 +33,7 @@ describe 'test::default_handler' do
     let(:rhel_5) do
       ChefSpec::SoloRunner.new(
         platform: 'redhat',
-        version: '5.10',
+        version: '5.11',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end
