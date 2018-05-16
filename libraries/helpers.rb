@@ -259,7 +259,7 @@ module ChefIngredientCookbook
     def fqdn_resolves?(fqdn)
       require 'resolv'
       Resolv.getaddress(fqdn)
-      return true
+      true
     rescue Resolv::ResolvError, Resolv::ResolvTimeout
       false
     end
