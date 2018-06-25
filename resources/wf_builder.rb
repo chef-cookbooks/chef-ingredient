@@ -119,7 +119,7 @@ action :create do
       group 'root'
     end
 
-    chef_file "#{workspace}/#{dir}/#{chef_user}.pem" do
+    chef_file "#{workspace}/#{dir}/#{new_resource.chef_user}.pem" do
       sensitive new_resource.sensitive if new_resource.sensitive
       source new_resource.chef_user_pem
       mode '0600'
@@ -151,14 +151,14 @@ action :create do
   end
 
   remote_file "#{workspace}/bin/git_ssh" do
-    source "https://#{automate_fqdn}/installer/git-ssh-wrapper"
+    source "https://#{new_resource.automate_fqdn}/installer/git-ssh-wrapper"
     owner 'dbuild'
     group 'dbuild'
     mode '0755'
   end
 
   remote_file "#{workspace}/bin/delivery-cmd" do
-    source "https://#{automate_fqdn}/installer/delivery-cmd"
+    source "https://#{new_resource.automate_fqdn}/installer/delivery-cmd"
     owner 'root'
     group 'root'
     mode '0750'
@@ -215,7 +215,7 @@ action :create do
     end
 
     remote_file init_file do
-      source "https://#{automate_fqdn}/installer/#{init_template}"
+      source "https://#{new_resource.automate_fqdn}/installer/#{init_template}"
       mode '0755'
       notifies :restart, 'service[push-jobs-client]', :delayed
     end
