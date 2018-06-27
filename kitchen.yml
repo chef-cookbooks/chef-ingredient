@@ -9,6 +9,8 @@ provisioner:
   name: chef_zero
   data_bags_path: test/fixtures/data_bags
   deprecations_as_errors: true
+  silence_deprecation_warnings:
+  - chef-25
   retry_on_exit_code:
     - 213
   max_retries: 1
