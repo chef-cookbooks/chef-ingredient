@@ -9,7 +9,7 @@ oc_id['applications'] = {
 }
 EOS
   addons manage: { config: '' },
-         :"push-jobs-server" => { config: '' }
+         "push-jobs-server": { config: '' }
   accept_license true
   data_collector_url 'https://automate.services.com/data-collector/v0/' if search(:node, 'name:automate-centos-68', filter_result: { 'name' => ['name'] }) # ~FC003
 end
