@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.3.1 (2018-06-27)
+
+- Resolve multiple incompatibilities with Chef 14
+
 ## 2.3.0 (2018-02-15)
 
 - Multiple fixes for Automate and Workflow Builder resources.
