@@ -16,6 +16,8 @@ provisioner:
   client_rb:
     exit_status: :enabled
     client_fork: false
+    silence_deprecation_warnings:
+    - chef-25
 
 verifier:
   name: inspec
