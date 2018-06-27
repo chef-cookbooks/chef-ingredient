@@ -36,14 +36,14 @@ action_class do
   # service.
   #
   def omnibus_ctl_command
-    product_key_for_service = service_name.split('/').first
-    ctl_command || ctl_command_for_product(product_key_for_service)
+    product_key_for_service = new_resource.service_name.split('/').first
+    new_resource.ctl_command || ctl_command_for_product(product_key_for_service)
   end
 
   #
   # Returns the raw service name
   #
   def raw_service_name
-    service_name.split('/').last
+    new_resource.service_name.split('/').last
   end
 end

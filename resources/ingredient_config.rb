@@ -37,7 +37,7 @@ action :render do
 end
 
 action :add do
-  add_config(new_resource.product_name, config)
+  add_config(new_resource.product_name, new_resource.config)
 end
 
 action_class do
