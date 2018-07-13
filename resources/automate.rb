@@ -122,6 +122,7 @@ EOF
   end
 
   ingredient_config 'automate' do
+    sensitive new_resource.sensitive if new_resource.sensitive
     notifies :reconfigure, 'chef_ingredient[automate]', :immediately
   end
 
