@@ -55,6 +55,7 @@ action :create do
     block do
       node.run_state['chef-users'] << "#{new_resource.username}\n"
     end
+    not_if { node.run_state['chef-users'].index(/^#{new_resource.username}$/) }
   end
 
   execute "grant-server-admin-#{new_resource.username}" do
