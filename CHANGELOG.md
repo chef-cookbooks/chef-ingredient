@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.3.2 (2018-07-16)
+
+- Create client.d directory for `chef_client` resource
+- Fix `chef_org` guards for adding users and admins
+
 ## 2.3.1 (2018-06-27)
 
 - Resolve multiple incompatibilities with Chef 14
