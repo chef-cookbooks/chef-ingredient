@@ -19,7 +19,6 @@
 # limitations under the License.
 
 resource_name 'chef_automate'
-default_action :create
 
 property :fqdn, String, name_property: true
 property :channel, Symbol, default: :stable
