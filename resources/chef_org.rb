@@ -52,14 +52,14 @@ action :create do
   new_resource.users.each do |user|
     execute "add-user-#{user}-org-#{new_resource.org}" do
       command "chef-server-ctl org-user-add #{new_resource.org} #{user}"
-      not_if { node.run_state['chef-users'].index(/^#{user}$/) }
+      only_if { node.run_state['chef-users'].index(/^#{user}$/) }
     end
   end
 
   new_resource.admins.each do |user|
     execute "add-admin-#{user}-org-#{new_resource.org}" do
       command "chef-server-ctl org-user-add --admin #{new_resource.org} #{user}"
-      not_if { node.run_state['chef-users'].index(/^#{user}$/) }
+      only_if { node.run_state['chef-users'].index(/^#{user}$/) }
     end
   end
 
