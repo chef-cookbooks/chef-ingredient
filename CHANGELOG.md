@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 2.3.3 (2018-11-28)
+
+- Rrevert chef_org user/admin guards (PR#223) (#233)
+- Remove default action, which isn't necessary in Chef 12.5+ (#232)
+- Pass sensitive & add guard to chef_user ruby_block (#231)
+
 ## 2.3.2 (2018-07-16)
 
 - Create client.d directory for `chef_client` resource
