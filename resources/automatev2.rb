@@ -16,7 +16,6 @@
 
 resource_name 'chef_automatev2'
 
-property :name, String, name_property: true
 property :channel, Symbol, default: :current
 property :version, [String, Symbol], default: :latest
 property :config, String, required: true
