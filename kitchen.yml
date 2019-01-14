@@ -28,7 +28,6 @@ platforms:
       box: mvbcoding/awslinux
   - name: centos-6
   - name: centos-7
-  - name: ubuntu-14.04
   - name: ubuntu-16.04
   - name: ubuntu-18.04
   - name: macos-10.12
@@ -72,7 +71,7 @@ suites:
 
   - name: chefdk
     <<: *default
-    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6', 'centos-7', 'macos-10.12', 'windows-server-2012r2-standard', 'windows-server-2016-standard'  ]
+    includes: [ 'ubuntu-16.04', 'centos-6', 'centos-7', 'macos-10.12', 'windows-server-2012r2-standard', 'windows-server-2016-standard'  ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -82,7 +81,7 @@ suites:
 
   - name: inspec
     <<: *default
-    includes: [ 'ubuntu-14.04', 'ubuntu-16.04', 'centos-6', 'centos-7', 'macos-10.12', 'windows-server-2012r2-standard', 'windows-server-2016-standard'  ]
+    includes: [ 'ubuntu-16.04', 'centos-6', 'centos-7', 'macos-10.12', 'windows-server-2012r2-standard', 'windows-server-2016-standard'  ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]

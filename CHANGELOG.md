@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 3.0.0 (2019-01-11)
+
+- Require Chef 13+ and remove Ubuntu 14.04 testing
+
 ## 2.3.3 (2018-11-28)
 
 - Rrevert chef_org user/admin guards (PR#223) (#233)

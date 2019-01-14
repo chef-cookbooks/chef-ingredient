@@ -19,15 +19,15 @@ It will perform component installation and configuration. It provides no recipes
 
 ### Platforms
 
-- Ubuntu 14.04, 16.04
-- Debian 7/8/9
+- Ubuntu 16.04+
+- Debian 8+
 - CentOS/RHEL 6, 7
 - openSUSE
 - Amazon Linux
 
 ### Chef
 
-- Chef 12.7+
+- Chef 13+
 
 ### Cookbooks
 
