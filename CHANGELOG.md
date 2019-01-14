@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 3.1.0 (2019-01-14)
+
+- Add a new automatev2 resource (requires Chef 14+) (#237) - [@Stromweld](https://github.com/Stromweld)
+
 ## 3.0.0 (2019-01-11)
 
 - Require Chef 13+ and remove Ubuntu 14.04 testing
