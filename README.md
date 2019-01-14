@@ -7,6 +7,7 @@ This cookbook provides primitives - helpers and resources - to manage Chef Softw
 - Chef Server 12
 - Chef Analytics
 - Chef Automate
+- Chef Automate v2
 - Chef Push
 - Supermarket
 
@@ -173,6 +174,15 @@ Installs Chef Automate.
 - `chef_user_pem` - The private key of the above Chef user
 - `validation_pem` - The validator key of the Chef org we're connecting to
 - `builder_pem` - The private key of the build nodes
+
+### chef_automatev2
+
+Installs Chef Automate version 2
+
+#### Requirements
+
+- Requires chef-client 14+ due to use of sysctl resource
+- General Properties used
 
 ### chef_backend
 

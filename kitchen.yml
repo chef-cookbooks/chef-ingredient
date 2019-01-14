@@ -94,3 +94,14 @@ suites:
     run_list:
       - recipe[test]
       - recipe[test::chef_server]
+
+  - name: chef_automatev2
+    driver:
+      customize:
+        memory: 2560
+    includes: [ 'ubuntu-18.04', 'centos-7' ]
+    run_list:
+      - recipe[test::automatev2]
+    verifier:
+      inspec_tests:
+        - test/integration/chef_automatev2

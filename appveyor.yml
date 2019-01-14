@@ -4,8 +4,8 @@ environment:
   KITCHEN_YAML: .kitchen.appveyor.yml
 
   matrix:
-    - CHEF_VERSION: 12
     - CHEF_VERSION: 13
+    - CHEF_VERSION: 14
 
 # don't build PRs twice
 branches:

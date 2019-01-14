@@ -11,4 +11,5 @@ end
 
 source_url 'https://github.com/chef-cookbooks/chef-ingredient'
 issues_url 'https://github.com/chef-cookbooks/chef-ingredient/issues'
+
 chef_version '>= 13.0'
