@@ -61,6 +61,7 @@ action :create do
   execute "grant-server-admin-#{new_resource.username}" do
     command "chef-server-ctl grant-server-admin-permissions #{new_resource.username}"
     only_if { new_resource.serveradmin }
+    not_if { shell_out("chef-server-ctl list-server-admins").stdout.include?(new_resource.username) }
   end
 end
 

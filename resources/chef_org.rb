@@ -50,12 +50,15 @@ action :create do
   end
 
   new_resource.users.each do |user|
+    org_user_exist = JSON.parse(shell_out("chef-server-ctl user-show #{user} -l -F json").stdout)['organizations'].include?(new_resource.org)
     execute "add-user-#{user}-org-#{new_resource.org}" do
       command "chef-server-ctl org-user-add #{new_resource.org} #{user}"
       only_if { node.run_state['chef-users'].index(/^#{user}$/) }
+      not_if { org_user_exist }
     end
   end
 
+  # TODO: fix idempotency for org admins
   new_resource.admins.each do |user|
     execute "add-admin-#{user}-org-#{new_resource.org}" do
       command "chef-server-ctl org-user-add --admin #{new_resource.org} #{user}"
@@ -64,9 +67,11 @@ action :create do
   end
 
   new_resource.remove_users.each do |user|
+    org_user_exist = JSON.parse(shell_out("chef-server-ctl user-show #{user} -l -F json").stdout)['organizations'].include?(new_resource.org)
     execute "remove-user-#{user}-org-#{new_resource.org}" do
       command "chef-server-ctl org-user-remove #{new_resource.org} #{user}"
       only_if { node.run_state['chef-users'].index(/^#{user}$/) }
+      only_if { org_user_exist }
     end
   end
 end
