@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 3.1.1 (2019-01-15)
+
+- Fix user idempotency (#238) - [@Stromweld](https://github.com/Stromweld)
+
 ## 3.1.0 (2019-01-14)
 
 - Add a new automatev2 resource (requires Chef 14+) (#237) - [@Stromweld](https://github.com/Stromweld)
