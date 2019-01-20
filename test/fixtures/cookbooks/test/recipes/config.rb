@@ -5,7 +5,7 @@ api_fqdn "#{node['fqdn']}"
 ip_version "ipv6"
 notification_email "#{node['chef_admin']}"
 nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
-EOS
+  EOS
   action :reconfigure
 end
 

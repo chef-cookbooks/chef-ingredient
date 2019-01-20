@@ -32,7 +32,7 @@ api_fqdn "fauxhai.local"
 ip_version "ipv6"
 notification_email "admin@chef.io"
 nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
-EOS
+        EOS
       end
 
       it 'reconfigure chef_ingredient[manage]' do

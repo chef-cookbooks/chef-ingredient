@@ -7,7 +7,7 @@ api_fqdn '#{node['chef_server']['fqdn']}'
 oc_id['applications'] = {
   "supermarket"=>{"redirect_uri"=>"https://supermarket.services.com/auth/chef_oauth2/callback"}
 }
-EOS
+  EOS
   addons manage: { config: '' },
          "push-jobs-server": { config: '' }
   accept_license true

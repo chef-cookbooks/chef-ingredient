@@ -287,7 +287,7 @@ action :create do
     #{build_user} ALL=(root) NOPASSWD:/usr/local/bin/delivery-cmd, /bin/ls
     Defaults:#{build_user} !requiretty
     Defaults:#{build_user} secure_path = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-    EOF
+      EOF
       mode '0440'
     end
 

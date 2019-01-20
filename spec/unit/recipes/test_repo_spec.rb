@@ -30,7 +30,7 @@ api_fqdn "fauxhai.local"
 ip_version "ipv6"
 notification_email "admin@chef.io"
 nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
-EOS
+        EOS
       end
 
       it 'uses ingredient_config to notify a reconfigure for chef-server' do
@@ -54,7 +54,7 @@ EOS
         expect(chef_run).to create_file('/etc/chef-manage/manage.rb').with sensitive: true, content: <<-EOS
 disable_sign_up true
 support_email_address "admin@chef.io"
-EOS
+        EOS
       end
 
       it 'uses ingredient_config to notify a reconfigure for manage' do

@@ -117,7 +117,7 @@ action :create do
 location /installer {
   alias /opt/delivery/embedded/service/omnibus-ctl/installer;
 }
-EOF
+    EOF
   end
 
   ingredient_config 'automate' do

@@ -137,7 +137,7 @@ describe 'test::automate' do
 location /installer {
   alias /opt/delivery/embedded/service/omnibus-ctl/installer;
 }
-EOF
+          EOF
         )
     end
 
