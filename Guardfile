@@ -16,7 +16,7 @@ guard 'rubocop' do
   watch('metadata.rb')
 end
 
-guard :rspec, cmd: 'chef exec /opt/chefdk/embedded/bin/rspec', all_on_start: false, notification: false do
+guard :rspec, cmd: 'chef exec /opt/chef-workstation/embedded/bin/rspec', all_on_start: false, notification: false do
   watch(%r{^libraries\/(.+)\.rb$})
   watch(%r{^spec\/(.+)_spec\.rb$})
   watch(%r{^(recipes)\/(.+)\.rb$}) { |m| "spec/#{m[1]}_spec.rb" }
