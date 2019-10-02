@@ -56,4 +56,30 @@ describe 'test::default_handler' do
       expect(rhel_6).to install_package('chef').with(provider: Chef::Provider::Package::Yum)
     end
   end
+  context 'install chef on rhel 7' do
+    let(:rhel_7) do
+      ChefSpec::SoloRunner.new(
+        platform: 'redhat',
+        version: '7',
+        step_into: %w(chef_ingredient)
+      ).converge(described_recipe)
+    end
+
+    it 'use the Yum package provider' do
+      expect(rhel_7).to install_package('chef').with(provider: Chef::Provider::Package::Yum)
+    end
+  end
+  context 'install chef on rhel 8' do
+    let(:rhel_8) do
+      ChefSpec::SoloRunner.new(
+        platform: 'redhat',
+        version: '8',
+        step_into: %w(chef_ingredient)
+      ).converge(described_recipe)
+    end
+
+    it 'use the Dnf package provider' do
+      expect(rhel_8).to install_package('chef').with(provider: Chef::Provider::Package::Dnf)
+    end
+  end
 end

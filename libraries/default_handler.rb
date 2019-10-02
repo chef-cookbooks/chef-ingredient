@@ -60,7 +60,14 @@ module ChefIngredient
         timeout new_resource.timeout if new_resource.timeout
         provider value_for_platform_family(
           'debian' => Chef::Provider::Package::Dpkg,
-          'rhel' => node['platform_version'].to_i == 5 ? Chef::Provider::Package::Rpm : Chef::Provider::Package::Yum,
+          'rhel' => value_for_platform(
+            [ 'centos', 'redhat' ] => {
+              '~> 5.0' => Chef::Provider::Package::Rpm,
+              '~> 6.0' => Chef::Provider::Package::Yum,
+              '~> 7.0' => Chef::Provider::Package::Yum,
+              '>= 8.0' => Chef::Provider::Package::Dnf,
+            }
+          ),
           'suse' => Chef::Provider::Package::Rpm,
           'amazon' => Chef::Provider::Package::Rpm,
           'windows' => Chef::Provider::Package::Windows
