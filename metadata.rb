@@ -1,9 +1,9 @@
 name 'chef-ingredient'
-version '3.1.1'
 maintainer 'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
 license 'Apache-2.0'
 description 'Primitives for managing Chef products and packages'
+version '3.1.1'
 
 %w(amazon centos redhat scientific oracle fedora debian ubuntu).each do |os|
   supports os
