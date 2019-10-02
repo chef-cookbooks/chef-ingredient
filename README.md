@@ -21,7 +21,7 @@ It will perform component installation and configuration. It provides no recipes
 
 - Ubuntu 16.04+
 - Debian 8+
-- CentOS/RHEL 6, 7
+- CentOS/RHEL 6, 7, 8
 - openSUSE
 - Amazon Linux
 
