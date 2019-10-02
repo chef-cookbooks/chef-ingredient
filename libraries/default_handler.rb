@@ -61,7 +61,7 @@ module ChefIngredient
         provider value_for_platform_family(
           'debian' => Chef::Provider::Package::Dpkg,
           'rhel' => value_for_platform(
-            [ 'centos', 'redhat' ] => {
+            %w(centos redhat) => {
               '~> 5.0' => Chef::Provider::Package::Rpm,
               '~> 6.0' => Chef::Provider::Package::Yum,
               '~> 7.0' => Chef::Provider::Package::Yum,
