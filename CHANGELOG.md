@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 3.1.2 (2019-10-02)
+
+- Minor lint and testing updates - [@tas50](https://github.com/tas50)
+- Fix support for RHEL/CentOS 8 - [@ramereth](https://github.com/ramereth)
+
 ## 3.1.1 (2019-01-15)
 
 - Fix user idempotency (#238) - [@Stromweld](https://github.com/Stromweld)

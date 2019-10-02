@@ -3,7 +3,7 @@ maintainer 'Chef Software, Inc.'
 maintainer_email 'cookbooks@chef.io'
 license 'Apache-2.0'
 description 'Primitives for managing Chef products and packages'
-version '3.1.1'
+version '3.1.2'
 
 %w(amazon centos redhat scientific oracle fedora debian ubuntu).each do |os|
   supports os
