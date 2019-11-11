@@ -2,7 +2,7 @@
 # Author:: Serdar Sutay <serdar@chef.io>
 # Author:: Patrick Wright <patrick@chef.io>
 #
-# Copyright:: 2016-2017, Chef Software, Inc. <legal@chef.io>
+# Copyright:: 2016-2019, Chef Software, Inc. <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
