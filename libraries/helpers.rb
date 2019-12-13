@@ -67,7 +67,7 @@ module ChefIngredientCookbook
     # Ensures mixlib-versioning gem is installed and loaded.
     #
     def ensure_mixlib_versioning_gem_installed!
-      node.run_state[:mixlib_versioning_gem_installed] ||= begin # ~FC001
+      node.run_state[:mixlib_versioning_gem_installed] ||= begin
         install_gem_from_rubygems('mixlib-versioning', '~> 1.1')
 
         require 'mixlib/versioning'
@@ -79,7 +79,7 @@ module ChefIngredientCookbook
     # Ensures mixlib-install gem is installed and loaded.
     #
     def ensure_mixlib_install_gem_installed!
-      node.run_state[:mixlib_install_gem_installed] ||= begin # ~FC001
+      node.run_state[:mixlib_install_gem_installed] ||= begin
         if node['chef-ingredient']['mixlib-install']['git_ref']
           install_gem_from_source(
             'https://github.com/chef/mixlib-install.git',
@@ -219,9 +219,9 @@ module ChefIngredientCookbook
 
       # FC001: Use strings in preference to symbols to access node attributes
       # foodcritic thinks we are accessing a node attribute
-      node.run_state[:ingredient_config_data] ||= {}              # ~FC001
-      node.run_state[:ingredient_config_data][product] ||= ''     # ~FC001
-      node.run_state[:ingredient_config_data][product] += content unless node.run_state[:ingredient_config_data][product].include?(content) # ~FC001
+      node.run_state[:ingredient_config_data] ||= {}
+      node.run_state[:ingredient_config_data][product] ||= ''
+      node.run_state[:ingredient_config_data][product] += content unless node.run_state[:ingredient_config_data][product].include?(content)
     end
 
     #
@@ -230,8 +230,8 @@ module ChefIngredientCookbook
     def get_config(product)
       # FC001: Use strings in preference to symbols to access node attributes
       # foodcritic thinks we are accessing a node attribute
-      node.run_state[:ingredient_config_data] ||= {}          # ~FC001
-      node.run_state[:ingredient_config_data][product] ||= '' # ~FC001
+      node.run_state[:ingredient_config_data] ||= {}
+      node.run_state[:ingredient_config_data][product] ||= ''
     end
 
     ########################################################################

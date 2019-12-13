@@ -253,7 +253,7 @@ action :create do
     end
 
     # TODO: Figure out how to auto-detect enterprise
-    ruby_block 'install job runner' do # ~FC014
+    ruby_block 'install job runner' do
       block do
         ENV['AUTOMATE_PASSWORD'] = new_resource.automate_password
 

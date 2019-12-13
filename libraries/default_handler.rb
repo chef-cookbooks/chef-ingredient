@@ -52,7 +52,7 @@ module ChefIngredient
 
     def configure_from_source_package(action_name, local_path = nil)
       # Foodcritic doesn't like timeout attribute in package resource
-      package new_resource.product_name do # ~FC109
+      package new_resource.product_name do
         action action_name
         package_name ingredient_package_name
         options new_resource.options
@@ -81,7 +81,7 @@ module ChefIngredient
 
     def configure_from_repo(action_name)
       # Foodcritic doesn't like timeout attribute in package resource
-      package new_resource.product_name do # ~FC009
+      package new_resource.product_name do
         action action_name
         package_name ingredient_package_name
         options new_resource.options
