@@ -24,7 +24,7 @@ property :fqdn, String, name_property: true
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest
 property :config, String, required: true
-property :accept_license, [TrueClass, FalseClass], default: false
+property :accept_license, [true, false], default: false
 property :enterprise, [String, Array], default: 'chef'
 property :license, String
 property :chef_user, String, default: 'workflow'

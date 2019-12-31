@@ -23,7 +23,7 @@ resource_name 'chef_backend'
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest
 property :config, String, default: ''
-property :accept_license, [TrueClass, FalseClass], default: false
+property :accept_license, [true, false], default: false
 property :peers, [String, Array], required: true
 property :publish_address, String, default: node['ipaddress']
 property :chef_backend_secrets, String, default: ''

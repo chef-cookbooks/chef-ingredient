@@ -23,7 +23,7 @@ resource_name 'chef_server'
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest
 property :config, String, required: true
-property :accept_license, [TrueClass, FalseClass], default: false
+property :accept_license, [true, false], default: false
 property :addons, Hash, default: {}
 property :data_collector_token, String, default: '93a49a4f2482c64126f7b6015e6b0f30284287ee4054ff8807fb63d9cbd1c506'
 property :data_collector_url, String

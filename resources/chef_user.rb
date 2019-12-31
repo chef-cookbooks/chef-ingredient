@@ -26,7 +26,7 @@ property :last_name, String, required: true
 property :email, String, required: true
 property :password, String
 property :key_path, String
-property :serveradmin, [TrueClass, FalseClass], default: false
+property :serveradmin, [true, false], default: false
 
 load_current_value do
   node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout

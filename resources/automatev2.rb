@@ -19,7 +19,7 @@ resource_name 'chef_automatev2'
 property :channel, Symbol, default: :current
 property :version, [String, Symbol], default: :latest
 property :config, String, required: true
-property :accept_license, [TrueClass, FalseClass], default: false
+property :accept_license, [true, false], default: false
 
 action :create do
   execute "curl https://packages.chef.io/files/#{new_resource.channel}/#{new_resource.version}/chef-automate-cli/chef-automate_linux_amd64.zip | gunzip - > chef-automate && chmod +x chef-automate" do

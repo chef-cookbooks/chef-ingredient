@@ -23,9 +23,9 @@ resource_name 'chef_client'
 
 property :node_name, String, name_property: true
 property :version, [String, Symbol], default: :latest
-property :chefdk, [TrueClass, FalseClass], default: false
+property :chefdk, [true, false], default: false
 property :chef_server_url, [String, Symbol], default: :local
-property :ssl_verify, [TrueClass, FalseClass], default: true
+property :ssl_verify, [true, false], default: true
 property :log_location, String, default: 'STDOUT'
 property :log_level, Symbol, default: :auto
 property :config, String

@@ -37,11 +37,11 @@ property :options, String
 property :timeout, [Integer, String]
 
 # Accept the license when applicable
-property :accept_license, [TrueClass, FalseClass], default: false
+property :accept_license, [true, false], default: false
 
 # Enable selecting packages built for earlier versions in
 # platforms that are not yet officially added to Chef support matrix
-property :platform_version_compatibility_mode, [TrueClass, FalseClass]
+property :platform_version_compatibility_mode, [true, false]
 
 # Configure specific platform package
 property :platform, String

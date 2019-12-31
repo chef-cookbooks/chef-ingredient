@@ -23,7 +23,7 @@ resource_name 'workflow_builder'
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest
 property :pj_version, [String, Symbol], default: :latest
-property :accept_license, [TrueClass, FalseClass], default: false
+property :accept_license, [true, false], default: false
 property :chef_user, String, default: 'workflow'
 property :chef_user_pem, String, required: true
 property :builder_pem, String, required: true
