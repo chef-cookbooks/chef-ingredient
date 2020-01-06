@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'test::push' do
-  [{ platform: 'ubuntu', version: '14.04' },
-   { platform: 'centos', version: '6.9' }].each do |platform|
+  [{ platform: 'ubuntu', version: '18.04' },
+   { platform: 'centos', version: '6' }].each do |platform|
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
@@ -20,7 +20,7 @@ describe 'test::push' do
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6',
         step_into: %w(chef_ingredient)
       ) do |node|
         node.normal['test']['push-client']['version'] = :latest
@@ -36,10 +36,10 @@ describe 'test::push' do
   end
 
   context 'install packages on ubuntu' do
-    cached(:ubuntu_1404) do
+    cached(:ubuntu) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         step_into: %w(chef_ingredient)
       ) do |node|
         node.normal['test']['push-client']['version'] = :latest
@@ -47,10 +47,10 @@ describe 'test::push' do
     end
 
     it 'upgrades package[push-client]' do
-      pkgres = ubuntu_1404.find_resource('package', 'push-jobs-client')
+      pkgres = ubuntu.find_resource('package', 'push-jobs-client')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::Package)
-      expect(ubuntu_1404).to install_package('push-jobs-client')
+      expect(ubuntu).to install_package('push-jobs-client')
     end
   end
 end

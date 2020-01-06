@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'test::upgrade' do
-  [{ platform: 'ubuntu', version: '14.04' },
-   { platform: 'centos', version: '6.9' }].each do |platform|
+  [{ platform: 'ubuntu', version: '18.04' },
+   { platform: 'centos', version: '6' }].each do |platform|
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
@@ -20,7 +20,7 @@ describe 'test::upgrade' do
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6',
         step_into: %w(chef_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = :latest
@@ -40,10 +40,10 @@ describe 'test::upgrade' do
   end
 
   context 'upgrade packages on ubuntu' do
-    cached(:ubuntu_1404) do
+    cached(:ubuntu) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         architecture: 'x86_64',
         step_into: %w(chef_ingredient)
       ) do |node|
@@ -52,7 +52,7 @@ describe 'test::upgrade' do
     end
 
     it 'upgrades package[chef-server]' do
-      chef_server_resources = ubuntu_1404.find_resources(:package)
+      chef_server_resources = ubuntu.find_resources(:package)
       expect(chef_server_resources.length).to eq(2)
       expect(chef_server_resources[0].action.first).to eq(:install)
       expect(chef_server_resources[0].package_name).to eq('chef-server-core')

@@ -6,7 +6,7 @@ describe 'test::chef_server_noaddons' do
       stub_search('node', 'name:automate-centos-68').and_return('automate-centos-68')
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         step_into: %w(chef_server)
       ).converge(described_recipe)
     end

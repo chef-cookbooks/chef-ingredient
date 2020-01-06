@@ -5,7 +5,7 @@ describe 'test::custom_repo_setup_recipe' do
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end
@@ -27,24 +27,24 @@ describe 'test::custom_repo_setup_recipe' do
   end
 
   context 'on ubuntu' do
-    cached(:ubuntu_1404) do
+    cached(:ubuntu) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end
 
     it 'does not sets up current apt repository' do
-      expect(ubuntu_1404).to_not add_apt_repository('chef-stable')
+      expect(ubuntu).to_not add_apt_repository('chef-stable')
     end
 
     it 'installs chef' do
-      expect(ubuntu_1404).to install_package('chef-server')
+      expect(ubuntu).to install_package('chef-server')
     end
 
     it 'includes the custom_repo_setup_recipe' do
-      expect(ubuntu_1404).to include_recipe 'custom_repo::awesome_custom_setup'
+      expect(ubuntu).to include_recipe 'custom_repo::awesome_custom_setup'
     end
   end
 end

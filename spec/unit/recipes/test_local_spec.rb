@@ -5,7 +5,7 @@ describe 'test::local' do
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = nil
@@ -18,10 +18,10 @@ describe 'test::local' do
   end
 
   context 'on ubuntu' do
-    cached(:ubuntu_1404) do
+    cached(:ubuntu) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         step_into: %w(chef_ingredient chef_server_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = nil
@@ -29,7 +29,7 @@ describe 'test::local' do
     end
 
     it 'uses the dpkg package provider' do
-      expect(ubuntu_1404).to install_package('chef-server-core').with(provider: Chef::Provider::Package::Dpkg)
+      expect(ubuntu).to install_package('chef-server-core').with(provider: Chef::Provider::Package::Dpkg)
     end
   end
 end

@@ -5,7 +5,6 @@ describe 'test::omnitruck_handler' do
     let(:aix) do
       ChefSpec::SoloRunner.new(
         platform: 'aix',
-        version: '7.1',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end

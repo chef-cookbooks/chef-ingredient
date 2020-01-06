@@ -23,7 +23,7 @@ describe 'test::file' do
     ChefSpec::ServerRunner.new(
       step_into: 'chef_file',
       platform: 'centos',
-      version: '7.3.1611'
+      version: '7'
     ).converge(described_recipe)
   end
 

@@ -5,7 +5,7 @@ describe 'test::chef' do
     cached(:chef_run) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end

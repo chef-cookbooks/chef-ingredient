@@ -2,16 +2,16 @@ require 'spec_helper'
 
 describe 'test::default_handler' do
   context 'install chef on ubuntu' do
-    let(:ubuntu_1404) do
+    let(:ubuntu) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end
 
     it 'use the default handler' do
-      expect(ubuntu_1404).to install_package('chef').with(provider: Chef::Provider::Package::Dpkg)
+      expect(ubuntu).to install_package('chef').with(provider: Chef::Provider::Package::Dpkg)
     end
   end
 
@@ -47,7 +47,7 @@ describe 'test::default_handler' do
     let(:rhel_6) do
       ChefSpec::SoloRunner.new(
         platform: 'redhat',
-        version: '6.9',
+        version: '6',
         step_into: %w(chef_ingredient)
       ).converge(described_recipe)
     end

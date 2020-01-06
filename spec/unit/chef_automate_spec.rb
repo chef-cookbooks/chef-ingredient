@@ -55,7 +55,7 @@ describe 'test::automate' do
     ChefSpec::ServerRunner.new(
       step_into: 'chef_automate',
       platform: 'centos',
-      version: '7.3.1611'
+      version: '7'
     ).converge(described_recipe)
   end
 

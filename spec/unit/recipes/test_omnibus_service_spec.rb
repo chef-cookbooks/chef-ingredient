@@ -4,7 +4,7 @@ describe 'test::omnibus_service' do
   cached(:chef_run) do
     ChefSpec::SoloRunner.new(
       platform: 'ubuntu',
-      version: '14.04',
+      version: '18.04',
       step_into: ['omnibus_service']
     ).converge(described_recipe)
   end

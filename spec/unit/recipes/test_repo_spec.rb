@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'test::repo' do
-  [{ platform: 'ubuntu', version: '14.04' },
-   { platform: 'centos', version: '6.9' }].each do |platform|
+  [{ platform: 'ubuntu', version: '18.04' },
+   { platform: 'centos', version: '6' }].each do |platform|
     context "non-platform specific resources on #{platform[:platform]}" do
       cached(:chef_run) do
         ChefSpec::SoloRunner.new(
@@ -68,7 +68,7 @@ support_email_address "admin@chef.io"
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6',
         step_into: %w(chef_ingredient chef_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = nil
@@ -94,7 +94,7 @@ support_email_address "admin@chef.io"
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6',
         step_into: ['chef_ingredient']
       ) do |node|
         node.normal['test']['chef-server-core']['version'] = :latest
@@ -110,7 +110,7 @@ support_email_address "admin@chef.io"
     cached(:centos_6) do
       ChefSpec::SoloRunner.new(
         platform: 'centos',
-        version: '6.9',
+        version: '6',
         step_into: ['chef_ingredient']
       ) do |node|
         node.normal['test']['chef-server-core']['version'] = 'latest'
@@ -123,10 +123,10 @@ support_email_address "admin@chef.io"
   end
 
   context 'installs packages with apt on ubuntu' do
-    cached(:ubuntu_1404) do
+    cached(:ubuntu) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         step_into: %w(chef_ingredient chef_ingredient)
       ) do |node|
         node.normal['chef-server-core']['version'] = nil
@@ -134,25 +134,25 @@ support_email_address "admin@chef.io"
     end
 
     it 'installs apt_package[chef-server-core]' do
-      pkgres = ubuntu_1404.find_resource('package', 'chef-server')
+      pkgres = ubuntu.find_resource('package', 'chef-server')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::AptPackage)
-      expect(ubuntu_1404).to install_package('chef-server')
+      expect(ubuntu).to install_package('chef-server')
     end
 
     it 'installs apt_package[opscode-manage]' do
-      pkgres = ubuntu_1404.find_resource('package', 'manage')
+      pkgres = ubuntu.find_resource('package', 'manage')
       expect(pkgres).to_not be_nil
       expect(pkgres).to be_a(Chef::Resource::AptPackage)
-      expect(ubuntu_1404).to install_package('manage')
+      expect(ubuntu).to install_package('manage')
     end
   end
 
   context ':latest is specified for the version as a symbol' do
-    cached(:ubuntu_1404) do
+    cached(:ubuntu) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         step_into: ['chef_ingredient']
       ) do |node|
         node.normal['test']['chef-server-core']['version'] = :latest
@@ -160,15 +160,15 @@ support_email_address "admin@chef.io"
     end
 
     it 'installs yum_package[chef-server]' do
-      expect(ubuntu_1404).to install_package('chef-server-core')
+      expect(ubuntu).to install_package('chef-server-core')
     end
   end
 
   context 'latest is specified for the version as a string' do
-    cached(:ubuntu_1404) do
+    cached(:ubuntu) do
       ChefSpec::SoloRunner.new(
         platform: 'ubuntu',
-        version: '14.04',
+        version: '18.04',
         step_into: ['chef_ingredient']
       ) do |node|
         node.normal['test']['chef-server-core']['version'] = 'latest'
@@ -176,7 +176,7 @@ support_email_address "admin@chef.io"
     end
 
     it 'installs apt_package[chef-server]' do
-      expect(ubuntu_1404).to install_package('chef-server-core')
+      expect(ubuntu).to install_package('chef-server-core')
     end
   end
 end
