@@ -103,8 +103,15 @@ action :reconfigure do
       end
     end
 
+    reconfigure_command = case new_resource.accept_license && new_resource.product_name == 'chef-server'
+                          when true then
+                            'reconfigure --chef-license=accept'
+                          else
+                            'reconfigure'
+                          end
+
     execute "#{ingredient_package_name}-reconfigure" do
-      command "#{ingredient_ctl_command} reconfigure"
+      command "#{ingredient_ctl_command} #{reconfigure_command}"
     end
   end
 end
