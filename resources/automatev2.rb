@@ -24,7 +24,7 @@ property :accept_license, [true, false], default: false
 action :create do
   execute "curl https://packages.chef.io/files/#{new_resource.channel}/#{new_resource.version}/chef-automate-cli/chef-automate_linux_amd64.zip | gunzip - > chef-automate && chmod +x chef-automate" do
     cwd '/usr/local/bin'
-    creates '/usr/loca/bin/chef-automate'
+    creates '/usr/local/bin/chef-automate'
     not_if { FileTest.file?('/usr/bin/chef-automate') }
   end
 
