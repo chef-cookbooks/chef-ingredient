@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## Unreleased
+
+- resolved cookstyle error: libraries/helpers.rb:254:11 refactor: `ChefCorrectness/ChefApplicationFatal`
+- resolved cookstyle error: resources/automatev2.rb:48:5 refactor: `ChefCorrectness/ConditionalRubyShellout`
+- resolved cookstyle error: resources/wf_builder.rb:207:11 refactor: `ChefStyle/UsePlatformHelpers`
+- resolved cookstyle error: resources/wf_builder.rb:210:11 refactor: `ChefStyle/UsePlatformHelpers`
+
 ## 3.1.2 (2019-10-02)
 
 - Minor lint and testing updates - [@tas50](https://github.com/tas50)

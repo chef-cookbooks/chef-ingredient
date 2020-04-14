@@ -251,7 +251,7 @@ module ChefIngredientCookbook
       ruby_block 'stop chef run' do
         action :nothing
         block do
-          Chef::Application.fatal! 'Chef version has changed during the run. Stopping the current Chef run. Please run chef again.'
+          raise('Chef version has changed during the run. Stopping the current Chef run. Please run chef again.')
         end
       end
     end
