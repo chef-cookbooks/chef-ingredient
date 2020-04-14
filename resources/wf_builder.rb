@@ -204,10 +204,10 @@ action :create do
     if node['init_package'].eql?('systemd')
       init_template = 'push-jobs-client-systemd'
       init_file = '/etc/systemd/system/push-jobs-client.service'
-    elsif node['platform_family'].eql?('debian')
+    elsif platform_family?('debian')
       init_template = 'push-jobs-client-ubuntu-upstart'
       init_file = '/etc/init/push-jobs-client.conf'
-    elsif node['platform_family'].eql?('rhel')
+    elsif platform_family?('rhel')
       init_template = 'push-jobs-client-rhel-6'
       init_file = '/etc/rc.d/init.d/push-jobs-client'
     else
