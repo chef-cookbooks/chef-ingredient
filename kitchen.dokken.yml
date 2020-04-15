@@ -29,13 +29,6 @@ platforms:
     image: dokken/amazonlinux-2
     pid_one_command: /usr/lib/systemd/systemd
 
-- name: debian-8
-  driver:
-    image: dokken/debian-8
-    pid_one_command: /bin/systemd
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update
-
 - name: debian-9
   driver:
     image: dokken/debian-9
@@ -58,6 +51,11 @@ platforms:
 - name: centos-7
   driver:
     image: dokken/centos-7
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: centos-8
+  driver:
+    image: dokken/centos-8
     pid_one_command: /usr/lib/systemd/systemd
 
 - name: fedora-latest

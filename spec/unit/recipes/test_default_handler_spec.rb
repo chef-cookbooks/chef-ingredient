@@ -29,20 +29,6 @@ describe 'test::default_handler' do
     end
   end
 
-  context 'install chef on rhel 5' do
-    let(:rhel_5) do
-      ChefSpec::SoloRunner.new(
-        platform: 'redhat',
-        version: '5.11',
-        step_into: %w(chef_ingredient)
-      ).converge(described_recipe)
-    end
-
-    it 'use the RPM package provider' do
-      expect(rhel_5).to install_package('chef').with(provider: Chef::Provider::Package::Rpm)
-    end
-  end
-
   context 'install chef on rhel 6' do
     let(:rhel_6) do
       ChefSpec::SoloRunner.new(
