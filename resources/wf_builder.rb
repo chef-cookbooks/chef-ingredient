@@ -257,10 +257,10 @@ action :create do
       block do
         ENV['AUTOMATE_PASSWORD'] = new_resource.automate_password
 
-        Mixlib::ShellOut.new("delivery token \
+        shell_out("delivery token \
         -s #{new_resource.automate_fqdn} \
         -e #{new_resource.automate_enterprise} \
-        -u #{new_resource.automate_user}").run_command
+        -u #{new_resource.automate_user}")
 
         data = {
           hostname: new_resource.name,
@@ -271,12 +271,12 @@ action :create do
         }
 
         # TODO: Rework this to call the API directly, so we don't have delivery-cli formatting things.
-        runner = Mixlib::ShellOut.new("delivery api post runners \
+        runner = shell_out("delivery api post runners \
           --non-interactive --no-color \
           -d '#{data.to_json}' \
           -s #{new_resource.automate_fqdn} \
           -e #{new_resource.automate_enterprise} \
-          -u #{new_resource.automate_user}").run_command
+          -u #{new_resource.automate_user}")
         ::File.write(::File.join(home_dir, '.ssh/authorized_keys'), JSON.parse(runner.stdout)['openssh_public_key'])
       end
       not_if { ::File.read(::File.join(home_dir, '.ssh/authorized_keys')).include?("#{build_user}@#{node['fqdn']}") }
