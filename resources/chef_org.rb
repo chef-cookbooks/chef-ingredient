@@ -28,8 +28,8 @@ property :remove_users, Array, default: []
 property :key_path, String
 
 load_current_value do
-  node.run_state['chef-users'] ||= Mixlib::ShellOut.new('chef-server-ctl user-list').run_command.stdout
-  node.run_state['chef-orgs'] ||= Mixlib::ShellOut.new('chef-server-ctl org-list').run_command.stdout
+  node.run_state['chef-users'] ||= shell_out('chef-server-ctl user-list').stdout
+  node.run_state['chef-orgs'] ||= shell_out('chef-server-ctl org-list').stdout
   current_value_does_not_exist! unless node.run_state['chef-orgs'].index(/^#{org}$/)
 end
 

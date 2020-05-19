@@ -4,6 +4,12 @@ This file is used to list changes made in each version of the chef-ingredient co
 
 ## Unreleased
 
+- resolved cookstyle error: resources/chef_org.rb:31:36 refactor: `ChefModernize/ShellOutHelper`
+- resolved cookstyle error: resources/chef_org.rb:32:35 refactor: `ChefModernize/ShellOutHelper`
+- resolved cookstyle error: resources/chef_user.rb:32:36 refactor: `ChefModernize/ShellOutHelper`
+- resolved cookstyle error: resources/wf_builder.rb:260:9 refactor: `ChefModernize/ShellOutHelper`
+- resolved cookstyle error: resources/wf_builder.rb:274:18 refactor: `ChefModernize/ShellOutHelper`
+- resolved cookstyle error: spec/unit/recipes/test_default_handler_spec.rb:20:7 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
 - resolved cookstyle error: libraries/helpers.rb:254:11 refactor: `ChefCorrectness/ChefApplicationFatal`
 - resolved cookstyle error: resources/automatev2.rb:48:5 refactor: `ChefCorrectness/ConditionalRubyShellout`
 - resolved cookstyle error: resources/wf_builder.rb:207:11 refactor: `ChefStyle/UsePlatformHelpers`
