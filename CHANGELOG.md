@@ -4,6 +4,7 @@ This file is used to list changes made in each version of the chef-ingredient co
 
 ## Unreleased
 
+- resolved cookstyle error: resources/backend.rb:28:45 refactor: `ChefCorrectness/LazyEvalNodeAttributeDefaults`
 - resolved cookstyle error: resources/chef_org.rb:31:36 refactor: `ChefModernize/ShellOutHelper`
 - resolved cookstyle error: resources/chef_org.rb:32:35 refactor: `ChefModernize/ShellOutHelper`
 - resolved cookstyle error: resources/chef_user.rb:32:36 refactor: `ChefModernize/ShellOutHelper`

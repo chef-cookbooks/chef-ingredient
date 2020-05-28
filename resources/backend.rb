@@ -25,7 +25,7 @@ property :version, [String, Symbol], default: :latest
 property :config, String, default: ''
 property :accept_license, [true, false], default: false
 property :peers, [String, Array], required: true
-property :publish_address, String, default: node['ipaddress']
+property :publish_address, String, default: lazy { node['ipaddress'] }
 property :chef_backend_secrets, String, default: ''
 property :chef_backend_secrets_user, String, default: 'root'
 property :chef_backend_secrets_group, String, default: 'chef_pgsql'
