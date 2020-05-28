@@ -104,7 +104,7 @@ action :reconfigure do
     end
 
     execute "#{ingredient_package_name}-reconfigure" do
-      command "#{ingredient_ctl_command} reconfigure"
+      command "#{ingredient_ctl_command} #{reconfigure_command}"
     end
   end
 end
@@ -119,5 +119,13 @@ action_class do
     # OmnitruckHandler is used for Solaris, AIX, FreeBSD, etc.
     # Eventually, we would like to support all platforms with the DefaultHandler
     include ::ChefIngredient::OmnitruckHandler
+  end
+
+  def reconfigure_command
+    if new_resource.accept_license && new_resource.product_name == 'chef-server'
+      'reconfigure --chef-license=accept'
+    else
+      'reconfigure'
+    end
   end
 end
