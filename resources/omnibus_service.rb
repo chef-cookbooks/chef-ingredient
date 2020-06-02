@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-resource_name :omnibus_service
+provides :omnibus_service
 
 default_action :nothing
 

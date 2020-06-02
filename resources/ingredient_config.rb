@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-resource_name :ingredient_config
+provides :ingredient_config
 
 property :product_name, String, name_property: true
 property :config, [String, NilClass]

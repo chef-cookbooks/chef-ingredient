@@ -16,7 +16,7 @@
 # limitations under the License.
 #
 
-resource_name :chef_ingredient
+provides :chef_ingredient
 
 property :product_name, String, name_property: true
 property :config, String

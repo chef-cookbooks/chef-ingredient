@@ -4,6 +4,9 @@ This file is used to list changes made in each version of the chef-ingredient co
 
 ## Unreleased
 
+- resolved cookstyle error: resources/chef_ingredient.rb:19:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
+- resolved cookstyle error: resources/ingredient_config.rb:18:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
+- resolved cookstyle error: resources/omnibus_service.rb:18:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
 - resolved cookstyle error: resources/backend.rb:28:45 refactor: `ChefCorrectness/LazyEvalNodeAttributeDefaults`
 - resolved cookstyle error: resources/chef_org.rb:31:36 refactor: `ChefModernize/ShellOutHelper`
 - resolved cookstyle error: resources/chef_org.rb:32:35 refactor: `ChefModernize/ShellOutHelper`
