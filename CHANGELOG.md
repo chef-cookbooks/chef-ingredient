@@ -2,22 +2,30 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
-## Unreleased
+## 3.1.3 (2020-06-02)
 
-- resolved cookstyle error: resources/chef_ingredient.rb:19:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
-- resolved cookstyle error: resources/ingredient_config.rb:18:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
-- resolved cookstyle error: resources/omnibus_service.rb:18:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
-- resolved cookstyle error: resources/backend.rb:28:45 refactor: `ChefCorrectness/LazyEvalNodeAttributeDefaults`
-- resolved cookstyle error: resources/chef_org.rb:31:36 refactor: `ChefModernize/ShellOutHelper`
-- resolved cookstyle error: resources/chef_org.rb:32:35 refactor: `ChefModernize/ShellOutHelper`
-- resolved cookstyle error: resources/chef_user.rb:32:36 refactor: `ChefModernize/ShellOutHelper`
-- resolved cookstyle error: resources/wf_builder.rb:260:9 refactor: `ChefModernize/ShellOutHelper`
-- resolved cookstyle error: resources/wf_builder.rb:274:18 refactor: `ChefModernize/ShellOutHelper`
-- resolved cookstyle error: spec/unit/recipes/test_default_handler_spec.rb:20:7 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
-- resolved cookstyle error: libraries/helpers.rb:254:11 refactor: `ChefCorrectness/ChefApplicationFatal`
-- resolved cookstyle error: resources/automatev2.rb:48:5 refactor: `ChefCorrectness/ConditionalRubyShellout`
-- resolved cookstyle error: resources/wf_builder.rb:207:11 refactor: `ChefStyle/UsePlatformHelpers`
-- resolved cookstyle error: resources/wf_builder.rb:210:11 refactor: `ChefStyle/UsePlatformHelpers`
+- Remove unnecessary Foodcritic comments - [@tas50](https://github.com/tas50)
+- Resolve ChefSpec deprecation warnings - [@tas50](https://github.com/tas50)
+- Make Chef Infra Server honor license acceptance. Pulled this in from chef-cookbooks/chef-ingredient#241 - [@bkonick](https://github.com/bkonick)
+- correct automate path - [@dheerajd-msys](https://github.com/dheerajd-msys)
+- move reconfigure_command to a method in action_class - [@bkonick](https://github.com/bkonick)
+- Cookstyle 6.2.9 Fixes - [@xorimabot](https://github.com/xorimabot)
+- Update platforms we test on - [@tas50](https://github.com/tas50)
+- Cookstyle Fixes including Chef Infra Client 16 compatibility - [@xorimabot](https://github.com/xorimabot)
+  - resolved cookstyle error: resources/chef_ingredient.rb:19:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
+  - resolved cookstyle error: resources/ingredient_config.rb:18:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
+  - resolved cookstyle error: resources/omnibus_service.rb:18:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
+  - resolved cookstyle error: resources/backend.rb:28:45 refactor: `ChefCorrectness/LazyEvalNodeAttributeDefaults`
+  - resolved cookstyle error: resources/chef_org.rb:31:36 refactor: `ChefModernize/ShellOutHelper`
+  - resolved cookstyle error: resources/chef_org.rb:32:35 refactor: `ChefModernize/ShellOutHelper`
+  - resolved cookstyle error: resources/chef_user.rb:32:36 refactor: `ChefModernize/ShellOutHelper`
+  - resolved cookstyle error: resources/wf_builder.rb:260:9 refactor: `ChefModernize/ShellOutHelper`
+  - resolved cookstyle error: resources/wf_builder.rb:274:18 refactor: `ChefModernize/ShellOutHelper`
+  - resolved cookstyle error: spec/unit/recipes/test_default_handler_spec.rb:20:7 warning: `ChefDeprecations/DeprecatedChefSpecPlatform`
+  - resolved cookstyle error: libraries/helpers.rb:254:11 refactor: `ChefCorrectness/ChefApplicationFatal`
+  - resolved cookstyle error: resources/automatev2.rb:48:5 refactor: `ChefCorrectness/ConditionalRubyShellout`
+  - resolved cookstyle error: resources/wf_builder.rb:207:11 refactor: `ChefStyle/UsePlatformHelpers`
+  - resolved cookstyle error: resources/wf_builder.rb:210:11 refactor: `ChefStyle/UsePlatformHelpers`
 
 ## 3.1.2 (2019-10-02)
 
