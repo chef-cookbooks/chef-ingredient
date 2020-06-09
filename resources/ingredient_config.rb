@@ -16,6 +16,7 @@
 #
 
 provides :ingredient_config
+resource_name :ingredient_config
 
 property :product_name, String, name_property: true
 property :config, [String, NilClass]

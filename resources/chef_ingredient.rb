@@ -17,6 +17,7 @@
 #
 
 provides :chef_ingredient
+resource_name :chef_ingredient
 
 property :product_name, String, name_property: true
 property :config, String

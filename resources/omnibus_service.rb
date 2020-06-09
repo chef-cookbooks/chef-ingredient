@@ -16,6 +16,7 @@
 #
 
 provides :omnibus_service
+resource_name :omnibus_service
 
 default_action :nothing
 
