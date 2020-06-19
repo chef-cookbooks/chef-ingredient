@@ -1,0 +1,5 @@
+ChefDeprecations/LogResourceNotifications:
+  Exclude:
+    # The proposed replacement is available from Chef Infra Client 15.8.
+    # This cookbook supports 13.0 and up.
+    - 'test/fixtures/cookbooks/test/recipes/omnibus_service.rb'
