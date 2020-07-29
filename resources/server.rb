@@ -18,7 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource_name 'chef_server'
+provides :chef_server
+resource_name :chef_server
 
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest

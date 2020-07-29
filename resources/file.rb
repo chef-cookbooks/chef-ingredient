@@ -19,7 +19,8 @@
 # limitations under the License.
 # rubocop:disable Lint/ParenthesesAsGroupedExpression
 
-resource_name 'chef_file'
+provides :chef_file
+resource_name :chef_file
 
 property :filename, String, name_property: true
 property :source, String
