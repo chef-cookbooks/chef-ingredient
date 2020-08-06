@@ -21,8 +21,7 @@ clone_depth: 1
 
 # Install the latest current build of Chef Workstation
 install:
-  - ps: . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project chef-workstation -channel stable
-  #- ps: iex (irm https://omnitruck.chef.io/install.ps1); Install-Project -Project chef-workstation -channel current
+  - ps: iex (irm https://omnitruck.chef.io/install.ps1); Install-Project -Project chef-workstation -channel stable
   - ps: 'Get-CimInstance win32_operatingsystem -Property Caption, OSArchitecture, Version | fl Caption, OSArchitecture, Version'
   - ps: $PSVersionTable
   - ps: secedit /export /cfg $env:temp/export.cfg
