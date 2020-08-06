@@ -14,5 +14,5 @@ if os.windows?
 end
 
 describe send(resource_command, 'inspec --version') do
-  its('stdout') { should match(/1.31.1/) }
+  its('stdout') { should match(/4.22.1/) }
 end
