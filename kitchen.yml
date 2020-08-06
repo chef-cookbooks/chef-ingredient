@@ -24,7 +24,11 @@ verifier:
   name: inspec
 
 platforms:
+  - name: amazonlinux
+    driver_config:
+      box: mvbcoding/awslinux
   - name: amazonlinux-2
+  - name: centos-6
   - name: centos-7
   - name: centos-8
   - name: debian-9
@@ -32,6 +36,7 @@ platforms:
   - name: fedora-latest
   - name: freebsd-12
   - name: opensuse-leap-15
+  - name: ubuntu-16.04
   - name: ubuntu-18.04
   - name: ubuntu-20.04
   - name: macos-10.12
@@ -75,7 +80,7 @@ suites:
 
   - name: chefdk
     <<: *default
-    includes: [ 'ubuntu-18.04', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-2012r2', 'windows-server-2016-standard'  ]
+    includes: [ 'ubuntu-16.04', 'ubuntu-18.04', 'ubuntu-20.04', 'centos-6', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-2012r2', 'windows-server-2016-standard'  ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -85,7 +90,7 @@ suites:
 
   - name: inspec
     <<: *default
-    includes: [ 'ubuntu-18.04', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-2012r2', 'windows-server-2016-standard'  ]
+    includes: [ 'ubuntu-16.04', 'ubuntu-18.04', 'ubuntu-20.04', 'centos-6', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-2012r2', 'windows-server-2016-standard'  ]
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -94,7 +99,7 @@ suites:
       - recipe[test::inspec]
 
   - name: chef_server
-    includes: [ 'ubuntu-18.04', 'centos-7' ]
+    includes: [ 'ubuntu-16.04', 'ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8' ]
     run_list:
       - recipe[test]
       - recipe[test::chef_server]
@@ -103,7 +108,7 @@ suites:
     driver:
       customize:
         memory: 2560
-    includes: [ 'ubuntu-18.04', 'centos-7' ]
+    includes: [ 'ubuntu-16.04', 'ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8' ]
     run_list:
       - recipe[test::automatev2]
     verifier:
