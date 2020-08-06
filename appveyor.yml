@@ -32,7 +32,7 @@ install:
   - ps: net localgroup administrators $env:machine_user /add
 
 build_script:
-  - ps: $env:PATH = "$env:PATH;c:\opscode\chef-workstation\bin\; $env:CHEFWS_ENV_FIX = 1;
+  - ps: $env:PATH = "$env:PATH;c:\opscode\chef-workstation\bin\"; $env:CHEFWS_ENV_FIX = 1
   - ps: c:\opscode\chef-workstation\bin\chef.exe shell-init powershell | iex; cmd /c c:\opscode\chef-workstation\bin\chef.exe --version
 
 test_script:
