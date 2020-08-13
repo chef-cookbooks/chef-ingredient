@@ -14,7 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource_name 'chef_automatev2'
+provides :chef_automatev2
+resource_name :chef_automatev2
 
 property :channel, Symbol, default: :current
 property :version, [String, Symbol], default: :latest

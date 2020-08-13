@@ -18,7 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource_name 'chef_org'
+provides :chef_org
+resource_name :chef_org
 
 property :org, String, name_property: true
 property :org_full_name, String

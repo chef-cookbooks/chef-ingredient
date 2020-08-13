@@ -8,7 +8,7 @@ omnibus_service 'chef-server/nginx' do
   action :nothing
 end
 
-log 'I tell nginx to stop' do
+notify_group 'I tell nginx to stop' do
   notifies :stop, 'omnibus_service[chef-server/nginx]'
 end
 

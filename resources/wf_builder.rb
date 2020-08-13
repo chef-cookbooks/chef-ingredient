@@ -18,7 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource_name 'workflow_builder'
+provides :workflow_builder
+resource_name :workflow_builder
 
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest

@@ -18,7 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource_name 'chef_automate'
+provides :chef_automate
+resource_name :chef_automate
 
 property :fqdn, String, name_property: true
 property :channel, Symbol, default: :stable

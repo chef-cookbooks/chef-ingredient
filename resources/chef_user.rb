@@ -18,7 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource_name 'chef_user'
+provides :chef_user
+resource_name :chef_user
 
 property :username, String, name_property: true
 property :first_name, String, required: true

@@ -18,7 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource_name 'chef_backend'
+provides :chef_backend
+resource_name :chef_backend
 
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest
