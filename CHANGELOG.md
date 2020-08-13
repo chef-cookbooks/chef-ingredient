@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 3.2.0 (2020-08-12)
+
+- adding a products property to the automatev2 resource - [@srb3](https://github.com/srb3)
+- Ensure we have resource_name in addition to provides in resources - [@tas50](https://github.com/tas50)
+- Added provides to resources to add Chef Infra Client 16 compatability - [@Stromweld](https://github.com/Stromweld)
+
 ## 3.1.3 (2020-06-02)
 
 - Remove unnecessary Foodcritic comments - [@tas50](https://github.com/tas50)
