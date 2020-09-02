@@ -192,13 +192,13 @@ module ChefIngredientCookbook
       version << "~#{v.prerelease}" if v.prerelease? && !v.prerelease.match(/^\d$/)
       version << "+#{v.build}" if v.build?
       version << '-1' unless version =~ /-1$/
-      version << rhel_append_version if node['platform_family'] == 'rhel' &&
+      version << rhel_append_version if platform_family?('rhel') &&
                                         !version.match(/#{rhel_append_version}$/)
       version
     end
 
     def rhel_major_version
-      return node['platform_version'].to_i if node['platform_family'] == 'rhel'
+      return node['platform_version'].to_i if platform_family?('rhel')
       node['platform_version']
     end
 
@@ -267,7 +267,7 @@ module ChefIngredientCookbook
     module_function :fqdn_resolves?
 
     def windows?
-      node['platform_family'] == 'windows'
+      platform_family?('windows')
     end
 
     #
