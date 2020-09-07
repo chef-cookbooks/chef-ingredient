@@ -99,10 +99,10 @@ We may need to restart the RabbitMQ service on the Chef Server, for example when
 
 ```ruby
 template '/etc/opscode/chef-server.rb' do
-  notifies :restart, 'omnibus_service[chef-server-core/rabbitmq]'
+  notifies :restart, 'omnibus_service[chef-server/rabbitmq]'
 end
 
-omnibus_service 'chef-server-core/rabbitmq' do
+omnibus_service 'chef-server/rabbitmq' do
   action :nothing
 end
 ```
