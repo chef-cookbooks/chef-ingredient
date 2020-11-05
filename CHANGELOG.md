@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## Unreleased
+
+- resolved cookstyle error: resources/client.rb:156:49 convention: `Style/RedundantParentheses`
+
 ## 3.2.0 (2020-08-12)
 
 - adding a products property to the automatev2 resource - [@srb3](https://github.com/srb3)
