@@ -153,7 +153,7 @@ action :register do
   end
 
   execute 'add tags to node' do
-    command "knife tag create #{node['fqdn']} #{(tags.is_a?(Array) ? tags.join(' ') : tags)} -c /etc/chef/client.rb -u #{node['fqdn']}"
+    command "knife tag create #{node['fqdn']} #{tags.is_a?(Array) ? tags.join(' ') : tags} -c /etc/chef/client.rb -u #{node['fqdn']}"
     not_if { tags.eql?('') }
   end
 end
