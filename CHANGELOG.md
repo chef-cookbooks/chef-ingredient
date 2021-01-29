@@ -2,6 +2,15 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 3.3.0 (2021-01-29)
+
+- Add rubygems_url property to chef_ingredient - [@ramereth](https://github.com/ramereth)
+- Add rubygems_url property to ingredient_config - [@ramereth](https://github.com/ramereth)
+- Add rubygems_url property to omnibus_service - [@ramereth](https://github.com/ramereth)
+- Cookstyle Bot Auto Corrections with Cookstyle 6.15.9 - [@cookstyle](https://github.com/cookstyle)
+- Cookstyle 7.0.0 Fixes - [@xorimabot](https://github.com/xorimabot)
+- Change from testing ChefDK to Chef Workstation in dokken - [@ramereth](https://github.com/ramereth)
+
 ## Unreleased
 
 - resolved cookstyle error: resources/client.rb:156:49 convention: `Style/RedundantParentheses`
