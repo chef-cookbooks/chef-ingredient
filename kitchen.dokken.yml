@@ -94,3 +94,8 @@ suites:
     run_list:
       - recipe[test]
       - recipe[test::chef_workstation]
+
+  - name: rubygems-url
+    run_list:
+      - recipe[test]
+      - recipe[test::rubygems_url]

@@ -29,6 +29,9 @@ property :channel, Symbol, default: :stable, equal_to: [:stable, :current, :unst
 # Install package from local file
 property :package_source, String
 
+# Install mixlib-install/version gems from rubygems.org or an alternative source
+property :rubygems_url, String, default: 'https://rubygems.org'
+
 # Set the *-ctl command to use when doing reconfigure
 property :ctl_command, String
 
