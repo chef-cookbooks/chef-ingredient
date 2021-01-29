@@ -21,6 +21,9 @@ resource_name :ingredient_config
 property :product_name, String, name_property: true
 property :config, [String, NilClass]
 
+# Install mixlib-install/version gems from rubygems.org or an alternative source
+property :rubygems_url, String, default: 'https://rubygems.org'
+
 action :render do
   target_config = ingredient_config_file(new_resource.product_name)
   return if target_config.nil?
