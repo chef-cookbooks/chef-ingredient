@@ -90,7 +90,12 @@ platforms:
       pid_one_command: /bin/systemd
 
 suites:
-  - name: chefdk
+  - name: chef-workstation
     run_list:
       - recipe[test]
-      - recipe[test::chefdk]
+      - recipe[test::chef_workstation]
+
+  - name: rubygems-url
+    run_list:
+      - recipe[test]
+      - recipe[test::rubygems_url]

@@ -58,6 +58,7 @@ By default, `chef_ingredient` will install using the `packages.chef.io` stable r
 - `version` - Package version to install. Can be specified in various semver-alike ways: `12.0.4`, `12.0.3-rc.3`, and also `:latest`/`'latest'`. Do not use this property when specifying `package_source`.
 - `channel` - Channel to install the products from. It can be `:stable`, `:current` or `:unstable`.
 - `package_source` - Full path to a location where the package is located. If present, this file is used for installing the package.
+- `rubygems_url` - Install mixlib-install/version gems from rubygems.org or an alternative source. Useful for community distributions. Defaults to `Chef::Config[:rubygems_url]`.
 - `timeout` - The amount of time (in seconds) to wait to fetch the installer before timing out. Default timeout of the Chef package resource is `900` seconds.
 - `accept_license` - A boolean value that specifies if license should be accepted if it is asked for during `reconfigure`action. This option is applicable to only these products: manage, analytics, reporting and compliance.
 - `platform` - Override the auto-detected platform for which package to install.

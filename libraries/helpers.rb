@@ -100,8 +100,9 @@ module ChefIngredientCookbook
     # Helper method to install a gem from rubygems at compile time.
     #
     def install_gem_from_rubygems(gem_name, gem_version)
-      Chef::Log.debug("Installing #{gem_name} v#{gem_version} from Rubygems.org")
+      Chef::Log.debug("Installing #{gem_name} v#{gem_version} from #{new_resource.rubygems_url}")
       chefgem = Chef::Resource::ChefGem.new(gem_name, run_context)
+      chefgem.source(new_resource.rubygems_url) if new_resource.rubygems_url
       chefgem.version(gem_version)
       chefgem.run_action(:install)
     end
