@@ -14,5 +14,5 @@ if os.windows?
 end
 
 describe send(resource_command, 'chef --version') do
-  its('stdout') { should match(/ChefDK version: 4.10.0/) }
+  its('stdout') { should match(/Chef Workstation version: 21\.1\.247/) }
 end
