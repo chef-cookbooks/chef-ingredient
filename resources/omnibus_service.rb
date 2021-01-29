@@ -23,6 +23,9 @@ default_action :nothing
 property :ctl_command, String
 property :service_name, String, regex: %r{[\w-]+\/[\w-]+}, name_property: true
 
+# Install mixlib-install/version gems from rubygems.org or an alternative source
+property :rubygems_url, String, default: 'https://rubygems.org'
+
 %w(start stop restart hup int kill graceful-kill once).each do |sv_command|
   action sv_command.tr('-', '_').to_sym do
     execute "#{omnibus_ctl_command} #{sv_command} #{raw_service_name}"
