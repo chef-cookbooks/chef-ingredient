@@ -30,7 +30,7 @@ property :channel, Symbol, default: :stable, equal_to: [:stable, :current, :unst
 property :package_source, String
 
 # Install mixlib-install/version gems from rubygems.org or an alternative source
-property :rubygems_url, [String, nil], default: lazy { Chef::Config[:rubygems_url] }
+property :rubygems_url, [String]
 
 # Set the *-ctl command to use when doing reconfigure
 property :ctl_command, String
