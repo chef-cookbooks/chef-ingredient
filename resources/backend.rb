@@ -75,13 +75,11 @@ action :create do
   peers = (new_resource.peers.is_a?(Array) ? new_resource.peers : [new_resource.peers])
 
   peers.each do |peer|
-    begin
-      Chef::HTTP.new("http://#{peer}:2379").get('/version')
-      existing_peer = peer
-      break
-    rescue
-      next
-    end
+    Chef::HTTP.new("http://#{peer}:2379").get('/version')
+    existing_peer = peer
+    break
+  rescue
+    next
   end
   Chef::Config['http_retry_count'] = http_retry_count
 

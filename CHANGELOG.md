@@ -13,6 +13,13 @@ This file is used to list changes made in each version of the chef-ingredient co
 
 ## Unreleased
 
+- resolved cookstyle error: resources/backend.rb:78:1 convention: `Layout/EmptyLinesAroundBlockBody`
+- resolved cookstyle error: resources/backend.rb:78:1 convention: `Layout/TrailingWhitespace`
+- resolved cookstyle error: resources/backend.rb:78:5 convention: `Style/RedundantBegin`
+- resolved cookstyle error: resources/backend.rb:79:3 convention: `Layout/IndentationWidth`
+- resolved cookstyle error: resources/backend.rb:82:5 convention: `Layout/RescueEnsureAlignment`
+- resolved cookstyle error: resources/backend.rb:84:1 convention: `Layout/EmptyLinesAroundBlockBody`
+- resolved cookstyle error: resources/backend.rb:84:1 convention: `Layout/TrailingWhitespace`
 - resolved cookstyle error: resources/client.rb:156:49 convention: `Style/RedundantParentheses`
 
 ## 3.2.0 (2020-08-12)
