@@ -16,6 +16,7 @@
 #
 
 provides :ingredient_config
+unified_mode true
 resource_name :ingredient_config
 
 property :product_name, String, name_property: true
