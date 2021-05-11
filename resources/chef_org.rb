@@ -19,6 +19,7 @@
 # limitations under the License.
 
 provides :chef_org
+unified_mode true
 resource_name :chef_org
 
 property :org, String, name_property: true

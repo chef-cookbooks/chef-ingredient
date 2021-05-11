@@ -20,6 +20,7 @@
 # rubocop:disable Lint/ParenthesesAsGroupedExpression
 
 provides :chef_client
+unified_mode true
 resource_name :chef_client
 
 property :node_name, String, name_property: true
