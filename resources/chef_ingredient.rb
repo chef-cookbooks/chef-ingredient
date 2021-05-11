@@ -17,6 +17,7 @@
 #
 
 provides :chef_ingredient
+unified_mode true
 resource_name :chef_ingredient
 
 property :product_name, String, name_property: true

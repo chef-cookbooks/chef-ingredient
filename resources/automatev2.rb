@@ -15,6 +15,7 @@
 # limitations under the License.
 
 provides :chef_automatev2
+unified_mode true
 resource_name :chef_automatev2
 
 property :channel, Symbol, default: :current

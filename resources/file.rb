@@ -20,6 +20,7 @@
 # rubocop:disable Lint/ParenthesesAsGroupedExpression
 
 provides :chef_file
+unified_mode true
 resource_name :chef_file
 
 property :filename, String, name_property: true
