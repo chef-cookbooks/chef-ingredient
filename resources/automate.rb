@@ -43,6 +43,8 @@ load_current_value do
 end
 
 action :create do
+  Chef::Log.warn('The chef_automate resource is deprecated as Chef Automate V1 is EOL.')
+
   required_config = <<-EOF
     delivery['chef_username'] = '#{new_resource.chef_user}'
     delivery['chef_private_key'] = '/etc/delivery/#{new_resource.chef_user}.pem'

@@ -59,6 +59,8 @@ load_current_value do
 end
 
 action :install do
+  Chef::Log.warn('The chef_client resource is deprecated. Please use the chef_client_config resource in Chef Infra Client 16.6 or later: https://docs.chef.io/resources/chef_client_config/')
+
   chef_ingredient 'chef' do
     action :upgrade
     version new_resource.version
