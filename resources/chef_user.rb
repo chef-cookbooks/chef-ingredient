@@ -19,6 +19,7 @@
 # limitations under the License.
 
 provides :chef_user
+unified_mode true
 resource_name :chef_user
 
 property :username, String, name_property: true

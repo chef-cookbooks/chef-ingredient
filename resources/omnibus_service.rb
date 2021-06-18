@@ -16,6 +16,7 @@
 #
 
 provides :omnibus_service
+unified_mode true
 resource_name :omnibus_service
 
 default_action :nothing

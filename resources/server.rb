@@ -19,6 +19,7 @@
 # limitations under the License.
 
 provides :chef_server
+unified_mode true
 resource_name :chef_server
 
 property :channel, Symbol, default: :stable

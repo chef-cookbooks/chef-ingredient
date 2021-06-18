@@ -19,6 +19,7 @@
 # limitations under the License.
 
 provides :chef_automate
+unified_mode true
 resource_name :chef_automate
 
 property :fqdn, String, name_property: true
