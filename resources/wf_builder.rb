@@ -19,6 +19,7 @@
 # limitations under the License.
 
 provides :workflow_builder
+unified_mode true
 resource_name :workflow_builder
 
 property :channel, Symbol, default: :stable

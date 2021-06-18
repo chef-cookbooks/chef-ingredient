@@ -19,6 +19,7 @@
 # limitations under the License.
 
 provides :chef_supermarket
+unified_mode true
 resource_name :chef_supermarket
 
 property :channel, Symbol, default: :stable

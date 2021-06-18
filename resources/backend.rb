@@ -19,6 +19,7 @@
 # limitations under the License.
 
 provides :chef_backend
+unified_mode true
 resource_name :chef_backend
 
 property :channel, Symbol, default: :stable
