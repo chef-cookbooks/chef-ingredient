@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## Unreleased
+
+- Enable `unified_mode` for Chef 17 compatibility - [@detjensrobert](https://github.com/detjensrobert)
+
 ## 3.3.0 (2021-01-29)
 
 - Add rubygems_url property to chef_ingredient - [@ramereth](https://github.com/ramereth)

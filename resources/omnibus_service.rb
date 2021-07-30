@@ -1,6 +1,6 @@
 #
 # Author:: Joshua Timberman <joshua@chef.io
-# Copyright:: 2015-2019, Chef Software, Inc. <legal@chef.io>
+# Copyright:: 2015-2021, Chef Software, Inc. <legal@chef.io>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@
 
 provides :omnibus_service
 resource_name :omnibus_service
+
+unified_mode true
 
 default_action :nothing
 
