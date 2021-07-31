@@ -21,7 +21,7 @@
 provides :chef_server
 resource_name :chef_server
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest

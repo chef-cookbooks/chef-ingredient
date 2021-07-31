@@ -18,7 +18,7 @@
 provides :omnibus_service
 resource_name :omnibus_service
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 default_action :nothing
 

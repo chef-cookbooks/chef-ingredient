@@ -21,7 +21,7 @@
 provides :chef_org
 resource_name :chef_org
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :org, String, name_property: true
 property :org_full_name, String

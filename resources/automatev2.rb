@@ -17,7 +17,7 @@
 provides :chef_automatev2
 resource_name :chef_automatev2
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :channel, Symbol, default: :current
 property :version, [String, Symbol], default: :latest

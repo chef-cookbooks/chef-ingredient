@@ -21,7 +21,7 @@
 provides :chef_user
 resource_name :chef_user
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :username, String, name_property: true
 property :first_name, String, required: true

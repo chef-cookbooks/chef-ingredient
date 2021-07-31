@@ -22,7 +22,7 @@
 provides :chef_client
 resource_name :chef_client
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :node_name, String, name_property: true
 property :version, [String, Symbol], default: :latest

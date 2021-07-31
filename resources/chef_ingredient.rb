@@ -19,7 +19,7 @@
 provides :chef_ingredient
 resource_name :chef_ingredient
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :product_name, String, name_property: true
 property :config, String

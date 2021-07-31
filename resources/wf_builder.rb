@@ -21,7 +21,7 @@
 provides :workflow_builder
 resource_name :workflow_builder
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :channel, Symbol, default: :stable
 property :version, [String, Symbol], default: :latest

@@ -22,7 +22,7 @@
 provides :chef_file
 resource_name :chef_file
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :filename, String, name_property: true
 property :source, String

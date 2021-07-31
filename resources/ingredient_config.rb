@@ -18,7 +18,7 @@
 provides :ingredient_config
 resource_name :ingredient_config
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :product_name, String, name_property: true
 property :config, [String, NilClass]

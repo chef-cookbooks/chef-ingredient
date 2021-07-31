@@ -21,7 +21,7 @@
 provides :chef_automate
 resource_name :chef_automate
 
-unified_mode true
+unified_mode true if respond_to?(:unified_mode)
 
 property :fqdn, String, name_property: true
 property :channel, Symbol, default: :stable

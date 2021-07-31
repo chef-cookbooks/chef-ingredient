@@ -27,7 +27,7 @@ It will perform component installation and configuration. It provides no recipes
 
 ### Chef
 
-- Chef 15.3+
+- Chef 13.0
 
 ### Cookbooks
 
