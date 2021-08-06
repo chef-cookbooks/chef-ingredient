@@ -2,9 +2,10 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
-## Unreleased
+## 3.4.0 (2021-08-05)
 
 - Enable `unified_mode` for Chef 17 compatibility - [@detjensrobert](https://github.com/detjensrobert)
+- Add deprecations to the automate, chef_client and wf_builder resources - [@tas50](https://github.com/tas50)
 
 ## 3.3.0 (2021-01-29)
 
