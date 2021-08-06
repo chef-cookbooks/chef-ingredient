@@ -4,11 +4,8 @@
 
 This cookbook provides primitives - helpers and resources - to manage Chef Software, Inc.'s products and add-ons including, but not limited to:
 
-- Chef Server 12
-- Chef Analytics
+- Chef Infra Server
 - Chef Automate
-- Chef Automate v2
-- Chef Push
 - Supermarket
 
 This cookbook also provides primitives for building and managing your Chef infrastructure.
@@ -19,15 +16,15 @@ It will perform component installation and configuration. It provides no recipes
 
 ### Platforms
 
-- Ubuntu 16.04+
-- Debian 8+
-- CentOS/RHEL 6, 7, 8
+- Ubuntu
+- Debian
+- CentOS/RHEL
 - openSUSE
 - Amazon Linux
 
-### Chef
+### Chef Infra
 
-- Chef 13.0
+- Chef Infra Client 13.0
 
 ### Cookbooks
 
