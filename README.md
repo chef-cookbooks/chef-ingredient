@@ -27,7 +27,7 @@ It will perform component installation and configuration. It provides no recipes
 
 ### Chef
 
-- Chef 13+
+- Chef 13.0
 
 ### Cookbooks
 
@@ -112,12 +112,12 @@ To install Chef Server using some custom configuration options:
 
 ```ruby
 chef_ingredient "chef-server" do
-  config <<-EOS
-api_fqdn "#{node["fqdn"]}"
-ip_version "ipv6"
-notification_email "#{node["chef_admin"]}"
-nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
-EOS
+  config <<~EOS
+    api_fqdn "#{node["fqdn"]}"
+    ip_version "ipv6"
+    notification_email "#{node["chef_admin"]}"
+    nginx["ssl_protocols"] = "TLSv1 TLSv1.1 TLSv1.2"
+  EOS
   action :install
 end
 
