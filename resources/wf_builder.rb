@@ -47,6 +47,8 @@ load_current_value do
 end
 
 action :create do
+  Chef::Log.warn('The workflow_builder resource is deprecated as Chef Workflow (Delivery) is EOL')
+
   chef_ingredient 'chefdk' do
     action :upgrade
     channel new_resource.channel
