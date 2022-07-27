@@ -5,8 +5,8 @@ environment:
   KITCHEN_YAML: kitchen.appveyor.yml
 
   matrix:
-    - CHEF_VERSION: 15
     - CHEF_VERSION: 16
+    - CHEF_VERSION: 17
 
 # don't build PRs twice
 branches:
@@ -37,7 +37,6 @@ build_script:
 
 test_script:
   - chef --version
-  - chef.exe exec delivery local all
   - chef.exe exec kitchen verify
 
 deploy: off
