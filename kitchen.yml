@@ -64,51 +64,32 @@ platforms:
 suites:
   - name: default
     excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
-    namec_run_list:
-      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
+    named_run_list:
       - test_install_git
-      <% end %>
       - test
       - test_repo
 
   - name: local-package-install
     excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
-    named_run_list:
-      - test
-      - test_local
+    named_run_list: test_local
 
   - name: rubygems-url
     excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
-    named_run_list:
-      - test
-      - test_rubygems_url
+    named_run_list: test_rubygems_url
 
   - name: chef-workstation
-    named_run_list:
-      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
-      - test_install_git
-      <% end %>
-      - test
-      - test_chef_workstation
+    named_run_list: test_chef_workstation
 
   - name: inspec
-    named_run_list:
-      <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
-      - test_install_git
-      <% end %>
-      - test
-      - test_inspec
+    named_run_list: test_inspec
 
   - name: chef-server
     includes: ['almalinux-8', 'almalinux-9', 'rockylinux-8', 'rockylinux-9', 'ubuntu-18.04', 'ubuntu-20.04', 'ubuntu-22.04', 'centos-7', 'centos-8']
-    named_run_list:
-      - test
-      - test_chef_server
+    named_run_list: test_chef_server
 
   - name: chef-automatev2
     driver:
       customize:
         memory: 2560
     includes: ['almalinux-8', 'almalinux-9', 'rockylinux-8', 'rockylinux-9', 'ubuntu-18.04', 'ubuntu-20.04', 'ubuntu-22.04', 'centos-7', 'centos-8']
-    named_run_list:
-      - test_chef_automatev2
+    named_run_list: test_chef_automatev2
