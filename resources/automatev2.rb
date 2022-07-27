@@ -49,7 +49,7 @@ action :create do
   execute "/usr/local/bin/chef-automate deploy #{Chef::Config[:file_cache_path]}/config.toml --product #{new_resource.products.join(' --product ')}#{' --accept-terms-and-mlsa' if new_resource.accept_license}" do
     cwd Chef::Config[:file_cache_path]
     only_if { FileTest.file?("#{Chef::Config[:file_cache_path]}/config.toml") }
-    not_if '/usr/bin/chef-automate service-versions'
+    not_if '/usr/local/bin/chef-automate service-versions'
   end
 
   file "#{Chef::Config[:file_cache_path]}/custom_config.toml" do
