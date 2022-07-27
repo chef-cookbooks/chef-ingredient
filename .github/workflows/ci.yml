@@ -23,12 +23,13 @@ jobs:
           - centos-8
           - almalinux-8
           - almalinux-9
+          - ubuntu-1804
           - ubuntu-2004
           - ubuntu-2204
         suite:
-          - chef_workstation
-          - chef_server
-          - chef_automatev2
+          - chef-workstation
+          - chef-server
+          - chef-automatev2
       fail-fast: false
     steps:
       - name: Check out code
@@ -62,7 +63,7 @@ jobs:
       matrix:
         os:
           - windows-server-2016
-        suite: [ 'chef_workstation' ]
+        suite: [ 'chef-workstation' ]
       fail-fast: false
     steps:
       - name: Check windows Version
@@ -97,7 +98,7 @@ jobs:
       matrix:
         os:
           - windows-server-2019
-        suite: [ 'chef_workstation' ]
+        suite: [ 'chef-workstation' ]
       fail-fast: false
     steps:
       - name: Check windows Version
@@ -132,7 +133,7 @@ jobs:
       matrix:
         os:
           - windows-server-2022
-        suite: [ 'chef_workstation' ]
+        suite: [ 'chef-workstation' ]
       fail-fast: false
     steps:
       - name: Check windows Version
@@ -167,7 +168,7 @@ jobs:
       matrix:
         os:
           - macos-latest
-        suite: [ 'chef_workstation' ]
+        suite: [ 'chef-workstation' ]
       fail-fast: false
     steps:
       - name: Check macOS Version
