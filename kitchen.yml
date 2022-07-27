@@ -55,10 +55,10 @@ platforms:
       customize:
         cpus: 4
   - name: windows-server-2022
-      driver_config:
-        box: stromweld/windows-2022
-        customize:
-          cpus: 4
+    driver_config:
+      box: stromweld/windows-2022
+      customize:
+        cpus: 4
 
 default: &default
   attributes:
