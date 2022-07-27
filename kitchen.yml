@@ -64,57 +64,51 @@ platforms:
 suites:
   - name: default
     excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
-    run_list:
+    namec_run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
-      - recipe[test::install_git]
+      - test_install_git
       <% end %>
-      - recipe[test]
-      - recipe[test::repo]
+      - test
+      - test_repo
 
   - name: local-package-install
     excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
-    run_list:
-      - recipe[test]
-      - recipe[test::local]
+    named_run_list:
+      - test
+      - test_local
 
   - name: rubygems-url
     excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
-    run_list:
-      - recipe[test]
-      - recipe[test::rubygems_url]
+    named_run_list:
+      - test
+      - test_rubygems_url
 
   - name: chef-workstation
-    run_list:
+    named_run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
-      - recipe[test::install_git]
+      - test_install_git
       <% end %>
-      - recipe[test]
-      - recipe[test::chef_workstation]
-    verifier:
-      inspec_tests:
-        - test/integration/chef-workstation
+      - test
+      - test_chef_workstation
 
   - name: inspec
-    run_list:
+    named_run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
-      - recipe[test::install_git]
+      - test_install_git
       <% end %>
-      - recipe[test]
-      - recipe[test::inspec]
+      - test
+      - test_inspec
 
   - name: chef-server
     includes: ['almalinux-8', 'almalinux-9', 'rockylinux-8', 'rockylinux-9', 'ubuntu-18.04', 'ubuntu-20.04', 'ubuntu-22.04', 'centos-7', 'centos-8']
-    run_list:
-      - recipe[test]
-      - recipe[test::chef_server]
+    named_run_list:
+      - test
+      - test_chef_server
 
   - name: chef-automatev2
     driver:
       customize:
         memory: 2560
     includes: ['almalinux-8', 'almalinux-9', 'rockylinux-8', 'rockylinux-9', 'ubuntu-18.04', 'ubuntu-20.04', 'ubuntu-22.04', 'centos-7', 'centos-8']
-    run_list:
-      - recipe[test::automatev2]
-    verifier:
-      inspec_tests:
-        - test/integration/chef_automatev2
+    named_run_list:
+      - test_chef_automatev2
