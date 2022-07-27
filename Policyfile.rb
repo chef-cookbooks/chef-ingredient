@@ -16,7 +16,7 @@ named_run_list :test_install_git, 'test::install_git'
 named_run_list :test_repo, 'test::repo'
 named_run_list :test_local, 'test::local'
 named_run_list :test_chef_workstation, 'test::chef_workstation'
-named_run_list :test_inspec, 'test::ispec'
+named_run_list :test_inspec, 'test::inspec'
 named_run_list :test_chef_server, 'test::chef_server'
 named_run_list :test_chef_automatev2, 'test::automatev2'
 
