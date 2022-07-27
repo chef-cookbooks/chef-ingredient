@@ -1,3 +1,4 @@
+---
 addons:
   apt:
     sources:
@@ -6,9 +7,6 @@ addons:
       - chef-workstation
 
 install: echo "skip bundle install"
-
-env:
-  - CHEF_LICENSE=accept
 
 branches:
   only:

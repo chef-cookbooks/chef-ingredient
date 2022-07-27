@@ -10,6 +10,8 @@ name: ci
 jobs:
   lint-unit:
     uses: sous-chefs/.github/.github/workflows/lint-unit.yml@main
+    with:
+      gems: ""
     permissions:
       actions: write
       checks: write

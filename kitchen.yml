@@ -1,3 +1,4 @@
+---
 driver:
   name: vagrant
   customize:
@@ -57,7 +58,7 @@ default: &default
 suites:
   - name: default
     <<: *default
-    excludes: [ 'macos-10.12', 'windows-server-2016', 'windows-server-2019' ]
+    excludes: ['macos-10.12', 'windows-server-2016', 'windows-server-2019']
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -67,14 +68,14 @@ suites:
 
   - name: local_package_install
     <<: *default
-    excludes: [ 'macos-10.12', 'windows-server-2016', 'windows-server-2019'  ]
+    excludes: ['macos-10.12', 'windows-server-2016', 'windows-server-2019']
     run_list:
       - recipe[test]
       - recipe[test::local]
 
   - name: chef_workstation
     <<: *default
-    includes: [ 'ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-20126', 'windows-server-2019'  ]
+    includes: ['ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-20126', 'windows-server-2019']
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -87,7 +88,7 @@ suites:
 
   - name: inspec
     <<: *default
-    includes: [ 'ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-2016', 'windows-server-2019'  ]
+    includes: ['ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-2016', 'windows-server-2019']
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -96,7 +97,7 @@ suites:
       - recipe[test::inspec]
 
   - name: chef_server
-    includes: [ 'ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8' ]
+    includes: ['ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8']
     run_list:
       - recipe[test]
       - recipe[test::chef_server]
@@ -105,7 +106,7 @@ suites:
     driver:
       customize:
         memory: 2560
-    includes: [ 'ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8' ]
+    includes: ['ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8']
     run_list:
       - recipe[test::automatev2]
     verifier:
