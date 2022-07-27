@@ -17,7 +17,7 @@ named_run_list :test_repo, %w(test::install_git test test::repo)
 named_run_list :test_local, %w(test::install_git test test::local)
 named_run_list :test_chef_workstation, %w(test::install_git test test::chef_workstation)
 named_run_list :test_inspec, %w(test::install_git test test::inspec)
-named_run_list :test_chef_server, %w(test::install_git test test::chef_server)
+named_run_list :test_chef_server, %w(test::install_git test test::chef_server_noaddons)
 named_run_list :test_chef_automatev2, %w(test::install_git test test::automatev2)
 
 # Specify a custom source for a single cookbook:

@@ -22,7 +22,7 @@ jobs:
           - centos-7
           - centos-8
           - almalinux-8
-          - almalinux-9
+#          - almalinux-9
           - ubuntu-1804
           - ubuntu-2004
           - ubuntu-2204
@@ -62,7 +62,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-server-2016
+          - windows-2016
         suite: [ 'chef-workstation' ]
       fail-fast: false
     steps:
@@ -97,7 +97,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-server-2019
+          - windows-2019
         suite: [ 'chef-workstation' ]
       fail-fast: false
     steps:
@@ -132,7 +132,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-server-2022
+          - windows-2022
         suite: [ 'chef-workstation' ]
       fail-fast: false
     steps:
