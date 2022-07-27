@@ -19,4 +19,3 @@ named_run_list :chef_supermarket, 'chef_software::chef_supermarket'
 # Specify a custom source for a single cookbook:
 cookbook 'test', path: './test/fixtures/cookbooks/test'
 cookbook 'custom_repo', path: './test/fixtures/cookbooks/custom_repo'
-
