@@ -20,6 +20,20 @@ verifier:
   name: inspec
 
 platforms:
+  - name: almalinux-8
+    driver:
+      image: dokken/almalinux-8
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+
+  - name: almalinux-9
+    driver:
+      image: dokken/almalinux-9
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+
   - name: amazonlinux-2
     driver:
       image: dokken/amazonlinux-2
@@ -28,6 +42,13 @@ platforms:
   - name: debian-10
     driver:
       image: dokken/debian-10
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update
+
+  - name: debian-11
+    driver:
+      image: dokken/debian-11
       pid_one_command: /bin/systemd
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
@@ -61,18 +82,14 @@ platforms:
       intermediate_instructions:
         - RUN /usr/bin/apt-get update
 
+  - name: ubuntu-22.04
+    driver:
+      image: dokken/ubuntu-22.04
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+          - RUN /usr/bin/apt-get update
+
   - name: opensuse-leap-15
     driver:
       image: dokken/opensuse-leap-15
       pid_one_command: /bin/systemd
-
-suites:
-  - name: chef-workstation
-    run_list:
-      - recipe[test]
-      - recipe[test::chef_workstation]
-
-  - name: rubygems-url
-    run_list:
-      - recipe[test]
-      - recipe[test::rubygems_url]

@@ -61,17 +61,9 @@ platforms:
       customize:
         cpus: 4
 
-default: &default
-  attributes:
-    chef-ingredient:
-      mixlib-install:
-        # Set to install mixlib-install from source
-        git_ref: <%= ENV['MIXLIB_INSTALL_GIT_REF'] %>
-
 suites:
   - name: default
-    <<: *default
-    excludes: ['macos-10.12', 'windows-server-2016', 'windows-server-2019']
+    excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -80,15 +72,18 @@ suites:
       - recipe[test::repo]
 
   - name: local_package_install
-    <<: *default
-    excludes: ['macos-10.12', 'windows-server-2016', 'windows-server-2019']
+    excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
     run_list:
       - recipe[test]
       - recipe[test::local]
 
+  - name: rubygems-url
+    excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
+    run_list:
+      - recipe[test]
+      - recipe[test::rubygems_url]
+
   - name: chef_workstation
-    <<: *default
-    includes: ['ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-20126', 'windows-server-2019']
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -100,8 +95,6 @@ suites:
         - test/integration/chef-workstation
 
   - name: inspec
-    <<: *default
-    includes: ['ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8', 'macos-10.12', 'windows-server-2016', 'windows-server-2019']
     run_list:
       <% if ENV['MIXLIB_INSTALL_GIT_REF'] %>
       - recipe[test::install_git]
@@ -110,7 +103,7 @@ suites:
       - recipe[test::inspec]
 
   - name: chef_server
-    includes: ['ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8']
+    includes: ['almalinux-8', 'almalinux-9', 'rockylinux-8', 'rockylinux-9', 'ubuntu-18.04', 'ubuntu-20.04', 'ubuntu-22.04', 'centos-7', 'centos-8']
     run_list:
       - recipe[test]
       - recipe[test::chef_server]
@@ -119,7 +112,7 @@ suites:
     driver:
       customize:
         memory: 2560
-    includes: ['ubuntu-18.04', 'ubuntu-20.04', 'centos-7', 'centos-8']
+    includes: ['almalinux-8', 'almalinux-9', 'rockylinux-8', 'rockylinux-9', 'ubuntu-18.04', 'ubuntu-20.04', 'ubuntu-22.04', 'centos-7', 'centos-8']
     run_list:
       - recipe[test::automatev2]
     verifier:
