@@ -10,11 +10,7 @@ name 'chef-ingredient'
 default_source :supermarket
 
 # run_list: chef-client will run these recipes in the order specified.
-run_list 'chef-ingredientt::default'
-named_run_list :test_install_git, 'test::install_git'
-named_run_list :chef_automatev2, 'chef_software::chef_automatev2'
-named_run_list :chef_server, 'chef_software::chef_server'
-named_run_list :chef_supermarket, 'chef_software::chef_supermarket'
+run_list 'chef-ingredient::default'
 
 # Specify a custom source for a single cookbook:
 cookbook 'test', path: './test/fixtures/cookbooks/test'
