@@ -44,6 +44,7 @@ platforms:
   - name: macos-10.12
     driver:
       box: chef/macos-10.12 # private
+  - name: macos-latest # Used for CI pipeline
   - name: windows-server-2016
     driver:
       box: stromweld/windows-2016

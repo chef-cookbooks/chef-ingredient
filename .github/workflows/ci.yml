@@ -161,6 +161,41 @@ jobs:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.exec.yml
 
+  integration-macos-latest:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+        suite: [ 'chef_workstation' ]
+      fail-fast: false
+    steps:
+      - name: Check macOS Version
+        run: sw_vers
+      - name: Check out code
+        uses: actions/checkout@main
+      - name: Install Chef
+        uses: actionshub/chef-install@main
+      - name: Test-Kitchen Converge
+        uses: actionshub/test-kitchen@main
+        with:
+          suite: ${{ matrix.suite }}
+          os: ${{ matrix.os }}
+          action: converge
+        env:
+          CHEF_LICENSE: accept-no-persist
+          KITCHEN_LOCAL_YAML: kitchen.exec.yml
+        continue-on-error: true
+      - name: Test-Kitchen Verify
+        uses: actionshub/test-kitchen@main
+        with:
+          suite: ${{ matrix.suite }}
+          os: ${{ matrix.os }}
+          action: verify
+        env:
+          CHEF_LICENSE: accept-no-persist
+          KITCHEN_LOCAL_YAML: kitchen.exec.yml
+
   check:
     if: always()
     needs:
@@ -172,6 +207,7 @@ jobs:
       - integration-windows-2016
       - integration-windows-2019
       - integration-windows-2022
+      - integration-macos-latest
     runs-on: Ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed
