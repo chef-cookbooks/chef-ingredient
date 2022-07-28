@@ -26,10 +26,15 @@ property :accept_license, [true, false], default: false
 property :products, Array, default: ['automate']
 
 action :create do
+  bin_path = value_for_platform_family(
+    debian: '/bin/chef-automate',
+    default: '/usr/bin/chef-automate'
+  )
+
   execute "curl https://packages.chef.io/files/#{new_resource.channel}/#{new_resource.version}/chef-automate-cli/chef-automate_linux_amd64.zip | gunzip - > chef-automate && chmod +x chef-automate" do
     cwd '/usr/local/bin'
     creates '/usr/local/bin/chef-automate'
-    not_if { FileTest.file?('/usr/bin/chef-automate') }
+    not_if { FileTest.file?(bin_path) }
   end
 
   ## TODO: add dependancy on sysctl cookbook unless chef-client v14.0+
@@ -44,12 +49,14 @@ action :create do
   execute '/usr/local/bin/chef-automate init-config' do
     cwd Chef::Config[:file_cache_path]
     creates "#{Chef::Config[:file_cache_path]}/config.toml"
+    only_if { FileTest.file?('/usr/local/bin/chef-automate') }
   end
 
   execute "/usr/local/bin/chef-automate deploy #{Chef::Config[:file_cache_path]}/config.toml --product #{new_resource.products.join(' --product ')}#{' --accept-terms-and-mlsa' if new_resource.accept_license}" do
     cwd Chef::Config[:file_cache_path]
+    live_stream true
     only_if { FileTest.file?("#{Chef::Config[:file_cache_path]}/config.toml") }
-    not_if { FileTest.file?('/usr/bin/chef-automate') && shell_out('/usr/bin/chef-automate service-versions').exitstatus.eql?(0) }
+    not_if { FileTest.file?(bin_path) && shell_out("#{bin_path} service-versions").exitstatus.eql?(0) }
   end
 
   file "#{Chef::Config[:file_cache_path]}/custom_config.toml" do
@@ -59,8 +66,9 @@ action :create do
 
   execute "chef-automate config patch #{Chef::Config[:file_cache_path]}/custom_config.toml" do
     cwd Chef::Config[:file_cache_path]
+    live_stream true
     action :nothing
-    only_if { FileTest.file?('/usr/bin/chef-automate') }
+    only_if { FileTest.file?(bin_path) }
   end
 
   file '/usr/local/bin/chef-automate' do
@@ -73,6 +81,11 @@ action :uninstall do
 end
 
 action :reconfigure do
+  bin_path = value_for_platform_family(
+    debian: '/bin/chef-automate',
+    default: '/usr/bin/chef-automate'
+  )
+
   file "#{Chef::Config[:file_cache_path]}/custom_config.toml" do
     content new_resource.config
     notifies :run, "execute[chef-automate config patch #{Chef::Config[:file_cache_path]}/custom_config.toml]", :immediately
@@ -80,7 +93,8 @@ action :reconfigure do
 
   execute "chef-automate config patch #{Chef::Config[:file_cache_path]}/custom_config.toml" do
     cwd Chef::Config[:file_cache_path]
+    live_stream true
     action :nothing
-    only_if { FileTest.file?('/usr/bin/chef-automate') }
+    only_if { FileTest.file?(bin_path) }
   end
 end

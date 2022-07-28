@@ -12,6 +12,8 @@ provisioner:
   name: dokken
   data_bags_path: test/fixtures/data_bags
   deprecations_as_errors: true
+  always_update_cookbooks: true
+  clean_dokken_sandbox: false
   client_rb:
     silence_deprecation_warnings:
     - chef-25
