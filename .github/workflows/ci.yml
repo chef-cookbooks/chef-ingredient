@@ -30,6 +30,9 @@ jobs:
           - chef-workstation
           - chef-server
           - chef-automatev2
+        exclude:
+          - os: centos-7
+            suite: chef-server
       fail-fast: false
     steps:
       - name: Check out code

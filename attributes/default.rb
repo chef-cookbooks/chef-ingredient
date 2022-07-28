@@ -32,3 +32,4 @@ default['chef-ingredient'] = {}
 # a revision, branch or tag.
 #
 default['chef-ingredient']['mixlib-install']['git_ref'] = nil
+default['chef-ingredient']['mixlib-install']['version'] = nil # nil installs latest
