@@ -45,17 +45,17 @@ platforms:
     driver:
       box: chef/macos-10.12 # private
   - name: macos-latest # Used for CI pipeline
-  - name: windows-server-2016
+  - name: windows-2016
     driver:
       box: stromweld/windows-2016
       customize:
         cpus: 4
-  - name: windows-server-2019
+  - name: windows-2019
     driver_config:
       box: stromweld/windows-2019
       customize:
         cpus: 4
-  - name: windows-server-2022
+  - name: windows-2022
     driver_config:
       box: stromweld/windows-2022
       customize:
@@ -63,18 +63,18 @@ platforms:
 
 suites:
   - name: default
-    excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
+    excludes: ['macos-10.12', 'macos-latest', 'windows-2016', 'windows-2019', 'windows-2022']
     named_run_list:
       - test_install_git
       - test
       - test_repo
 
   - name: local-package-install
-    excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
+    excludes: ['macos-10.12', 'macos-latest', 'windows-2016', 'windows-2019', 'windows-2022']
     named_run_list: test_local
 
   - name: rubygems-url
-    excludes: ['macos-10.12', 'macos-latest', 'windows-server-2016', 'windows-server-2019', 'windows-sever-2022']
+    excludes: ['macos-10.12', 'macos-latest', 'windows-2016', 'windows-2019', 'windows-2022']
     named_run_list: test_rubygems_url
 
   - name: chef-workstation
