@@ -89,7 +89,7 @@ jobs:
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.exec.yml
-        continue-on-error: true
+        continue-on-error: false
       - name: Test-Kitchen Verify
         uses: actionshub/test-kitchen@main
         with:
@@ -126,7 +126,7 @@ jobs:
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.exec.yml
-        continue-on-error: true
+        continue-on-error: false
       - name: Test-Kitchen Verify
         uses: actionshub/test-kitchen@main
         with:
@@ -163,7 +163,7 @@ jobs:
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.exec.yml
-        continue-on-error: true
+        continue-on-error: false
       - name: Test-Kitchen Verify
         uses: actionshub/test-kitchen@main
         with:
@@ -200,7 +200,7 @@ jobs:
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.exec.yml
-        continue-on-error: true
+        continue-on-error: false
       - name: Test-Kitchen Verify
         uses: actionshub/test-kitchen@main
         with:

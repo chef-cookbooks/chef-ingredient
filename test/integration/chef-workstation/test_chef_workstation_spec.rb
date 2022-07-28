@@ -3,13 +3,6 @@
 # has not been reloaded. This reloads $env:Path before calling the program. I could see this being beneficial to
 # inspec's default behavior.
 
-pkg_name = case os.family
-           when 'bsd'
-             'com.getchef.pkg.chef-workstation'
-           else
-             'chef-workstation'
-           end
-
-describe package(pkg_name) do
+describe package('chef-workstation') do
   it { should be_installed }
-end unless os.windows?
+end unless os.windows? || os.darwin?
