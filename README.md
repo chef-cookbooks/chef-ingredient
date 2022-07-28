@@ -18,13 +18,13 @@ It will perform component installation and configuration. It provides no recipes
 
 - Ubuntu
 - Debian
-- CentOS/RHEL
+- CentOS/RHEL/Almalinux/Rockylinux
 - openSUSE
 - Amazon Linux
 
 ### Chef Infra
 
-- Chef Infra Client 13.0
+- Chef Infra Client 15.3
 
 ### Cookbooks
 

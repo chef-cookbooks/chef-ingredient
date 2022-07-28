@@ -22,7 +22,7 @@ jobs:
           - centos-7
           - centos-8
           - almalinux-8
-#          - almalinux-9
+#          - almalinux-9  # TODO: uncomment this when almalinux-9 dokken image is fixed
           - ubuntu-1804
           - ubuntu-2004
           - ubuntu-2204

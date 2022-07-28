@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 3.5.0 (2022-07-28)
+
+- Added attribute to specify mixlib-install version, defaults to nil to install latest version - [@stromweld](https://github.com/stromweld)
+- Fixed automatev2 resource guard and made it idempotent - [@stromweld](https://github.com/stromweld)
+- Updated testing and switched to Github actions for CI pipeline - [@stromweld](https://github.com/stromweld)
+
 ## 3.4.0 (2021-08-05)
 
 - Enable `unified_mode` for Chef 17 compatibility - [@detjensrobert](https://github.com/detjensrobert)
