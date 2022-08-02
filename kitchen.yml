@@ -65,10 +65,7 @@ platforms:
 suites:
   - name: default
     excludes: ['macos-10.12', 'macos-latest', 'windows-2016', 'windows-2019', 'windows-2022']
-    named_run_list:
-      - test_install_git
-      - test
-      - test_repo
+    named_run_list: test_repo
 
   - name: local-package-install
     excludes: ['macos-10.12', 'macos-latest', 'windows-2016', 'windows-2019', 'windows-2022']
