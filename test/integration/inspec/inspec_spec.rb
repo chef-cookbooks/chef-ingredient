@@ -3,16 +3,6 @@
 # has not been reloaded. This reloads $env:Path before calling the program. I could see this being beneficial to
 # inspec's default behavior.
 
-resource_command = 'command'
-
-if os.windows?
-  resource_command = 'powershell'
-
-  describe powershell('$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")') do
-    its('exit_status') { should eq 0 }
-  end
-end
-
-describe send(resource_command, 'inspec --version') do
-  its('stdout') { should match(/4.22.1/) }
-end
+describe package('inspec') do
+  it { should be_installed }
+end unless os.windows? || os.darwin?

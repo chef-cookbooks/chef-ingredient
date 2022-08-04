@@ -18,13 +18,13 @@ It will perform component installation and configuration. It provides no recipes
 
 - Ubuntu
 - Debian
-- CentOS/RHEL
+- CentOS/RHEL/Almalinux/Rockylinux
 - openSUSE
 - Amazon Linux
 
 ### Chef Infra
 
-- Chef Infra Client 13.0
+- Chef Infra Client 15.3
 
 ### Cookbooks
 
@@ -38,7 +38,7 @@ A "chef ingredient" is the core package itself, or products or add-on components
 
 By default, `chef_ingredient` will install using the `packages.chef.io` stable repository depending on the platform. However, it can be configured to use a custom repository by setting the `node['chef-ingredient']['custom-repo-recipe']` attribute (nil by default).
 
-#### Actions
+#### chef_ingredient Actions
 
 - `install` - (default) Configures the package repository and installs the specified package.
 - `upgrade` - Upgrades the specified package.
@@ -46,7 +46,7 @@ By default, `chef_ingredient` will install using the `packages.chef.io` stable r
 - `remove` - Alias for uninstall
 - `reconfigure` - Performs the `ctl reconfigure` command for the package.
 
-#### Properties
+#### chef_ingredient Properties
 
 - `product_name` - The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef/mixlib-install/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
 - `config` - content that will be added to the configuration file of the given product.
@@ -67,11 +67,11 @@ By default, `chef_ingredient` will install using the `packages.chef.io` stable r
 
 Manages a sub-service within the context of a Chef product package. For example the `rabbitmq` service that is run for the Chef Server.
 
-#### Actions
+#### omnibus_service Actions
 
 This delegates to the ctl command the service management command specified in the action. Not all the service management commands are supported, however, as not all of them would make sense when used in a recipe. This resource is primarily used for sending or receiving notifications. See the example section.
 
-#### Properties
+#### omnibus_service Properties
 
 - `service_name` - The name of the service to manage. Specify this like `product_name/service`, for example, `chef-server/rabbitmq`.
 - `ctl_command` - The "ctl" command, e.g. `chef-server-ctl`. This should be automatically detected by the library helper method `chef_ctl_command`, but may need to be specified if something changes, like a new add-on is made available.
@@ -80,18 +80,18 @@ This delegates to the ctl command the service management command specified in th
 
 Makes it easy to create update configuration files of each Chef product. It uses the default locations for each product.
 
-#### Actions
+#### ingredient_config Actions
 
 - `render` - (default) Creates the configuration file using the options passed in via `add` action or `config` attribute of `chef_ingredient` resource.
 - `add` - Adds the `config` attribute contents to the data collection. Must run `:render` action to generate the file.
 
-#### Properties
+#### ingredient_config Properties
 
 - `product_name` - The product name. See the [PRODUCT_MATRIX.md](https://github.com/chef/mixlib-install/blob/master/PRODUCT_MATRIX.md). For example, `chef-server`, `analytics`, `delivery`, `manage`, etc.
 - `config` - Content that will be added to the configuration file of the given product.
 - `sensitive` - Set to mask the config contents in logs. Use when you config contains information like passwords or secrets.
 
-#### Examples
+#### ingredient_config Examples
 
 We may need to restart the RabbitMQ service on the Chef Server, for example when adding configuration for Chef Analytics.
 
@@ -164,7 +164,7 @@ These properties exist for all infrastructure resources
 
 Installs Chef Automate.
 
-#### Properties
+#### chef_automate Properties
 
 - `enterprise` - The Enterprise to create in Automate
 - `license` - we recommend using the chef_file resource
@@ -177,14 +177,14 @@ Installs Chef Automate.
 
 Installs Chef Automate version 2
 
-#### Requirements
+#### chef_automatev2 Requirements
 
 - Requires chef-client 14+ due to use of sysctl resource
 - General Properties used
 
 ### chef_backend
 
-#### Properties
+#### chef_backend Properties
 
 - `bootstrap_node` - The node we'll bootstrap secrets with.
 - `publish_address` - node['ipaddress'] | The address you want Chef-Backend to listen on.
@@ -194,7 +194,7 @@ Installs Chef Automate version 2
 
 ### chef_org
 
-#### Properties
+#### chef_org Properties
 
 - `org` - The short name of the org.
 - `org_full_name` - The full name of the org you want to create.

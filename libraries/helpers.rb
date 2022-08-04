@@ -68,7 +68,7 @@ module ChefIngredientCookbook
     #
     def ensure_mixlib_versioning_gem_installed!
       node.run_state[:mixlib_versioning_gem_installed] ||= begin
-        install_gem_from_rubygems('mixlib-versioning', '~> 1.1')
+        install_gem_from_rubygems('mixlib-versioning')
 
         require 'mixlib/versioning'
         true
@@ -87,7 +87,7 @@ module ChefIngredientCookbook
             'mixlib-install'
           )
         else
-          install_gem_from_rubygems('mixlib-install', '~> 3.3')
+          install_gem_from_rubygems('mixlib-install', node['chef-ingredient']['mixlib-install']['version'])
         end
 
         require 'mixlib/install'
@@ -99,11 +99,11 @@ module ChefIngredientCookbook
     #
     # Helper method to install a gem from rubygems at compile time.
     #
-    def install_gem_from_rubygems(gem_name, gem_version)
-      Chef::Log.debug("Installing #{gem_name} v#{gem_version} from #{new_resource.rubygems_url}")
+    def install_gem_from_rubygems(gem_name, gem_version = nil)
+      Chef::Log.debug("Installing #{gem_name}#{" v#{gem_version}" if gem_version} from #{new_resource.rubygems_url}")
       chefgem = Chef::Resource::ChefGem.new(gem_name, run_context)
       chefgem.source(new_resource.rubygems_url) if new_resource.rubygems_url
-      chefgem.version(gem_version)
+      chefgem.version(gem_version) if gem_version
       chefgem.run_action(:install)
     end
 

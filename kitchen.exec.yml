@@ -1,0 +1,15 @@
+---
+driver:
+  name: exec
+  gui: false
+  customize:
+    memory: 4096
+
+transport:
+  name: exec
+
+platforms:
+  - name: windows-2016
+  - name: windows-2019
+  - name: windows-2022
+  - name: macos-latest
