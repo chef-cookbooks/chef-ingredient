@@ -111,6 +111,7 @@ action :reconfigure do
 
     execute "#{ingredient_package_name}-reconfigure" do
       command "#{ingredient_ctl_command} #{reconfigure_command}"
+      live_stream true
     end
   end
 end
