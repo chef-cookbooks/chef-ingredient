@@ -33,6 +33,8 @@ property :package_source, String
 
 # Install mixlib-install/version gems from rubygems.org or an alternative source
 property :rubygems_url, [String]
+property :mixlib_install_git_ref, String
+property :mixlib_install_version, String # default nil installs latest
 
 # Set the *-ctl command to use when doing reconfigure
 property :ctl_command, String

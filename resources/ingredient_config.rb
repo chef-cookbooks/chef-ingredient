@@ -25,6 +25,8 @@ property :config, [String, NilClass]
 
 # Install mixlib-install/version gems from rubygems.org or an alternative source
 property :rubygems_url, String
+property :mixlib_install_git_ref, String
+property :mixlib_install_version, String # default nil installs latest
 
 action :render do
   target_config = ingredient_config_file(new_resource.product_name)

@@ -80,14 +80,14 @@ module ChefIngredientCookbook
     #
     def ensure_mixlib_install_gem_installed!
       node.run_state[:mixlib_install_gem_installed] ||= begin
-        if node['chef-ingredient']['mixlib-install']['git_ref']
+        if new_resource.mixlib_install_git_ref
           install_gem_from_source(
             'https://github.com/chef/mixlib-install.git',
-            node['chef-ingredient']['mixlib-install']['git_ref'],
+            new_resource.mixlib_install_git_ref,
             'mixlib-install'
           )
         else
-          install_gem_from_rubygems('mixlib-install', node['chef-ingredient']['mixlib-install']['version'])
+          install_gem_from_rubygems('mixlib-install', new_resource.mixlib_install_version)
         end
 
         require 'mixlib/install'

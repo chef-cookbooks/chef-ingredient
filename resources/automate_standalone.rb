@@ -1,6 +1,6 @@
 #
 # Cookbook:: chef-ingredient
-# Resource:: automatev2
+# Resource:: automate_standalone
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,8 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+provides :chef_automate
 provides :chef_automatev2
-resource_name :chef_automatev2
+provides :chef_automate_standalone
+resource_name :chef_automate_standalone
 
 unified_mode true if respond_to?(:unified_mode)
 
@@ -37,7 +39,6 @@ action :create do
     not_if { FileTest.file?(bin_path) }
   end
 
-  ## TODO: add dependancy on sysctl cookbook unless chef-client v14.0+
   sysctl 'vm.max_map_count' do
     value 262144
   end
