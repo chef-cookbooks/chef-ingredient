@@ -37,7 +37,6 @@ action :create do
     not_if { FileTest.file?(bin_path) }
   end
 
-  ## TODO: add dependancy on sysctl cookbook unless chef-client v14.0+
   sysctl 'vm.max_map_count' do
     value 262144
   end

@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-ingredient cookbook.
 
+## 3.5.1 (2024-10-02)
+
+- Add deprecation warning log notice for chef backend resource
+
 ## 3.5.0 (2022-07-28)
 
 - Added attribute to specify mixlib-install version, defaults to nil to install latest version - [@stromweld](https://github.com/stromweld)

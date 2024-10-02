@@ -22,10 +22,10 @@ jobs:
           - centos-7
           - centos-8
           - almalinux-8
-#          - almalinux-9  # TODO: uncomment this when almalinux-9 dokken image is fixed
-          - ubuntu-1804
+          - almalinux-9
           - ubuntu-2004
           - ubuntu-2204
+          - ubuntu-2404
         suite:
           - chef-workstation
           - inspec
@@ -61,44 +61,6 @@ jobs:
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.dokken.yml
-
-
-  integration-windows-2016:
-    runs-on: windows-2016
-    strategy:
-      matrix:
-        os:
-          - windows-2016
-        suite:
-           - chef-workstation
-           - inspec
-      fail-fast: false
-    steps:
-      - name: Check windows Version
-        run: systeminfo
-      - name: Check out code
-        uses: actions/checkout@main
-      - name: Install Chef
-        uses: actionshub/chef-install@main
-      - name: Test-Kitchen Converge
-        uses: actionshub/test-kitchen@main
-        with:
-          suite: ${{ matrix.suite }}
-          os: ${{ matrix.os }}
-          action: converge
-        env:
-          CHEF_LICENSE: accept-no-persist
-          KITCHEN_LOCAL_YAML: kitchen.exec.yml
-        continue-on-error: false
-      - name: Test-Kitchen Verify
-        uses: actionshub/test-kitchen@main
-        with:
-          suite: ${{ matrix.suite }}
-          os: ${{ matrix.os }}
-          action: verify
-        env:
-          CHEF_LICENSE: accept-no-persist
-          KITCHEN_LOCAL_YAML: kitchen.exec.yml
 
   integration-windows-2019:
     runs-on: windows-2019
@@ -219,7 +181,6 @@ jobs:
       - jsonlint
       - cookstylelint
       - integration-dokken
-      - integration-windows-2016
       - integration-windows-2019
       - integration-windows-2022
       - integration-macos-latest
