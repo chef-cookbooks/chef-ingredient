@@ -30,9 +30,7 @@ jobs:
           - chef-server
           - chef-automatev2
         exclude:
-          - os: centos-7
-            suite: chef-server
-          - os: ubuntu-2204
+          - os: ubuntu-2404
             suite: chef-server
       fail-fast: false
     steps:
