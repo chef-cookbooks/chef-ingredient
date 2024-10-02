@@ -19,8 +19,6 @@ jobs:
     strategy:
       matrix:
         os:
-          - centos-7
-          - centos-8
           - almalinux-8
           - almalinux-9
           - ubuntu-2004

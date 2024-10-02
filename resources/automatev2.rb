@@ -24,6 +24,7 @@ property :version, [String, Symbol], default: :latest
 property :config, String, required: true
 property :accept_license, [true, false], default: false
 property :products, Array, default: ['automate']
+property :skip_verify, [TrueClass, FalseClass], default: false
 
 action :create do
   bin_path = value_for_platform_family(
@@ -51,7 +52,7 @@ action :create do
     only_if { FileTest.file?('/usr/local/bin/chef-automate') }
   end
 
-  execute "/usr/local/bin/chef-automate deploy #{Chef::Config[:file_cache_path]}/config.toml --product #{new_resource.products.join(' --product ')}#{' --accept-terms-and-mlsa' if new_resource.accept_license}" do
+  execute "/usr/local/bin/chef-automate deploy #{Chef::Config[:file_cache_path]}/config.toml#{' --skip-verify' if new_resource.skip_verify} --product #{new_resource.products.join(' --product ')}#{' --accept-terms-and-mlsa' if new_resource.accept_license}" do
     cwd Chef::Config[:file_cache_path]
     live_stream true
     only_if { FileTest.file?("#{Chef::Config[:file_cache_path]}/config.toml") }
