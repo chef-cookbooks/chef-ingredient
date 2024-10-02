@@ -45,6 +45,8 @@ end
 action :create do
   raise 'Must accept the Chef License agreement before continuing.' unless new_resource.accept_license
 
+  Chef::Log.warn('The chef_backend resource is deprecated in favor of Automate HA')
+
   new_resource.config = ensurekv(new_resource.config, publish_address: new_resource.publish_address)
   chef_ingredient 'chef-backend' do
     action :upgrade
