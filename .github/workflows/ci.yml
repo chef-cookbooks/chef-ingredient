@@ -3,16 +3,16 @@ on:
 
 jobs:
   markdownlint:
-    uses: Stromweld/github-workflows/.github/workflows/markdownlint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/markdown-lint.yml@main
 
   yamllint:
-    uses: Stromweld/github-workflows/.github/workflows/yamllint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/yaml-lint.yml@main
 
   jsonlint:
-    uses: Stromweld/github-workflows/.github/workflows/jsonlint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/json-lint.yml@main
 
   cookstylelint:
-    uses: Stromweld/github-workflows/.github/workflows/cookstylelint.yml@main
+    uses: Stromweld/github-workflows/.github/workflows/cookstyle-lint.yml@main
 
   integration-dokken:
     runs-on: ubuntu-latest
