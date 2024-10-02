@@ -5,5 +5,5 @@ chef_automatev2 'automatev2.chefstack.local' do
   EOS
   products %w(automate infra-server builder desktop)
   accept_license true
-  skip_verify true
+  skip_preflight true
 end

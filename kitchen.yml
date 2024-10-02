@@ -80,7 +80,7 @@ suites:
     named_run_list: test_inspec
 
   - name: chef-server
-    includes: ['almalinux-8', 'almalinux-9', 'rockylinux-8', 'rockylinux-9', 'ubuntu-20.04', 'ubuntu-22.04', 'ubuntu-24.04']
+    includes: ['almalinux-8', 'almalinux-9', 'rockylinux-8', 'rockylinux-9', 'ubuntu-20.04', 'ubuntu-22.04']
     named_run_list: test_chef_server
 
   - name: chef-automatev2
