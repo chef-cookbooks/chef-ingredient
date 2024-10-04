@@ -61,11 +61,17 @@ action :create do
     end
   end
 
-  # TODO: fix idempotency for org admins
+  org_admins = JSON.parse(
+    shell_out(
+      "/opt/opscode/bin/knife show /groups/admins.json -c /etc/opscode/pivotal.rb --server-url https://127.0.0.1:443/organizations/#{new_resource.org} | grep -v '^/' || echo '{\"users\": []}'"
+    ).stdout
+  )['users']
   new_resource.admins.each do |user|
+    org_admin_exist = org_admins.include?(user)
     execute "add-admin-#{user}-org-#{new_resource.org}" do
       command "chef-server-ctl org-user-add --admin #{new_resource.org} #{user}"
       only_if { node.run_state['chef-users'].index(/^#{user}$/) }
+      not_if { org_admin_exist }
     end
   end
 
