@@ -1,10 +1,3 @@
-# Archived Repository
-This repository has been archived and will no longer receive updates.
-It was archived as part of the [Repository Standardization Initiative](https://github.com/chef-boneyard/oss-repo-standardization-2025).
-If you are a Chef customer and need support for this repository, please contact your Chef account team.
-
----
-
 # chef-ingredient Cookbook
 
 [![Build Status](https://travis-ci.org/chef-cookbooks/chef-ingredient.svg?branch=master)](https://travis-ci.org/chef-cookbooks/chef-ingredient) [![Cookbook Version](https://img.shields.io/cookbook/v/chef-ingredient.svg)](https://supermarket.chef.io/cookbooks/chef-ingredient)
