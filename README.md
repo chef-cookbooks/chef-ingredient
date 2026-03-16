@@ -187,8 +187,8 @@ Installs Chef Automate version 2
 #### chef_backend Properties
 
 - `bootstrap_node` - The node we'll bootstrap secrets with.
-- `publish_address` - node['ipaddress'] | The address you want Chef-Backend to listen on.
-- `chef_backend_secrets` - A location where your secrets are | we recommend using the chef_file resource.
+- `publish_address` - node['ipaddress'] - The address you want Chef-Backend to listen on.
+- `chef_backend_secrets` - A location where your secrets are - we recommend using the chef_file resource.
 - `chef_backend_secrets_user` - The user that owns the file created by the `chef_backend_secrets` attribute
 - `chef_backend_secrets_group` - The group that owns the file created by the `chef_backend_secrets` attribute
 

@@ -1,3 +1,8 @@
 ---
 AllCops:
-  TargetChefVersion: 17.0
+  TargetRubyVersion: 3.1
+  Include:
+    - "**/*.rb"
+  Exclude:
+    - "vendor/**/*"
+    - "spec/**/*"
